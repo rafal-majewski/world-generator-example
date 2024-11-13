@@ -1,0 +1,57 @@
+env:
+  NODE_JS_VERSION: "22.11.0"
+jobs:
+  build_check:
+    name: "Build check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout the repository"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODE_JS_VERSION}}"
+      - name: "Install the dependencies"
+        run: |
+          npm ci
+      - name: "Run build check"
+        run: |
+          npm run build:check
+  commitlint_check:
+    name: "Commitlint check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout the repository"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODE_JS_VERSION}}"
+      - name: "Install the dependencies"
+        run: |
+          npm ci
+      - name: "Run Commitlint check"
+        run: |
+          npm run commitlint:check
+  prettier_check:
+    name: "Prettier check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout the repository"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODE_JS_VERSION}}"
+      - name: "Install the dependencies"
+        run: |
+          npm ci
+      - name: "Run Prettier check"
+        run: |
+          npm run prettier:check
+name: "Continuous integration"
+on:
+  push:

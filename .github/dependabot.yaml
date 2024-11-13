@@ -1,0 +1,20 @@
+updates:
+  - commit-message:
+      prefix: "chore: "
+    directory: "/"
+    package-ecosystem: "devcontainers"
+    schedule:
+      interval: "daily"
+  - commit-message:
+      prefix: "chore: "
+    directory: "/.devcontainer"
+    package-ecosystem: "github-actions"
+    schedule:
+      interval: "daily"
+  - commit-message:
+      prefix: "chore: "
+    directory: "/.github/workflows"
+    package-ecosystem: "npm"
+    schedule:
+      interval: "daily"
+version: 2
