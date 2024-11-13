@@ -1,0 +1,57 @@
+env:
+  NODEJS_VERSION: "22.3.0"
+jobs:
+  svelte_check:
+    name: "Build check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODEJS_VERSION}}"
+      - name: "Install dependencies"
+        run: "npm ci"
+      - name: "Run Svelte check"
+        run: |
+          npx svelte-check
+  eslint_check:
+    name: "ESLint check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODEJS_VERSION}}"
+      - name: "Install dependencies"
+        run: |
+          npm ci
+      - name: "Run ESLint check"
+        run: |
+          npx eslint --max-warnings .
+  prettier_check:
+    name: "Prettier check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODEJS_VERSION}}"
+      - name: "Install dependencies"
+        run: |
+          npm ci
+      - name: "Run Prettier check"
+        run: |
+          npx prettier --check .
+name: "Continuous integration"
+on:
+  pull_request:
+  push:

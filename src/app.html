@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>World generator example</title>
+		<link rel="shortcut icon" href="data:" />
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+			}
+
+			html {
+				display: flex;
+				flex-direction: column;
+				min-height: 100%;
+			}
+
+			body {
+				flex: 1;
+			}
+		</style>
+		%sveltekit.head%
+	</head>
+	<body>
+		<div>
+			%sveltekit.body%
+		</div>
+	</body>
+</html>

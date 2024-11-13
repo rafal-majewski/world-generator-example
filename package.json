@@ -1,0 +1,36 @@
+{
+	"author": "Rafał Majewski",
+	"bugs": {
+		"url": "https://github.com/Rafal-Majewski/world-generator-example/issues"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "19.5.0",
+		"@release-it/conventional-changelog": "8.0.1",
+		"@stylistic/eslint-plugin": "2.10.1",
+		"@sveltejs/adapter-node": "5.2.9",
+		"@sveltejs/kit": "2.8.0",
+		"@sveltejs/vite-plugin-svelte": "4.0.0",
+		"@typescript-eslint/eslint-plugin": "8.14.0",
+		"@typescript-eslint/parser": "8.14.0",
+		"eslint": "9.14.0",
+		"eslint-plugin-perfectionist": "3.9.1",
+		"prettier": "3.3.3",
+		"prettier-plugin-svelte": "3.2.8",
+		"release-it": "17.1.1",
+		"svelte": "5.1.16",
+		"svelte-check": "4.0.7",
+		"typescript": "5.6.3"
+	},
+	"description": "An example demonstrating a world generator.",
+	"homepage": "https://github.com/Rafal-Majewski/world-generator-example#readme",
+	"license": "CC0-1.0",
+	"name": "world-generator-example",
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Rafal-Majewski/world-generator-example.git"
+	},
+	"scripts": {},
+	"type": "module",
+	"version": "0.0.0"
+}

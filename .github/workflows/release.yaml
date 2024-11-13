@@ -1,0 +1,40 @@
+env:
+  NODEJS_VERSION: "22.3.0"
+jobs:
+  release:
+    name: "Release"
+    outputs:
+      release_version: "${{steps.remember_release_version.outputs.release_version}}"
+    permissions:
+      contents: "write"
+      pull-requests: "write"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 0
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          cache: "npm"
+          node-version: "${{env.NODEJS_VERSION}}"
+      - name: "Configure Git"
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - name: "Install dependencies"
+        run: |
+          npm ci
+      - name: "Release to a new branch"
+        env:
+          GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
+        run: |
+          npm run release -- --verbose --ci
+      - id: "remember_release_version"
+        name: "Remember release version"
+        run: |
+          echo "release_version=$(node -p 'require("./package.json").version')" >> $GITHUB_OUTPUT
+name: "Release"
+on:
+  workflow_dispatch:
