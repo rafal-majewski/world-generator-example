@@ -23,12 +23,20 @@
 			}
 
 			body {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+			}
+
+			.sveltekit-body {
+				display: flex;
+				flex-direction: column;
 				flex: 1;
 			}
 		</style>
 		%sveltekit.head%
 	</head>
 	<body>
-		<div>%sveltekit.body%</div>
+		<div class="sveltekit-body">%sveltekit.body%</div>
 	</body>
 </html>
