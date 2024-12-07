@@ -13,6 +13,7 @@ The following tools have been configured:
 - [npm](https://www.npmjs.com) for Node.js package management;
 - [Prettier](https://prettier.io) for files formatting;
 - [Svelte and SvelteKit](https://svelte.dev);
-- [svelte-check](https://github.com/sveltejs/language-tools/tree/master/packages/svelte-check) for checking for build errors;
+- [svelte-check](https://github.com/sveltejs/language-tools/tree/master/packages/svelte-check) for
+  checking for build errors;
 - [TypeScript](https://www.typescriptlang.org) for static typing;
 - [Vite](https://vite.dev) for bundling and a development server;

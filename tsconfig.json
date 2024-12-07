@@ -48,7 +48,7 @@
 		"useUnknownInCatchVariables": true,
 		"verbatimModuleSyntax": true
 	},
-	"exclude": [".git", ".svelte-kit", "node_modules"], 
+	"exclude": [".git", ".svelte-kit", "node_modules"],
 	"extends": "./.svelte-kit/tsconfig.json",
 	"include": ["**/*", "**/.*", "**/.*/**/*"]
 }
