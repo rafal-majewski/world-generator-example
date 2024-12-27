@@ -3,7 +3,6 @@ import type {VariableRole} from "./VariableRole.ts";
 import {variableRoleToVariableKind} from "./variableRoleToVariableKind.ts";
 import {variableRoleToVariablePrefix} from "./variableRoleToVariablePrefix.ts";
 import type {VariableType} from "./VariableType.ts";
-
 export function createShaderSourceCodeVariableLine<
 	RoleToUse extends VariableRole,
 	TypeToUse extends VariableType,

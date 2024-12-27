@@ -3,7 +3,6 @@ import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {SourceCodeMainContentCreator} from "./SourceCodeMainContentCreator.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariableNameToVariableType} from "./VariableNameToVariableType.ts";
-
 export function createVertexShaderSourceCode<
 	ShaderPrecisionToUse extends ShaderPrecision,
 	UniformVariableName extends VariableName,
@@ -41,12 +40,10 @@ export function createVertexShaderSourceCode<
 		"attribute",
 		attributeVariableNameToVariableType,
 	);
-
 	const outputVaryingSection = createShaderSourceCodeVariableSection(
 		"outputVarying",
 		varyingVariableNameToVariableType,
 	);
-
 	const mainContent = createMainContent({
 		uniforms: Object.fromEntries(
 			Object.keys(uniformVariableNameToVariableType).map((name) => [name, `u_${name}`]),
@@ -64,17 +61,14 @@ export function createVertexShaderSourceCode<
 			[Name in VaryingVariableName]: `v_${Name}`;
 		}>,
 	});
-
 	const mainContentLines = mainContent.split("\n");
 	const indentedMainContentLines = mainContentLines.map((line) => `	${line}`);
 	const indentedMainContent = indentedMainContentLines.join("\n");
-
 	return `#version 300 es
 precision ${precision} float;
 ${uniformSection}
 ${attributeSection}
 ${outputVaryingSection}
-
 void main() {
 ${indentedMainContent}
 }

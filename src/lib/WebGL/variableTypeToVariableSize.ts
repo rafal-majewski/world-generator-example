@@ -1,6 +1,5 @@
 import type {VariableType} from "./VariableType.ts";
-
-export const variableTypeToSize = {
+export const variableTypeToVariableSize = {
 	float: 1,
 	vec4: 4,
 	vec2: 2,

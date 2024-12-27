@@ -1,8 +1,6 @@
 # sveltekit-app-template
 
-This is a template for a SvelteKit TypeScript app.
-
-The following tools have been configured:
+This is a template for a SvelteKit TypeScript app. The following tools have been configured:
 
 - [CodeQL](https://codeql.github.com) for vulnerability scanning;
 - [commitlint](https://commitlint.js.org) for commit message linting;

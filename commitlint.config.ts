@@ -1,5 +1,4 @@
 import type {UserConfig} from "@commitlint/types";
-
 export default {
 	defaultIgnores: true,
 	extends: [],

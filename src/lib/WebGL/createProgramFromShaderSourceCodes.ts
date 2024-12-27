@@ -1,6 +1,5 @@
 import {createProgramFromShaders} from "./createProgramFromShaders.ts";
 import {createShader} from "./createShader.ts";
-
 export function createProgramFromShaderSourceCodes(
 	gl: WebGL2RenderingContext,
 	vertexShaderSourceCode: string,

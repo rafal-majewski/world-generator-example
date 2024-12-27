@@ -1,5 +1,4 @@
 import type {Dimensions} from "../dimensions/Dimensions.ts";
-
 export function startListeningForHtmlElementResizes(
 	element: HTMLElement,
 	handleResize: (dimensions: Dimensions) => void,
@@ -12,9 +11,7 @@ export function startListeningForHtmlElementResizes(
 			});
 		}
 	});
-
 	observer.observe(element);
-
 	return function stopListeningForHtmlElementResizes(): void {
 		observer.disconnect();
 	};

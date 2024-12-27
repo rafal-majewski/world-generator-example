@@ -3,7 +3,6 @@
 	import Canvas from "../canvas/Canvas.svelte";
 	import {startListeningForHtmlElementResizes} from "../html-utilities/startListeningForHtmlElementResizes.ts";
 	let dimensions: Dimensions | null = $state<Dimensions | null>(null);
-
 	function handleMount(element: HTMLElement) {
 		$effect(function useEffect() {
 			const stopListeningForResizes = startListeningForHtmlElementResizes(
@@ -12,7 +11,6 @@
 					dimensions = newDimensions;
 				},
 			);
-
 			return function handleUnmount() {
 				stopListeningForResizes();
 			};
@@ -21,12 +19,15 @@
 </script>
 
 <main class="page" use:handleMount>
-	<Canvas {dimensions} />
+	{#if dimensions !== null}
+		<Canvas {dimensions} />
+	{/if}
 </main>
 
 <style lang="scss">
 	.page {
 		flex: 1;
 		position: relative;
+		overflow: hidden;
 	}
 </style>

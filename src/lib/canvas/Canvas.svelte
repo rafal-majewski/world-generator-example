@@ -1,26 +1,15 @@
 <script lang="ts">
-	import {ProgramWrapper} from "$lib/WebGL/ProgramWrapper.ts";
+	import {WithoutUniformsWebGlWrapperComponent} from "$lib/WebGL/webgl-wrapper-component/types/without-uniforms-webgl-wrapper-component/WithoutUniformsWebGlWrapperComponent.ts";
+	import {WebGlWrapper} from "$lib/WebGL/webgl-wrapper/WebGlWrapper.ts";
+	import {WithoutUniformsWebGlProgramWrapper} from "../WebGL/program-wrapper/WithoutUniformsWebGlProgramWrapper.ts";
 	import type {Dimensions} from "../dimensions/Dimensions.ts";
-	const {dimensions}: Readonly<{dimensions: Dimensions | null}> = $props();
-
+	const {dimensions}: Readonly<{dimensions: Dimensions}> = $props();
+	let oldDimensions: Dimensions = dimensions;
 	function handleMount(canvas: HTMLCanvasElement) {
 		const gl = canvas.getContext("webgl2");
-
 		if (gl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-
-		if (dimensions === null) {
-			return;
-		}
-
-		let oldDimensions: Dimensions = $state<Dimensions>(dimensions);
-		canvas.width = dimensions.width;
-		canvas.height = dimensions.height;
-		gl.viewport(0, 0, dimensions.width, dimensions.height);
-		gl.clearColor(0, 0, 0, 1);
-		gl.clear(gl.COLOR_BUFFER_BIT);
-
 		type Triangle = {
 			vertices: readonly [
 				readonly [number, number],
@@ -28,32 +17,42 @@
 				readonly [number, number],
 			];
 		};
-
-		const program = ProgramWrapper.create(
+		const programWrapper = WithoutUniformsWebGlProgramWrapper.create(
 			gl,
-			{},
 			{
-				ins: {
-					a_position: "vec2",
-				},
+				position: "vec2",
+			},
+			{
 				precision: "highp",
-				createSourceCodeMainContent: ({ins: {a_position}}) =>
-					`gl_Position = vec4(${a_position}, 0.0, 1.0);`,
+				createSourceCodeMainContent: ({ins}) => `gl_Position = vec4(${ins.position}, 0.0, 1.0);`,
 			},
 			{},
 			{
-				outs: {
-					o_fragColor: "vec4",
-				},
 				precision: "highp",
-				createSourceCodeMainContent: ({outs: {o_fragColor}}) =>
-					`${o_fragColor} = vec4(1.0, 0.0, 0.0, 1.0);`,
+				createSourceCodeMainContent: ({outs}) => `${outs.fragColor} = vec4(1.0, 0.0, 0.0, 1.0);`,
 			},
 			{
-				a_position: (triangle: Triangle, vertexIndex) => triangle.vertices[vertexIndex],
+				fragColor: "vec4",
+			},
+			{
+				position: {
+					1: (triangle: Triangle) => triangle.vertices[0],
+					2: (triangle: Triangle) => triangle.vertices[1],
+					3: (triangle: Triangle) => triangle.vertices[2],
+				},
 			},
 		);
-
+		type Scene = Readonly<{
+			triangles: readonly Triangle[];
+		}>;
+		const webglWrapper = new WebGlWrapper(gl, [
+			// {
+			// 	programWrapper,
+			// 	trianglesSelector: (scene: Scene) => scene.triangles,
+			// 	contextSelector: (scene: Scene) => scene.triangles,
+			// },
+			new WithoutUniformsWebGlWrapperComponent(programWrapper, (scene: Scene) => scene.triangles),
+		] as const);
 		const triangles = [
 			{
 				vertices: [
@@ -70,17 +69,16 @@
 				],
 			},
 		] as const satisfies readonly Triangle[];
-
-		program.draw(triangles);
-
+		const scene = {
+			triangles,
+		} as const satisfies Scene;
+		webglWrapper.resize(dimensions);
+		webglWrapper.draw(scene);
 		$effect(function handleDimensionsChange() {
-			if (dimensions !== oldDimensions) {
+			if (oldDimensions !== dimensions) {
+				webglWrapper.resize(dimensions);
+				webglWrapper.draw(scene);
 				oldDimensions = dimensions;
-				canvas.width = dimensions.width;
-				canvas.height = dimensions.height;
-				gl.viewport(0, 0, dimensions.width, dimensions.height);
-				gl.clear(gl.COLOR_BUFFER_BIT);
-				program.draw(triangles);
 			}
 		});
 	}

@@ -3,7 +3,6 @@ import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {SourceCodeMainContentCreator} from "./SourceCodeMainContentCreator.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariableNameToVariableType} from "./VariableNameToVariableType.ts";
-
 export function createFragmentShaderSourceCode<
 	ShaderPrecisionToUse extends ShaderPrecision,
 	UniformVariableName extends VariableName,
@@ -37,17 +36,14 @@ export function createFragmentShaderSourceCode<
 		"uniform",
 		uniformVariableNameToVariableType,
 	);
-
 	const inputVaryingSection = createShaderSourceCodeVariableSection(
 		"inputVarying",
 		varyingVariableNameToVariableType,
 	);
-
 	const outputSection = createShaderSourceCodeVariableSection(
 		"output",
 		outputVariableNameToVariableType,
 	);
-
 	const mainContent = createMainContent({
 		uniforms: Object.fromEntries(
 			Object.keys(uniformVariableNameToVariableType).map((name) => [name, `u_${name}`]),
@@ -55,27 +51,24 @@ export function createFragmentShaderSourceCode<
 			[Name in UniformVariableName]: `u_${Name}`;
 		}>,
 		ins: Object.fromEntries(
-			Object.keys(varyingVariableNameToVariableType).map((name) => [name, `a_${name}`]),
+			Object.keys(varyingVariableNameToVariableType).map((name) => [name, `v_${name}`]),
 		) as Readonly<{
 			[Name in VaryingVariableName]: `v_${Name}`;
 		}>,
 		outs: Object.fromEntries(
-			Object.keys(outputVariableNameToVariableType).map((name) => [name, `v_${name}`]),
+			Object.keys(outputVariableNameToVariableType).map((name) => [name, `o_${name}`]),
 		) as Readonly<{
 			[Name in OutputVariableName]: `o_${Name}`;
 		}>,
 	});
-
 	const mainContentLines = mainContent.split("\n");
 	const indentedMainContentLines = mainContentLines.map((line) => `	${line}`);
 	const indentedMainContent = indentedMainContentLines.join("\n");
-
 	return `#version 300 es
 precision ${precision} float;
 ${uniformSection}
 ${inputVaryingSection}
 ${outputSection}
-
 void main() {
 ${indentedMainContent}
 }
