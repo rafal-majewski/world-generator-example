@@ -71,7 +71,10 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 		const attributeVariableNames: readonly AttributeVariableName[] = Object.keys(
 			attributeVariableNameToVariableType,
 		) as AttributeVariableName[];
-		const vertexSerializers = attributeVariableNames.map((attributeVariableName) => ());
+		const vertexSerializers = attributeVariableNames.map((attributeVariableName) => ({
+			variableType: attributeVariableNameToVariableType[attributeVariableName],
+			variableValueComputer: attributeVariableNameToVariableValueComputer[attributeVariableName],
+		}));
 		const programWrapper = new WebGlProgramWrapper(
 			program,
 			// attributeVariablesComputers,
