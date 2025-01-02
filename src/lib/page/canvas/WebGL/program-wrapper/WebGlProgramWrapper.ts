@@ -95,12 +95,27 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			attributeVariableNames,
 			attributeVariableNameToVariableDefinition,
 		);
+		const uniformVariableLocationToVariableDefinition = new Map(
+			(
+				Object.entries(uniformVariableNameToVariableDefinition) as [
+					keyof typeof uniformVariableNameToVariableDefinition,
+					(typeof uniformVariableNameToVariableDefinition)[keyof typeof uniformVariableNameToVariableDefinition],
+				][]
+			).map(
+				([name, definition]) =>
+					[
+						gl.getUniformLocation(program, `u_${name}`) as WebGLUniformLocation,
+						definition,
+					] as const,
+			),
+		);
 		const programWrapper = new WebGlProgramWrapper(
 			buffer,
 			program,
 			trianglesSelector,
 			verticesSelector,
 			attributeVariableDefinitions,
+			uniformVariableLocationToVariableDefinition,
 		);
 		return programWrapper;
 	}
@@ -110,21 +125,37 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 		trianglesSelector: TrianglesSelector<Scene, Triangle>,
 		verticesSelector: VerticesSelector<Triangle, Vertex>,
 		attributeVariableDefinitions: readonly VariableDefinition<Vertex>[],
+		uniformVariableLocationToVariableDefinition: ReadonlyMap<
+			WebGLUniformLocation,
+			VariableDefinition<Scene>
+		>,
 	) {
 		this.buffer = buffer;
 		this.program = program;
 		this.trianglesSelector = trianglesSelector;
 		this.verticesSelector = verticesSelector;
 		this.attributeVariableDefinitions = attributeVariableDefinitions;
+		this.uniformVariableLocationToVariableDefinition = uniformVariableLocationToVariableDefinition;
 	}
 	private readonly buffer: WebGLBuffer;
 	private readonly program: WebGLProgram;
 	private readonly trianglesSelector: TrianglesSelector<Scene, Triangle>;
 	private readonly verticesSelector: VerticesSelector<Triangle, Vertex>;
 	private readonly attributeVariableDefinitions: readonly VariableDefinition<Vertex>[];
+	private readonly uniformVariableLocationToVariableDefinition: ReadonlyMap<
+		WebGLUniformLocation,
+		VariableDefinition<Scene>
+	>;
 	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		gl.useProgram(this.program);
+		for (const [
+			location,
+			definition,
+		] of this.uniformVariableLocationToVariableDefinition.entries()) {
+			const value = definition.serialize(scene);
+			definition.setUniform(gl, location, new Float32Array(value));
+		}
 		const triangles = this.trianglesSelector(scene);
 		const bufferData = computeBufferData(
 			triangles,

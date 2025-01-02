@@ -11,4 +11,11 @@ export class Vec2VariableDefinition<Datum> implements VariableDefinition<Datum> 
 		return value;
 	}
 	public readonly size = 2;
+	public setUniform(
+		gl: WebGL2RenderingContext,
+		location: WebGLUniformLocation,
+		value: Float32Array,
+	): void {
+		gl.uniform2fv(location, value);
+	}
 }

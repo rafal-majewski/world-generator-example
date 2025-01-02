@@ -10,4 +10,11 @@ export class FloatVariableDefinition<Datum> implements VariableDefinition<Datum>
 		return [value];
 	}
 	public readonly size = 1;
+	public setUniform(
+		gl: WebGL2RenderingContext,
+		location: WebGLUniformLocation,
+		value: Float32Array,
+	): void {
+		gl.uniform1fv(location, value);
+	}
 }

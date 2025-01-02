@@ -4,12 +4,13 @@
 	import type {Camera} from "./Camera.ts";
 	import {computeProjection} from "./computeProjection.ts";
 	import {createCheckerboard} from "./createCheckerboard.ts";
-	import type {RgbColor} from "./RgbColor.ts";
 	import type {Vertex} from "./Vertex.ts";
 	import {Mat4VariableDefinition} from "./WebGL/program-wrapper/Mat4VariableDefinition.ts";
 	import {Vec3VariableDefinition} from "./WebGL/program-wrapper/Vec3VariableDefinition.ts";
 	import {WebGlProgramWrapper} from "./WebGL/program-wrapper/WebGlProgramWrapper.ts";
 	import {WebGlWrapper} from "./WebGL/webgl-wrapper/WebGlWrapper.ts";
+	import {computeTrianglesFromBlock} from "./computeTrianglesFromBlock.ts";
+	import type {Triangle} from "./Triangle.ts";
 	import type {XyzCoordinates} from "./XyzCoordinates.ts";
 	const {dimensions}: Readonly<{dimensions: Dimensions}> = $props();
 	let oldDimensions: Dimensions = dimensions;
@@ -18,102 +19,11 @@
 		if (gl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-		type Triangle = Readonly<{
-			vertexPositions: Readonly<Record<1 | 2 | 3, XyzCoordinates>>;
-			color: RgbColor;
-		}>;
+
 		type Scene = Readonly<{
 			blocks: readonly Block[];
 			camera: Camera;
 		}>;
-		function computeNearTrianglesFromBlock(block: Block): readonly Triangle[] {
-			const trianglesPositionZ = block.position.z - 0.5;
-			const left: Triangle = {
-				vertexPositions: {
-					1: {
-						x: block.position.x - 0.5,
-						y: block.position.y - 0.5,
-						z: trianglesPositionZ,
-					},
-					2: {
-						x: block.position.x,
-						y: block.position.y,
-						z: trianglesPositionZ,
-					},
-					3: {
-						x: block.position.x - 0.5,
-						y: block.position.y + 0.5,
-						z: trianglesPositionZ,
-					},
-				},
-				color: block.color,
-			};
-			const right: Triangle = {
-				vertexPositions: {
-					1: {
-						x: block.position.x + 0.5,
-						y: block.position.y - 0.5,
-						z: trianglesPositionZ,
-					},
-					2: {
-						x: block.position.x,
-						y: block.position.y,
-						z: trianglesPositionZ,
-					},
-					3: {
-						x: block.position.x + 0.5,
-						y: block.position.y + 0.5,
-						z: trianglesPositionZ,
-					},
-				},
-				color: block.color,
-			};
-			const bottom: Triangle = {
-				vertexPositions: {
-					1: {
-						x: block.position.x - 0.5,
-						y: block.position.y - 0.5,
-						z: trianglesPositionZ,
-					},
-					2: {
-						x: block.position.x,
-						y: block.position.y,
-						z: trianglesPositionZ,
-					},
-					3: {
-						x: block.position.x + 0.5,
-						y: block.position.y - 0.5,
-						z: trianglesPositionZ,
-					},
-				},
-				color: block.color,
-			};
-			const top: Triangle = {
-				vertexPositions: {
-					1: {
-						x: block.position.x - 0.5,
-						y: block.position.y + 0.5,
-						z: trianglesPositionZ,
-					},
-					2: {
-						x: block.position.x,
-						y: block.position.y,
-						z: trianglesPositionZ,
-					},
-					3: {
-						x: block.position.x + 0.5,
-						y: block.position.y + 0.5,
-						z: trianglesPositionZ,
-					},
-				},
-				color: block.color,
-			};
-			return [left, right, bottom, top];
-		}
-		function computeTrianglesFromBlock(block: Block): readonly Triangle[] {
-			const nearTriangles = computeNearTrianglesFromBlock(block);
-			return nearTriangles;
-		}
 		const programWrapper = WebGlProgramWrapper.create(
 			gl,
 			{
@@ -172,20 +82,27 @@ ${outs.color} = ${ins.color};`,
 			blue: 0,
 		});
 		const blocks = createCheckerboard({
-			x: 10,
-			z: 10,
+			x: 17,
+			z: 17,
 		});
-		const scene = {
+		function computeCameraPosition(timestamp: Date): XyzCoordinates {
+			const angleRadians = computeCameraOrientationHorizontalRadians(timestamp);
+			return {
+				x: -15 * Math.sin(angleRadians),
+				y: 4,
+				z: -15 * Math.cos(angleRadians),
+			};
+		}
+		function computeCameraOrientationHorizontalRadians(timestamp: Date): number {
+			return timestamp.getTime() / 1000;
+		}
+		let scene = {
 			blocks,
 			camera: {
-				position: {
-					x: 0,
-					y: 0,
-					z: 0,
-				},
+				position: computeCameraPosition(new Date()),
 				orientation: {
-					horizontalRadians: 0,
-					verticalRadians: 0,
+					horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
+					verticalRadians: (-Math.PI / 2) * 0.2,
 				},
 				fieldOfView: {
 					horizontalRadians: Math.PI / 2,
@@ -201,6 +118,21 @@ ${outs.color} = ${ins.color};`,
 				webglWrapper.draw(scene);
 				oldDimensions = dimensions;
 			}
+		});
+		requestAnimationFrame(function animate() {
+			scene = {
+				blocks,
+				camera: {
+					...scene.camera,
+					position: computeCameraPosition(new Date()),
+					orientation: {
+						...scene.camera.orientation,
+						horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
+					},
+				},
+			};
+			webglWrapper.draw(scene);
+			requestAnimationFrame(animate);
 		});
 	}
 </script>

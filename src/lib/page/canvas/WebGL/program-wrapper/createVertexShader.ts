@@ -26,7 +26,7 @@ export function createVertexShader<
 	>,
 	precision: PrecisionToUse,
 	gl: WebGL2RenderingContext,
-): WebGLProgram {
+): WebGLShader {
 	const sourceCode = createVertexShaderSourceCode(
 		uniformVariableNameToVariableType,
 		attributeVariableNameToVariableType,

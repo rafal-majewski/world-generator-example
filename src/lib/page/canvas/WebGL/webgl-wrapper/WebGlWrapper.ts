@@ -5,7 +5,7 @@ export class WebGlWrapper<Scene, Triangle, Vertex> {
 	private readonly gl: WebGL2RenderingContext;
 	private readonly programWrappers: readonly WebGlProgramWrapper<Scene, Triangle, Vertex>[];
 	public draw(scene: Scene): void {
-		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 		for (const programWrapper of this.programWrappers) {
 			programWrapper.draw(this.gl, scene);
 		}
@@ -28,6 +28,8 @@ export class WebGlWrapper<Scene, Triangle, Vertex> {
 		backgroundColor: RgbColor,
 	): WebGlWrapper<Scene, Triangle, Vertex> {
 		gl.clearColor(backgroundColor.red, backgroundColor.green, backgroundColor.blue, 1);
+		gl.enable(gl.DEPTH_TEST);
+		gl.depthFunc(gl.LESS);
 		const webGlWrapper = new WebGlWrapper(gl, programWrappers);
 		return webGlWrapper;
 	}
