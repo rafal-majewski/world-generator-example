@@ -11,4 +11,8 @@ export class Vec3VariableDefinition<Datum> implements VariableDefinition<Datum> 
 		return value;
 	}
 	public readonly size = 3;
+
+	public setUniform(gl: WebGL2RenderingContext, location: WebGLUniformLocation, value: readonly number[]): void {
+		gl.uniform3fv(location, value);
+	}
 }

@@ -12,4 +12,8 @@ export class Mat4VariableDefinition<Datum> implements VariableDefinition<Datum> 
 		return serializedValue;
 	}
 	public readonly size = 16;
+
+	public setUniform(gl: WebGL2RenderingContext, location: WebGLUniformLocation, value: readonly number[]): void {
+		gl.uniformMatrix4fv(location, false, value);
+	}
 }
