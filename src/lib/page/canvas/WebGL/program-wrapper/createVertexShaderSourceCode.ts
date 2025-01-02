@@ -4,22 +4,22 @@ import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts
 import type {VariableName} from "./VariableName.ts";
 import type {VariableType} from "./VariableType.ts";
 import type {WebGLProgramWrapperShaderSourceCodeMainContentCreator} from "./WebGLProgramWrapperShaderSourceCodeMainContentCreator.ts";
-export function createFragmentShaderSourceCode<
+export function createVertexShaderSourceCode<
 	UniformVariableName extends VariableName,
+	AttributeVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
-	OutputVariableName extends VariableName,
 	SourceCodeMainContentToUse extends ShaderSourceCodeMainContent,
 	PrecisionToUse extends ShaderPrecision,
 >(
 	uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
+	attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
 	varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
-	outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
 	mainContentCreator: WebGLProgramWrapperShaderSourceCodeMainContentCreator<
-		"inputVarying" | "uniform" | "output",
+		"uniform" | "attribute" | "outputVarying",
 		Readonly<{
 			uniform: UniformVariableName;
-			inputVarying: VaryingVariableName;
-			output: OutputVariableName;
+			attribute: AttributeVariableName;
+			outputVarying: VaryingVariableName;
 		}>,
 		SourceCodeMainContentToUse
 	>,
@@ -29,13 +29,13 @@ export function createFragmentShaderSourceCode<
 		"uniform",
 		uniformVariableNameToVariableType,
 	);
-	const inputVaryingSection = createShaderSourceCodeVariableSection(
-		"inputVarying",
-		varyingVariableNameToVariableType,
+	const attributeSection = createShaderSourceCodeVariableSection(
+		"attribute",
+		attributeVariableNameToVariableType,
 	);
-	const outputSection = createShaderSourceCodeVariableSection(
-		"output",
-		outputVariableNameToVariableType,
+	const outputVaryingSection = createShaderSourceCodeVariableSection(
+		"outputVarying",
+		varyingVariableNameToVariableType,
 	);
 	const mainContent = mainContentCreator({
 		uniforms: Object.fromEntries(
@@ -44,14 +44,14 @@ export function createFragmentShaderSourceCode<
 			[Name in UniformVariableName]: `u_${Name}`;
 		}>,
 		ins: Object.fromEntries(
+			Object.keys(attributeVariableNameToVariableType).map((name) => [name, `a_${name}`]),
+		) as Readonly<{
+			[Name in AttributeVariableName]: `a_${Name}`;
+		}>,
+		outs: Object.fromEntries(
 			Object.keys(varyingVariableNameToVariableType).map((name) => [name, `v_${name}`]),
 		) as Readonly<{
 			[Name in VaryingVariableName]: `v_${Name}`;
-		}>,
-		outs: Object.fromEntries(
-			Object.keys(outputVariableNameToVariableType).map((name) => [name, `o_${name}`]),
-		) as Readonly<{
-			[Name in OutputVariableName]: `o_${Name}`;
 		}>,
 	});
 	const mainContentLines = mainContent.split("\n");
@@ -60,8 +60,8 @@ export function createFragmentShaderSourceCode<
 	return `#version 300 es
 precision ${precision} float;
 ${uniformSection}
-${inputVaryingSection}
-${outputSection}
+${attributeSection}
+${outputVaryingSection}
 void main() {
 ${indentedMainContent}
 }

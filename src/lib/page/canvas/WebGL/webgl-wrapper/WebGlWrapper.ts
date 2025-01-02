@@ -1,14 +1,13 @@
 import type {Dimensions} from "../../../dimensions/Dimensions.ts";
-import type {WebGlWrapperComponent} from "../webgl-wrapper-component/WebGlWrapperComponent.ts";
-export class WebGlWrapper<
-	Scene,
-	WebGlWrapperComponentsToUse extends readonly WebGlWrapperComponent<Scene>[],
-> {
+import type {RgbColor} from "../../RgbColor.ts";
+import type {WebGlProgramWrapper} from "../program-wrapper/WebGlProgramWrapper.ts";
+export class WebGlWrapper<Scene, Triangle, Vertex> {
 	private readonly gl: WebGL2RenderingContext;
-	private readonly components: WebGlWrapperComponentsToUse;
+	private readonly programWrappers: readonly WebGlProgramWrapper<Scene, Triangle, Vertex>[];
 	public draw(scene: Scene): void {
-		for (const component of this.components) {
-			component.draw(this.gl, scene);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+		for (const programWrapper of this.programWrappers) {
+			programWrapper.draw(this.gl, scene);
 		}
 	}
 	public resize(dimensions: Dimensions): void {
@@ -16,8 +15,20 @@ export class WebGlWrapper<
 		this.gl.canvas.height = dimensions.height;
 		this.gl.viewport(0, 0, dimensions.width, dimensions.height);
 	}
-	public constructor(gl: WebGL2RenderingContext, components: WebGlWrapperComponentsToUse) {
+	private constructor(
+		gl: WebGL2RenderingContext,
+		programWrappers: readonly WebGlProgramWrapper<Scene, Triangle, Vertex>[],
+	) {
 		this.gl = gl;
-		this.components = components;
+		this.programWrappers = programWrappers;
+	}
+	public static create<Scene, Triangle, Vertex>(
+		gl: WebGL2RenderingContext,
+		programWrappers: readonly WebGlProgramWrapper<Scene, Triangle, Vertex>[],
+		backgroundColor: RgbColor,
+	): WebGlWrapper<Scene, Triangle, Vertex> {
+		gl.clearColor(backgroundColor.red, backgroundColor.green, backgroundColor.blue, 1);
+		const webGlWrapper = new WebGlWrapper(gl, programWrappers);
+		return webGlWrapper;
 	}
 }

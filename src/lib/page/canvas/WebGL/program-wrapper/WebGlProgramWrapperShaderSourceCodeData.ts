@@ -10,7 +10,7 @@ export type WebGlProgramWrapperShaderSourceCodeData<
 	SourceCodeMainContentToUse extends ShaderSourceCodeMainContent,
 > = Readonly<{
 	precision: PrecisionToUse;
-	createMainContent: WebGLProgramWrapperShaderSourceCodeMainContentCreator<
+	mainContentCreator: WebGLProgramWrapperShaderSourceCodeMainContentCreator<
 		VariableRoleToUse,
 		VariableRoleToVariableName,
 		SourceCodeMainContentToUse

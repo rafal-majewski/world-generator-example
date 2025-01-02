@@ -1,174 +1,137 @@
 import type {VariableName} from "./VariableName.ts";
-import type {VariableType} from "../variable-type/VariableType.ts";
 import type {FragmentWebGlProgramWrapperShaderSourceCodeData} from "./FragmentWebGlProgramWrapperShaderSourceCodeData.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
 import type {VertexWebGlProgramWrapperShaderSourceCodeData} from "./VertexWebGlProgramWrapperShaderSourceCodeData.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
-import type {VertexSelectors} from "./VertexSelectors.ts";
-import type {Serializer} from "./Serializer.ts";
-import {createProgramForWrapper} from "./createProgramForWrapper.ts";
+import type {VerticesSelector} from "./VerticesSelector.ts";
 import {computeBufferData} from "./computeBufferData.ts";
-import type {SupportedVariableTypeToVariableValue} from "./VariableSpecification.ts";
-
+import type {VariableDefinition} from "./VariableDefinition.ts";
+import {createAttributeVariableDefinitions} from "./createAttributeVariableDefinitions.ts";
+import {createProgram} from "./createProgram.ts";
+import {setUpAttributes} from "./setUpAttributes.ts";
+import type {VariableType} from "./VariableType.ts";
 export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 	public static create<
+		UniformVariableName extends VariableName,
 		AttributeVariableName extends VariableName,
-		AttributeVariableNameToVariableType extends Record<AttributeVariableName, VariableType>,
-		VertexShaderPrecision extends ShaderPrecision,
+		Vertex,
 		VaryingVariableName extends VariableName,
+		VertexShaderPrecision extends ShaderPrecision,
 		VertexShaderSourceCodeMainContent extends ShaderSourceCodeMainContent,
-		VaryingVariableNameToVariableType extends Record<VaryingVariableName, VariableType>,
-		FragmentShaderPrecision extends ShaderPrecision,
 		OutputVariableName extends VariableName,
+		FragmentShaderPrecision extends ShaderPrecision,
 		FragmentShaderSourceCodeMainContent extends ShaderSourceCodeMainContent,
-		OutputVariableNameToVariableType extends Record<VaryingVariableName, VariableType>,
 		Scene,
 		Triangle,
-		Vertex,
 	>(
 		gl: WebGL2RenderingContext,
-		attributeVariableNameToVariableType: AttributeVariableNameToVariableType,
+		uniformVariableNameToVariableDefinition: Readonly<
+			Record<UniformVariableName, VariableDefinition<Scene>>
+		>,
+		attributeVariableNameToVariableDefinition: Readonly<
+			Record<AttributeVariableName, VariableDefinition<Vertex>>
+		>,
+		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
 		vertexShaderData: VertexWebGlProgramWrapperShaderSourceCodeData<
 			VertexShaderPrecision,
 			{
 				attribute: AttributeVariableName;
-				uniform: never;
+				uniform: UniformVariableName;
 				outputVarying: VaryingVariableName;
 			},
 			VertexShaderSourceCodeMainContent
 		>,
-		varyingVariableNameToVariableType: VaryingVariableNameToVariableType,
+		outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
 		fragmentShaderData: FragmentWebGlProgramWrapperShaderSourceCodeData<
 			FragmentShaderPrecision,
 			{
-				uniform: never;
+				uniform: UniformVariableName;
 				inputVarying: VaryingVariableName;
 				output: OutputVariableName;
 			},
 			FragmentShaderSourceCodeMainContent
 		>,
-		outputVariableNameToVariableType: OutputVariableNameToVariableType,
 		trianglesSelector: TrianglesSelector<Scene, Triangle>,
-		vertexSelectors: VertexSelectors<Triangle, Vertex>,
-		attributeVariableNameToVariableValueComputer: {
-			[VariableNameToUse in AttributeVariableName]: (
-				vertex: Vertex,
-			) => SupportedVariableTypeToVariableValue[AttributeVariableNameToVariableType[VariableNameToUse]];
-		},
+		verticesSelector: VerticesSelector<Triangle, Vertex>,
 	) {
-		const program = createProgramForWrapper(
-			gl,
-			// 	vertexShaderData,
-			// 	{} as const,
-			// 	attributeVariableNameToVariableType,
-			// 	varyingVariableNameToVariableType,
-			// 	fragmentShaderData,
-			// 	varyingVariableNameToVariableType,
-			// 	outputVariableNameToVariableType,
-			// );
-		);
+		const buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+		const uniformVariableNameToVariableDefinitionEntries = Object.entries(
+			uniformVariableNameToVariableDefinition,
+		) as unknown as readonly (readonly [UniformVariableName, VariableDefinition<Scene>])[];
+		const uniformVariableNameToVariableType = Object.fromEntries(
+			uniformVariableNameToVariableDefinitionEntries.map(
+				([variableName, variableDefinition]) => [variableName, variableDefinition.type] as const,
+			),
+		) as Readonly<Record<UniformVariableName, VariableType>>;
 		const attributeVariableNames: readonly AttributeVariableName[] = Object.keys(
-			attributeVariableNameToVariableType,
+			attributeVariableNameToVariableDefinition,
 		) as AttributeVariableName[];
-		const vertexSerializers = attributeVariableNames.map((attributeVariableName) => ({
-			variableType: attributeVariableNameToVariableType[attributeVariableName],
-			variableValueComputer: attributeVariableNameToVariableValueComputer[attributeVariableName],
-		}));
+		const attributeVariableNameToVariableDefinitionEntries = Object.entries(
+			attributeVariableNameToVariableDefinition,
+		) as unknown as readonly (readonly [AttributeVariableName, VariableDefinition<Scene>])[];
+		const attributeVariableNameToVariableType = Object.fromEntries(
+			attributeVariableNameToVariableDefinitionEntries.map(
+				([variableName, variableDefinition]) => [variableName, variableDefinition.type] as const,
+			),
+		) as Readonly<Record<AttributeVariableName, VariableType>>;
+		const program = createProgram(
+			uniformVariableNameToVariableType,
+			attributeVariableNameToVariableType,
+			varyingVariableNameToVariableType,
+			vertexShaderData,
+			gl,
+			outputVariableNameToVariableType,
+			fragmentShaderData,
+		);
+		const attributeVariableNameToVariableSize = Object.fromEntries(
+			attributeVariableNameToVariableDefinitionEntries.map(
+				([variableName, variableDefinition]) => [variableName, variableDefinition.size] as const,
+			),
+		) as Readonly<Record<AttributeVariableName, number>>;
+		setUpAttributes(attributeVariableNameToVariableSize, gl, program);
+		const attributeVariableDefinitions = createAttributeVariableDefinitions(
+			attributeVariableNames,
+			attributeVariableNameToVariableDefinition,
+		);
 		const programWrapper = new WebGlProgramWrapper(
+			buffer,
 			program,
-			// attributeVariablesComputers,
 			trianglesSelector,
-			vertexSelectors,
-			vertexSerializers,
+			verticesSelector,
+			attributeVariableDefinitions,
 		);
 		return programWrapper;
 	}
 	private constructor(
+		buffer: WebGLBuffer,
 		program: WebGLProgram,
 		trianglesSelector: TrianglesSelector<Scene, Triangle>,
-		vertexSelectors: VertexSelectors<Triangle, Vertex>,
-		vertexSerializers: readonly Serializer<Vertex>[],
+		verticesSelector: VerticesSelector<Triangle, Vertex>,
+		attributeVariableDefinitions: readonly VariableDefinition<Vertex>[],
 	) {
+		this.buffer = buffer;
 		this.program = program;
 		this.trianglesSelector = trianglesSelector;
-		this.vertexSelectors = vertexSelectors;
-		this.vertexSerializers = vertexSerializers;
+		this.verticesSelector = verticesSelector;
+		this.attributeVariableDefinitions = attributeVariableDefinitions;
 	}
+	private readonly buffer: WebGLBuffer;
 	private readonly program: WebGLProgram;
 	private readonly trianglesSelector: TrianglesSelector<Scene, Triangle>;
-	private readonly vertexSelectors: VertexSelectors<Triangle, Vertex>;
-	private readonly vertexSerializers: readonly Serializer<Vertex>[];
+	private readonly verticesSelector: VerticesSelector<Triangle, Vertex>;
+	private readonly attributeVariableDefinitions: readonly VariableDefinition<Vertex>[];
 	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		gl.useProgram(this.program);
 		const triangles = this.trianglesSelector(scene);
-		const bufferData = computeBufferData(triangles, this.vertexSelectors, this.vertexSerializers);
+		const bufferData = computeBufferData(
+			triangles,
+			this.verticesSelector,
+			this.attributeVariableDefinitions,
+		);
 		gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.STATIC_DRAW);
 		gl.drawArrays(gl.TRIANGLES, 0, triangles.length * 3);
 	}
 }
-
-// type VariableValueComputer<Datum, VariableTypeToUse extends VariableType> = (
-// 	datum: Datum,
-// ) => VariableTypeToVariableValue[VariableTypeToUse];
-
-// class VecSerializer<Datum, A extends "vec2" | "vec3" | "vec4"> implements Serializer<Datum> {
-// 	private readonly valueComputer: VariableValueComputer<Datum, A>;
-// 	public constructor(valueComputer: VariableValueComputer<Datum, A>) {
-// 		this.valueComputer = valueComputer;
-// 	}
-// 	public serialize(datum: Datum): readonly number[] {
-// 		const variableValue = this.valueComputer(datum);
-// 		return variableValue;
-// 	}
-// }
-// class MatSerializer<Datum, A extends "mat2" | "mat3" | "mat4"> implements Serializer<Datum> {
-// 	private readonly valueComputer: VariableValueComputer<Datum, A>;
-// 	public constructor(valueComputer: VariableValueComputer<Datum, A>) {
-// 		this.valueComputer = valueComputer;
-// 	}
-// 	public serialize(datum: Datum): readonly number[] {
-// 		const variableValue = this.valueComputer(datum);
-// 		const serializedVariableValue: readonly number[] = variableValue.flat();
-// 		return serializedVariableValue;
-// 	}
-// }
-// type VariableSerializationDatum<VariableTypeToUse extends VariableType, Datum> = Readonly<{
-// 	variableType: VariableTypeToUse;
-// 	variableValueComputer: VariableValueComputer<Datum, VariableTypeToUse>;
-// }>;
-// function createSerializers<
-// 	Datum,
-// >(
-// 	variableSerializationData: readonly VariableSerializationDatum<Datum>[],
-// ): readonly Serializer<Vertex>[] {
-// 	const vertexSerializers = variableSerializationData.map(({variableType, variableValueComputer}) => {
-
-// 	}
-// }
-
-// function createSerializer<
-// VariableTypeToUse extends VariableType,
-// 	Datum,
-// >(
-// 	variableSerializationDatum: VariableSerializationDatum<VariableTypeToUse, Datum>,
-// ): Serializer<Datum> {
-// 	switch (variableSerializationDatum.variableType) {
-// 		case "float": {
-// 			const serializer = new FloatSerializer(variableSerializationDatum.variableValueComputer);
-// 			return serializer;
-// 		}
-// 		case "vec2":
-// 		case "vec3":
-// 		case "vec4": {
-// 			const serializer = new VecSerializer(variableSerializationDatum.variableValueComputer);
-// 			return serializer;
-// 		}
-// 		case "mat2":
-// 		case "mat3":
-// 		case "mat4": {
-// 			const serializer = new MatSerializer(variableSerializationDatum.variableValueComputer);
-// 			return serializer;
-// 		}
-// 	}
-// }
