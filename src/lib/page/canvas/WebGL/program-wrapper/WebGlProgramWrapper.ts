@@ -11,6 +11,7 @@ import {createAttributeVariableDefinitions} from "./createAttributeVariableDefin
 import {createProgram} from "./createProgram.ts";
 import {setUpAttributes} from "./setUpAttributes.ts";
 import type {VariableType} from "./VariableType.ts";
+
 export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 	public static create<
 		UniformVariableName extends VariableName,
@@ -101,6 +102,7 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			trianglesSelector,
 			verticesSelector,
 			attributeVariableDefinitions,
+			uniformVariableNameToVariableDefinition,
 		);
 		return programWrapper;
 	}
@@ -110,21 +112,49 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 		trianglesSelector: TrianglesSelector<Scene, Triangle>,
 		verticesSelector: VerticesSelector<Triangle, Vertex>,
 		attributeVariableDefinitions: readonly VariableDefinition<Vertex>[],
+		uniformVariableNameToVariableDefinition: Readonly<Record<string, VariableDefinition<Scene>>>,
 	) {
 		this.buffer = buffer;
 		this.program = program;
 		this.trianglesSelector = trianglesSelector;
 		this.verticesSelector = verticesSelector;
 		this.attributeVariableDefinitions = attributeVariableDefinitions;
+		this.uniformVariableNameToVariableDefinition = uniformVariableNameToVariableDefinition;
 	}
 	private readonly buffer: WebGLBuffer;
 	private readonly program: WebGLProgram;
 	private readonly trianglesSelector: TrianglesSelector<Scene, Triangle>;
 	private readonly verticesSelector: VerticesSelector<Triangle, Vertex>;
 	private readonly attributeVariableDefinitions: readonly VariableDefinition<Vertex>[];
+	private readonly uniformVariableNameToVariableDefinition: Readonly<Record<string, VariableDefinition<Scene>>>;
+
+	private setUpUniforms(gl: WebGL2RenderingContext, scene: Scene): void {
+		for (const [name, definition] of Object.entries(this.uniformVariableNameToVariableDefinition)) {
+			const location = gl.getUniformLocation(this.program, `u_${name}`);
+			if (location === null) {
+				throw new Error(`Could not find uniform location for ${name}`);
+			}
+			const value = definition.serialize(scene);
+			if (definition.size === 1) {
+				gl.uniform1fv(location, value);
+			} else if (definition.size === 2) {
+				gl.uniform2fv(location, value);
+			} else if (definition.size === 3) {
+				gl.uniform3fv(location, value);
+			} else if (definition.size === 4) {
+				gl.uniform4fv(location, value);
+			} else if (definition.size === 16) {
+				gl.uniformMatrix4fv(location, false, value);
+			} else {
+				throw new Error(`Unsupported uniform size: ${definition.size}`);
+			}
+		}
+	}
+
 	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		gl.useProgram(this.program);
+		this.setUpUniforms(gl, scene);
 		const triangles = this.trianglesSelector(scene);
 		const bufferData = computeBufferData(
 			triangles,
