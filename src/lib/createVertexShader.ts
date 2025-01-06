@@ -1,5 +1,5 @@
 import {createShader} from "./createShader.ts";
-import {createVertexShaderSourceCode} from "./createVertexShaderSourceCode.ts";
+import {createVertexShaderSourceCode} from "./page/createVertexShaderSourceCode.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
 import type {VariableName} from "./VariableName.ts";

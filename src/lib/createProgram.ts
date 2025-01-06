@@ -1,6 +1,6 @@
 import {createFragmentShader} from "./createFragmentShader.ts";
-import {createVertexShader} from "./createVertexShader.ts";
-import type {FragmentWebGlProgramWrapperShaderSourceCodeData} from "./FragmentWebGlProgramWrapperShaderSourceCodeData.ts";
+import {createVertexShader} from "./page/createVertexShader.ts";
+import type {FragmentWebGlProgramWrapperShaderSourceCodeData} from "./page/FragmentWebGlProgramWrapperShaderSourceCodeData.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
 import type {VariableName} from "./VariableName.ts";

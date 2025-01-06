@@ -1,4 +1,4 @@
-import type {Vector3} from "../../Vector3.ts";
+import type {Vector3} from "../../../Vector3.ts";
 import type {VariableDefinition} from "./VariableDefinition.ts";
 export class Vec3VariableDefinition<Datum> implements VariableDefinition<Datum> {
 	public readonly type = "vec3";

@@ -1,4 +1,4 @@
-import type {Matrix4} from "../../Matrix4.ts";
+import type {Matrix4} from "../../../Matrix4.ts";
 import type {VariableDefinition} from "./VariableDefinition.ts";
 export class Mat4VariableDefinition<Datum> implements VariableDefinition<Datum> {
 	public readonly type = "mat4";

@@ -1,4 +1,4 @@
-import type {Dimensions} from "../dimensions/Dimensions.ts";
+import type {Dimensions} from "./Dimensions.ts";
 export function startListeningForHtmlElementResizes(
 	element: HTMLElement,
 	handleResize: (dimensions: Dimensions) => void,

@@ -3,7 +3,7 @@
 	import type {Block} from "./Block.ts";
 	import type {Camera} from "./Camera.ts";
 	import {computeProjection} from "./computeProjection.ts";
-	import {createCheckerboard} from "./createCheckerboard.ts";
+	import {generateBlocks} from "./generateBlocks.ts";
 	import type {Vertex} from "./Vertex.ts";
 	import {Mat4VariableDefinition} from "./WebGL/program-wrapper/Mat4VariableDefinition.ts";
 	import {Vec3VariableDefinition} from "./WebGL/program-wrapper/Vec3VariableDefinition.ts";
@@ -77,24 +77,24 @@ ${outs.color} = ${ins.color};`,
 			}),
 		);
 		const webglWrapper = WebGlWrapper.create(gl, [programWrapper], {
-			red: 1,
-			green: 0,
-			blue: 0,
+			red: 0,
+			green: 0.5,
+			blue: 0.9,
 		});
-		const blocks = createCheckerboard({
-			x: 17,
-			z: 17,
+		const blocks = generateBlocks({
+			x: 11,
+			z: 11,
 		});
 		function computeCameraPosition(timestamp: Date): XyzCoordinates {
 			const angleRadians = computeCameraOrientationHorizontalRadians(timestamp);
 			return {
-				x: -15 * Math.sin(angleRadians),
-				y: 4,
-				z: -15 * Math.cos(angleRadians),
+				x: -8 * Math.sin(angleRadians),
+				y: 6,
+				z: -8 * Math.cos(angleRadians),
 			};
 		}
 		function computeCameraOrientationHorizontalRadians(timestamp: Date): number {
-			return timestamp.getTime() / 1000;
+			return (0.1 * timestamp.getTime()) / 1000;
 		}
 		let scene = {
 			blocks,
@@ -102,7 +102,7 @@ ${outs.color} = ${ins.color};`,
 				position: computeCameraPosition(new Date()),
 				orientation: {
 					horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
-					verticalRadians: (-Math.PI / 2) * 0.2,
+					verticalRadians: (-Math.PI / 2) * 0.5,
 				},
 				fieldOfView: {
 					horizontalRadians: Math.PI / 2,
@@ -119,7 +119,7 @@ ${outs.color} = ${ins.color};`,
 				oldDimensions = dimensions;
 			}
 		});
-		requestAnimationFrame(function animate() {
+		setTimeout(function animate() {
 			scene = {
 				blocks,
 				camera: {
@@ -132,8 +132,8 @@ ${outs.color} = ${ins.color};`,
 				},
 			};
 			webglWrapper.draw(scene);
-			requestAnimationFrame(animate);
-		});
+			setTimeout(animate, 30);
+		}, 30);
 	}
 </script>
 

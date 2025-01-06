@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type {Dimensions} from "./dimensions/Dimensions.ts";
+	import type {Dimensions} from "./Dimensions.ts";
 	import Canvas from "./canvas/Canvas.svelte";
-	import {startListeningForHtmlElementResizes} from "./html-utilities/startListeningForHtmlElementResizes.ts";
+	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
 	let dimensions: Dimensions | null = $state<Dimensions | null>(null);
 	function handleMount(element: HTMLElement) {
 		$effect(function useEffect() {

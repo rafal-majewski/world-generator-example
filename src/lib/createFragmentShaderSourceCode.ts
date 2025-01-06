@@ -1,4 +1,4 @@
-import {createShaderSourceCodeVariableSection} from "./createShaderSourceCodeVariableSection.ts";
+import {createShaderSourceCodeVariableSection} from "./page/createShaderSourceCodeVariableSection.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
 import type {VariableName} from "./VariableName.ts";

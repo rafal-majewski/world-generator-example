@@ -1,4 +1,4 @@
-import {createFragmentShaderSourceCode} from "./createFragmentShaderSourceCode.ts";
+import {createFragmentShaderSourceCode} from "./page/createFragmentShaderSourceCode.ts";
 import {createShader} from "./createShader.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
