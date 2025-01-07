@@ -1,61 +1,31 @@
 import {createFragmentShader} from "./createFragmentShader.ts";
-import {createVertexShader} from "./page/createVertexShader.ts";
-import type {FragmentWebGlProgramWrapperShaderSourceCodeData} from "./page/FragmentWebGlProgramWrapperShaderSourceCodeData.ts";
-import type {ShaderPrecision} from "./ShaderPrecision.ts";
-import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
+import {createVertexShader} from "./createVertexShader.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariableType} from "./VariableType.ts";
-import type {VertexWebGlProgramWrapperShaderSourceCodeData} from "./VertexWebGlProgramWrapperShaderSourceCodeData.ts";
+import type {WebGlProgramConfiguration} from "./WebGlProgramConfiguration.ts";
 export function createProgram<
 	UniformVariableName extends VariableName,
 	AttributeVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
-	VertexShaderPrecision extends ShaderPrecision,
-	VertexShaderSourceCodeMainContent extends ShaderSourceCodeMainContent,
 	OutputVariableName extends VariableName,
-	FragmentShaderPrecision extends ShaderPrecision,
-	FragmentShaderSourceCodeMainContent extends ShaderSourceCodeMainContent,
 >(
 	uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 	attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
-	varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
-	vertexShaderData: VertexWebGlProgramWrapperShaderSourceCodeData<
-		VertexShaderPrecision,
-		{
-			attribute: AttributeVariableName;
-			uniform: UniformVariableName;
-			outputVarying: VaryingVariableName;
-		},
-		VertexShaderSourceCodeMainContent
+	configuration: WebGlProgramConfiguration<
+		UniformVariableName,
+		AttributeVariableName,
+		VaryingVariableName,
+		OutputVariableName
 	>,
 	gl: WebGL2RenderingContext,
-	outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
-	fragmentShaderData: FragmentWebGlProgramWrapperShaderSourceCodeData<
-		FragmentShaderPrecision,
-		{
-			uniform: UniformVariableName;
-			inputVarying: VaryingVariableName;
-			output: OutputVariableName;
-		},
-		FragmentShaderSourceCodeMainContent
-	>,
 ): WebGLProgram {
 	const vertexShader = createVertexShader(
 		uniformVariableNameToVariableType,
 		attributeVariableNameToVariableType,
-		varyingVariableNameToVariableType,
-		vertexShaderData.mainContentCreator,
-		vertexShaderData.precision,
+		configuration,
 		gl,
 	);
-	const fragmentShader = createFragmentShader(
-		uniformVariableNameToVariableType,
-		varyingVariableNameToVariableType,
-		outputVariableNameToVariableType,
-		fragmentShaderData.mainContentCreator,
-		fragmentShaderData.precision,
-		gl,
-	);
+	const fragmentShader = createFragmentShader(uniformVariableNameToVariableType, configuration, gl);
 	const program = gl.createProgram();
 	if (program === null) {
 		throw new Error("Could not create WebGL program.");

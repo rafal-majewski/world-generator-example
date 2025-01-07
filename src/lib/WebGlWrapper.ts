@@ -1,6 +1,6 @@
-import type {Dimensions} from "../../../dimensions/Dimensions.ts";
-import type {RgbColor} from "../../../RgbColor.ts";
-import type {WebGlProgramWrapper} from "../program-wrapper/WebGlProgramWrapper.ts";
+import type {Dimensions} from "./Dimensions.ts";
+import type {RgbColor} from "./RgbColor.ts";
+import type {WebGlProgramWrapper} from "./WebGlProgramWrapper.ts";
 export class WebGlWrapper<Scene, Triangle, Vertex> {
 	private readonly gl: WebGL2RenderingContext;
 	private readonly programWrappers: readonly WebGlProgramWrapper<Scene, Triangle, Vertex>[];

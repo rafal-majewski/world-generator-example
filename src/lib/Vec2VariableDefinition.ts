@@ -1,5 +1,5 @@
-import type {Vector2} from "../../../Vector2.ts";
 import type {VariableDefinition} from "./VariableDefinition.ts";
+import type {Vector2} from "./Vector2.ts";
 export class Vec2VariableDefinition<Datum> implements VariableDefinition<Datum> {
 	public readonly type = "vec2";
 	private readonly valueComputer: (datum: Datum) => Vector2;

@@ -5,10 +5,9 @@ import type {WebGLProgramWrapperShaderSourceCodeMainContentCreatorVariableParame
 export type WebGLProgramWrapperShaderSourceCodeMainContentCreator<
 	VariableRoleToUse extends VariableRole,
 	VariableRoleToVariableName extends Record<VariableRoleToUse, VariableName>,
-	SourceCodeMainContentToUse extends ShaderSourceCodeMainContent,
 > = (
 	variables: WebGLProgramWrapperShaderSourceCodeMainContentCreatorVariableParameter<
 		VariableRoleToUse,
 		VariableRoleToVariableName
 	>,
-) => SourceCodeMainContentToUse;
+) => ShaderSourceCodeMainContent;
