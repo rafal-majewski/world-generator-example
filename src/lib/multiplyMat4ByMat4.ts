@@ -1,5 +1,5 @@
-import type {Matrix4} from "./Matrix4.ts";
-export function multiplyMatrix4ByMatrix4(matrix1: Matrix4, matrix2: Matrix4): Matrix4 {
+import type {Mat4} from "./Mat4.ts";
+export function multiplyMat4ByMat4(matrix1: Mat4, matrix2: Mat4): Mat4 {
 	return [
 		[
 			matrix1[0][0] * matrix2[0][0] +

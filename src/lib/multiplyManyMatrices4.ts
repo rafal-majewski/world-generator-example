@@ -1,7 +1,7 @@
-import type {Matrix4} from "./Matrix4.ts";
-import {multiplyMatrix4ByMatrix4} from "./multiplyMatrix4ByMatrix4.ts";
-export function multiplyManyMatrices4(...matrices: readonly [Matrix4, ...Matrix4[]]): Matrix4 {
+import type {Mat4} from "./Mat4.ts";
+import {multiplyMat4ByMat4} from "./multiplyMat4ByMat4.ts";
+export function multiplyManyMatrices4(...matrices: readonly [Mat4, ...Mat4[]]): Mat4 {
 	return matrices.reduce(
-		(product: Matrix4, matrix: Matrix4): Matrix4 => multiplyMatrix4ByMatrix4(product, matrix),
+		(product: Mat4, matrix: Mat4): Mat4 => multiplyMat4ByMat4(product, matrix),
 	);
 }

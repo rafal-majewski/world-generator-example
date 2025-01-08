@@ -1,16 +1,15 @@
 import {createFragmentShader} from "./createFragmentShader.ts";
 import {createVertexShader} from "./createVertexShader.ts";
 import type {VariableName} from "./VariableName.ts";
-import type {VariableType} from "./VariableType.ts";
+import {WebGlFragmentShaderConfiguration} from "./WebGlFragmentShaderConfiguration.ts";
 import type {WebGlProgramConfiguration} from "./WebGlProgramConfiguration.ts";
+import {WebGlVertexShaderConfiguration} from "./WebGlVertexShaderConfiguration.ts";
 export function createProgram<
 	UniformVariableName extends VariableName,
 	AttributeVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
 	OutputVariableName extends VariableName,
 >(
-	uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
-	attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
 	configuration: WebGlProgramConfiguration<
 		UniformVariableName,
 		AttributeVariableName,
@@ -19,13 +18,22 @@ export function createProgram<
 	>,
 	gl: WebGL2RenderingContext,
 ): WebGLProgram {
-	const vertexShader = createVertexShader(
-		uniformVariableNameToVariableType,
-		attributeVariableNameToVariableType,
-		configuration,
-		gl,
+	const vertexShaderConfiguration = new WebGlVertexShaderConfiguration(
+		configuration.uniformVariableNameToVariableType,
+		configuration.attributeVariableNameToVariableType,
+		configuration.varyingVariableNameToVariableType,
+		configuration.vertexShaderSourceCodeMainContentCreator,
+		configuration.vertexShaderPrecision,
 	);
-	const fragmentShader = createFragmentShader(uniformVariableNameToVariableType, configuration, gl);
+	const vertexShader = createVertexShader(vertexShaderConfiguration, gl);
+	const fragmentShaderConfiguration = new WebGlFragmentShaderConfiguration(
+		configuration.uniformVariableNameToVariableType,
+		configuration.varyingVariableNameToVariableType,
+		configuration.outputVariableNameToVariableType,
+		configuration.fragmentShaderSourceCodeMainContentCreator,
+		configuration.fragmentShaderPrecision,
+	);
+	const fragmentShader = createFragmentShader(fragmentShaderConfiguration, gl);
 	const program = gl.createProgram();
 	if (program === null) {
 		throw new Error("Could not create WebGL program.");

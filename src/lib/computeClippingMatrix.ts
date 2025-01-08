@@ -1,8 +1,5 @@
-import type {Matrix4} from "./Matrix4.ts";
-export function computeClippingMatrix(
-	nearClippingPlane: number,
-	farClippingPlane: number,
-): Matrix4 {
+import type {Mat4} from "./Mat4.ts";
+export function computeClippingMatrix(nearClippingPlane: number, farClippingPlane: number): Mat4 {
 	return [
 		[1, 0, 0, 0],
 		[0, 1, 0, 0],

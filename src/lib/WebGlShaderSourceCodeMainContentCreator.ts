@@ -1,12 +1,12 @@
 import type {VariableName} from "./VariableName.ts";
 import type {ShaderSourceCodeMainContent} from "./ShaderSourceCodeMainContent.ts";
 import type {VariableRole} from "./VariableRole.ts";
-import type {WebGLProgramWrapperShaderSourceCodeMainContentCreatorVariableParameter} from "./WebGLProgramWrapperShaderSourceCodeMainContentCreatorVariableParameter.ts";
-export type WebGLProgramWrapperShaderSourceCodeMainContentCreator<
+import type {WebGlShaderSourceCodeMainContentCreatorVariableParameter} from "./WebGlShaderSourceCodeMainContentCreatorVariableParameter.ts";
+export type WebGlShaderSourceCodeMainContentCreator<
 	VariableRoleToUse extends VariableRole,
 	VariableRoleToVariableName extends Record<VariableRoleToUse, VariableName>,
 > = (
-	variables: WebGLProgramWrapperShaderSourceCodeMainContentCreatorVariableParameter<
+	variables: WebGlShaderSourceCodeMainContentCreatorVariableParameter<
 		VariableRoleToUse,
 		VariableRoleToVariableName
 	>,

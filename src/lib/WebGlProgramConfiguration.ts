@@ -1,38 +1,63 @@
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
-import type {VariableName} from "./VariableName.ts";
 import type {VariableType} from "./VariableType.ts";
-import type {WebGlFragmentShaderConfiguration} from "./WebGlFragmentShaderConfiguration.ts";
-import type {WebGLProgramWrapperShaderSourceCodeMainContentCreator} from "./WebGLProgramWrapperShaderSourceCodeMainContentCreator.ts";
-import type {WebGlVertexShaderConfiguration} from "./WebGlVertexShaderConfiguration.ts";
-export interface WebGlProgramConfiguration<
+import type {VariableName} from "./VariableName.ts";
+import type {WebGlVertexShaderSourceCodeMainContentCreator} from "./WebGlVertexShaderSourceCodeMainContentCreator.ts";
+import type {WebGlFragmentShaderSourceCodeMainContentCreator} from "./WebGlFragmentShaderSourceCodeMainContentCreator.ts";
+export class WebGlProgramConfiguration<
 	UniformVariableName extends VariableName,
 	AttributeVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
 	OutputVariableName extends VariableName,
-> extends WebGlVertexShaderConfiguration<
+> {
+	public constructor(
+		uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
+		attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
+		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
+		vertexShaderSourceCodeMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			AttributeVariableName,
 			VaryingVariableName
 		>,
-		WebGlFragmentShaderConfiguration<UniformVariableName, VaryingVariableName, OutputVariableName> {
-	varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>;
-	createVertexShaderMainContent: WebGLProgramWrapperShaderSourceCodeMainContentCreator<
-		"uniform" | "attribute" | "outputVarying",
-		Readonly<{
-			uniform: UniformVariableName;
-			attribute: AttributeVariableName;
-			outputVarying: VaryingVariableName;
-		}>
+		vertexShaderPrecision: ShaderPrecision,
+		outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
+		fragmentShaderSourceCodeMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
+			UniformVariableName,
+			VaryingVariableName,
+			OutputVariableName
+		>,
+		fragmentShaderPrecision: ShaderPrecision,
+	) {
+		this.uniformVariableNameToVariableType = uniformVariableNameToVariableType;
+		this.attributeVariableNameToVariableType = attributeVariableNameToVariableType;
+		this.varyingVariableNameToVariableType = varyingVariableNameToVariableType;
+		this.vertexShaderSourceCodeMainContentCreator = vertexShaderSourceCodeMainContentCreator;
+		this.vertexShaderPrecision = vertexShaderPrecision;
+		this.outputVariableNameToVariableType = outputVariableNameToVariableType;
+		this.fragmentShaderSourceCodeMainContentCreator = fragmentShaderSourceCodeMainContentCreator;
+		this.fragmentShaderPrecision = fragmentShaderPrecision;
+	}
+	public readonly uniformVariableNameToVariableType: Readonly<
+		Record<UniformVariableName, VariableType>
 	>;
-	vertexShaderPrecision: ShaderPrecision;
-	outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>;
-	createFragmentShaderMainContent: WebGLProgramWrapperShaderSourceCodeMainContentCreator<
-		"uniform" | "output" | "inputVarying",
-		Readonly<{
-			uniform: UniformVariableName;
-			output: OutputVariableName;
-			inputVarying: VaryingVariableName;
-		}>
+	public readonly attributeVariableNameToVariableType: Readonly<
+		Record<AttributeVariableName, VariableType>
 	>;
-	fragmentShaderPrecision: ShaderPrecision;
+	public readonly varyingVariableNameToVariableType: Readonly<
+		Record<VaryingVariableName, VariableType>
+	>;
+	public readonly vertexShaderSourceCodeMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
+		UniformVariableName,
+		AttributeVariableName,
+		VaryingVariableName
+	>;
+	public readonly vertexShaderPrecision: ShaderPrecision;
+	public readonly outputVariableNameToVariableType: Readonly<
+		Record<OutputVariableName, VariableType>
+	>;
+	public readonly fragmentShaderSourceCodeMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
+		UniformVariableName,
+		VaryingVariableName,
+		OutputVariableName
+	>;
+	public readonly fragmentShaderPrecision: ShaderPrecision;
 }

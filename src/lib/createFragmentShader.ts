@@ -1,14 +1,12 @@
 import {createFragmentShaderSourceCode} from "./createFragmentShaderSourceCode.ts";
 import {createShader} from "./createShader.ts";
 import type {VariableName} from "./VariableName.ts";
-import type {VariableType} from "./VariableType.ts";
 import type {WebGlFragmentShaderConfiguration} from "./WebGlFragmentShaderConfiguration.ts";
 export function createFragmentShader<
 	UniformVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
 	OutputVariableName extends VariableName,
 >(
-	uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 	configuration: WebGlFragmentShaderConfiguration<
 		UniformVariableName,
 		VaryingVariableName,
@@ -17,8 +15,11 @@ export function createFragmentShader<
 	gl: WebGL2RenderingContext,
 ): WebGLShader {
 	const sourceCode = createFragmentShaderSourceCode(
-		uniformVariableNameToVariableType,
-		configuration,
+		configuration.uniformVariableNameToVariableType,
+		configuration.varyingVariableNameToVariableType,
+		configuration.outputVariableNameToVariableType,
+		configuration.sourceCodeMainContentCreator,
+		configuration.precision,
 	);
 	const shader = createShader(gl, gl.FRAGMENT_SHADER, sourceCode);
 	return shader;

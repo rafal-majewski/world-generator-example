@@ -1,18 +1,15 @@
-import {createShaderSourceCodeVariableLines} from "./createShaderSourceCodeVariableLines.ts";
+import {createShaderSourceCodeVariableSectionLines} from "./createShaderSourceCodeVariableSectionLines.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariableRole} from "./VariableRole.ts";
 import type {VariableType} from "./VariableType.ts";
-export function createShaderSourceCodeVariableSection<
-	VariableRoleToUse extends VariableRole,
-	VariableNameToUse extends VariableName,
->(
-	variableRole: VariableRoleToUse,
-	variableNameToVariableType: Readonly<Record<VariableNameToUse, VariableType>>,
+export function createShaderSourceCodeVariableSection(
+	variableRole: VariableRole,
+	variableNameToVariableType: Readonly<Record<VariableName, VariableType>>,
 ): string {
-	const variableLines = createShaderSourceCodeVariableLines(
+	const lines = createShaderSourceCodeVariableSectionLines(
 		variableRole,
 		variableNameToVariableType,
 	);
-	const variableSection = variableLines.join("\n");
-	return variableSection;
+	const section = lines.join("\n");
+	return section;
 }

@@ -4,11 +4,11 @@ import {computeFieldOfViewMatrix} from "./computeFieldOfViewMatrix.ts";
 import {computeHorizontalOrientationMatrix} from "./computeHorizontalOrientationMatrix.ts";
 import {computeNegativeTranslationMatrix} from "./computeNegativeTranslationMatrix.ts";
 import {computeVerticalOrientationMatrix} from "./computeVerticalOrientationMatrix.ts";
-import type {Matrix4} from "./Matrix4.ts";
+import type {Mat4} from "./Mat4.ts";
 import {multiplyManyMatrices4} from "./multiplyManyMatrices4.ts";
 const nearClippingPlane = 0.1;
 const farClippingPlane = 300;
-export function computeProjection(camera: Camera): Matrix4 {
+export function computeProjection(camera: Camera): Mat4 {
 	const fieldOfViewMatrix = computeFieldOfViewMatrix(camera.fieldOfView);
 	const clippingMatrix = computeClippingMatrix(nearClippingPlane, farClippingPlane);
 	const translationMatrix = computeNegativeTranslationMatrix(camera.position);

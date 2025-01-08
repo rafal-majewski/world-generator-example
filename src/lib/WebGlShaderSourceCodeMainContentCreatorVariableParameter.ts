@@ -2,7 +2,7 @@ import type {VariableName} from "./VariableName.ts";
 import type {VariableRole} from "./VariableRole.ts";
 import type {variableRoleToVariableKind} from "./variableRoleToVariableKind.ts";
 import type {variableRoleToVariablePrefix} from "./variableRoleToVariablePrefix.ts";
-export type WebGLProgramWrapperShaderSourceCodeMainContentCreatorVariableParameter<
+export type WebGlShaderSourceCodeMainContentCreatorVariableParameter<
 	VariableRoleToUse extends VariableRole,
 	VariableRoleToVariableName extends Record<VariableRoleToUse, VariableName>,
 > = Readonly<{

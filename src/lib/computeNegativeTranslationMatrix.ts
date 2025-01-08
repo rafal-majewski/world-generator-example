@@ -1,6 +1,6 @@
-import type {Matrix4} from "./Matrix4.ts";
+import type {Mat4} from "./Mat4.ts";
 import type {XyzCoordinates} from "./XyzCoordinates.ts";
-export function computeNegativeTranslationMatrix(position: XyzCoordinates): Matrix4 {
+export function computeNegativeTranslationMatrix(position: XyzCoordinates): Mat4 {
 	return [
 		[1, 0, 0, 0],
 		[0, 1, 0, 0],

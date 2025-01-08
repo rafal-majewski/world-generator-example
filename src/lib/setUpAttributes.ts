@@ -7,13 +7,13 @@ export function setUpAttributes(
 ): void {
 	const strideBytes =
 		(Object.values(variableNameToVariableSize) as readonly VariableSize[]).reduce(
-			(acumulatedStride, variableSize) => acumulatedStride + variableSize,
+			(acumulatedStride, size) => acumulatedStride + size,
 			0,
 		) * Float32Array.BYTES_PER_ELEMENT;
 	let offsetBytes = 0;
-	for (const [name, size] of Object.entries(
-		variableNameToVariableSize,
-	) as unknown as readonly (readonly [VariableName, VariableSize])[]) {
+	const variableNameToVariableSizeEntries: readonly (readonly [VariableName, VariableSize])[] =
+		Object.entries(variableNameToVariableSize);
+	for (const [name, size] of variableNameToVariableSizeEntries) {
 		const location = gl.getAttribLocation(program, `a_${name}`);
 		gl.enableVertexAttribArray(location);
 		gl.vertexAttribPointer(location, size, gl.FLOAT, false, strideBytes, offsetBytes);

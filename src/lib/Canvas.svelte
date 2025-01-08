@@ -1,17 +1,15 @@
 <script lang="ts">
-	import {BlockWebGlProgramWrapperConfiguration} from "./BlockWebGlProgramWrapperConfiguration.ts";
+	import {blockWebGlProgramWrapperConfiguration} from "./blockWebGlProgramWrapperConfiguration.ts";
 	import {generateBlocks} from "./generateBlocks.ts";
 	import type {Scene} from "./Scene.ts";
 	import {WebGlProgramWrapper} from "./WebGlProgramWrapper.ts";
 	import {WebGlWrapper} from "./WebGlWrapper.ts";
 	import type {XyzCoordinates} from "./XyzCoordinates.ts";
-
 	function handleMount(canvas: HTMLCanvasElement) {
 		const gl = canvas.getContext("webgl2");
 		if (gl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-		const blockWebGlProgramWrapperConfiguration = new BlockWebGlProgramWrapperConfiguration();
 		const blockWebGlProgramWrapper = WebGlProgramWrapper.create(
 			gl,
 			blockWebGlProgramWrapperConfiguration,
@@ -58,11 +56,10 @@
 				},
 			},
 		} as const satisfies Scene;
-		// TODO IMPROVE
-		webglWrapper.resize({
-			width: canvas.width,
-			height: canvas.height,
-		});
+		// webglWrapper.resize({
+		// 	width: canvas.width,
+		// 	height: canvas.height,
+		// });
 		webglWrapper.draw(scene);
 		// $effect(function handleDimensionsChange() {
 		// 	if (oldDimensions !== dimensions) {
