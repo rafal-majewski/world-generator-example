@@ -1,6 +1,6 @@
 import type {RgbColor} from "./RgbColor.ts";
-import type {XyzCoordinates} from "./XyzCoordinates.ts";
+import type {TriangleVertex} from "./TriangleVertex.ts";
 export type Triangle = Readonly<{
-	vertexPositions: Readonly<Record<1 | 2 | 3, XyzCoordinates>>;
+	vertices: readonly [TriangleVertex, TriangleVertex, TriangleVertex];
 	color: RgbColor;
 }>;

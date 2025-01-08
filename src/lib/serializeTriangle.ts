@@ -7,11 +7,9 @@ export function serializeTriangle<Triangle, Vertex>(
 	vertexSerializers: readonly Serializer<Vertex>[],
 ): readonly number[] {
 	const vertices = verticesSelector(triangle);
-	const serializedTriangle: readonly number[] = [vertices[1], vertices[2], vertices[3]].flatMap(
-		(vertex) => {
-			const serializedVertex = serializeVertex(vertex, vertexSerializers);
-			return serializedVertex;
-		},
-	);
+	const serializedTriangle: readonly number[] = vertices.flatMap((vertex) => {
+		const serializedVertex = serializeVertex(vertex, vertexSerializers);
+		return serializedVertex;
+	});
 	return serializedTriangle;
 }

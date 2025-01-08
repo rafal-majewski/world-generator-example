@@ -3,83 +3,167 @@ import type {Triangle} from "./Triangle.ts";
 function computeNearTrianglesFromBlock(block: Block): readonly Triangle[] {
 	const trianglesPositionZ = block.position.z - 0.5;
 	const left: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			3: {
-				x: block.position.x - 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const right: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x + 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const bottom: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const top: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: -1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	return [left, right, bottom, top];
@@ -87,83 +171,167 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle[] {
 function computeFarTrianglesFromBlock(block: Block): readonly Triangle[] {
 	const trianglesPositionZ = block.position.z + 0.5;
 	const left: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			3: {
-				x: block.position.x - 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const right: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x + 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const bottom: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: block.position.y - 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y - 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const top: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: block.position.y,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x,
+					y: block.position.y,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: block.position.y + 0.5,
-				z: trianglesPositionZ,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: block.position.y + 0.5,
+					z: trianglesPositionZ,
+				},
+				normal: {
+					x: 0,
+					y: 0,
+					z: 1,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	return [left, right, bottom, top];
@@ -171,83 +339,167 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle[] {
 function computeTopTrianglesFromBlock(block: Block): readonly Triangle[] {
 	const trianglesPositionY = block.position.y + 0.5;
 	const left: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const right: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const near: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const far: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: 1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	return [left, right, near, far];
@@ -255,83 +507,167 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle[] {
 function computeBottomTrianglesFromBlock(block: Block): readonly Triangle[] {
 	const trianglesPositionY = block.position.y - 0.5;
 	const left: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const right: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const near: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z - 0.5,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const far: Triangle = {
-		vertexPositions: {
-			1: {
-				x: block.position.x - 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+		vertices: [
+			{
+				position: {
+					x: block.position.x - 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			2: {
-				x: block.position.x,
-				y: trianglesPositionY,
-				z: block.position.z,
+			{
+				position: {
+					x: block.position.x,
+					y: trianglesPositionY,
+					z: block.position.z,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-			3: {
-				x: block.position.x + 0.5,
-				y: trianglesPositionY,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: block.position.x + 0.5,
+					y: trianglesPositionY,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 0,
+					y: -1,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	return [left, right, near, far];
@@ -339,83 +675,167 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle[] {
 function computeLeftTrianglesFromBlock(block: Block): readonly Triangle[] {
 	const trianglesPositionX = block.position.x - 0.5;
 	const bottom: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const top: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const near: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z - 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const far: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z + 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: -1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	return [bottom, top, near, far];
@@ -423,83 +843,167 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle[] {
 function computeRightTrianglesFromBlock(block: Block): readonly Triangle[] {
 	const trianglesPositionX = block.position.x + 0.5;
 	const bottom: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const top: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const near: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z - 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z - 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z - 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	const far: Triangle = {
-		vertexPositions: {
-			1: {
-				x: trianglesPositionX,
-				y: block.position.y - 0.5,
-				z: block.position.z + 0.5,
+		vertices: [
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y - 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			2: {
-				x: trianglesPositionX,
-				y: block.position.y,
-				z: block.position.z,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y,
+					z: block.position.z,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-			3: {
-				x: trianglesPositionX,
-				y: block.position.y + 0.5,
-				z: block.position.z + 0.5,
+			{
+				position: {
+					x: trianglesPositionX,
+					y: block.position.y + 0.5,
+					z: block.position.z + 0.5,
+				},
+				normal: {
+					x: 1,
+					y: 0,
+					z: 0,
+				},
 			},
-		},
+		],
 		color: block.color,
 	};
 	return [bottom, top, near, far];

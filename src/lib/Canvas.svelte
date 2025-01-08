@@ -34,6 +34,9 @@
 		function computeCameraOrientationHorizontalRadians(timestamp: Date): number {
 			return (0.1 * timestamp.getTime()) / 1000;
 		}
+		function computeSunAngleRadians(timestamp: Date): number {
+			return (1 * timestamp.getTime()) / 1000;
+		}
 		let scene = {
 			blocks,
 			camera: {
@@ -48,7 +51,7 @@
 				},
 			},
 			sun: {
-				angleRadians: 0,
+				angleRadians: computeSunAngleRadians(new Date()),
 				color: {
 					red: 1,
 					green: 1,
@@ -79,6 +82,10 @@
 						...scene.camera.orientation,
 						horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
 					},
+				},
+				sun: {
+					...scene.sun,
+					angleRadians: computeSunAngleRadians(new Date()),
 				},
 			};
 			webglWrapper.draw(scene);

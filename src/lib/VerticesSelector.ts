@@ -1,3 +1,2 @@
-export type VerticesSelector<Triangle, Vertex> = (
-	triangle: Triangle,
-) => Readonly<Record<1 | 2 | 3, Vertex>>;
+import type {VertexSelection} from "./VertexSelection.ts";
+export type VerticesSelector<Triangle, Vertex> = (triangle: Triangle) => VertexSelection<Vertex>;

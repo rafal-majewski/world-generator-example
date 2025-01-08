@@ -1,7 +1,5 @@
-import type {RgbColor} from "./RgbColor.ts";
 import type {XyzCoordinates} from "./XyzCoordinates.ts";
-export type Vertex = Readonly<{
+export type TriangleVertex = Readonly<{
 	position: XyzCoordinates;
-	color: RgbColor;
 	normal: XyzCoordinates;
 }>;
