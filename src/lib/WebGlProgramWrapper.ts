@@ -31,8 +31,6 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			OutputVariableName
 		>,
 	) {
-		const buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 		const uniformVariableNameToVariableType = mapObjectValueWise(
 			configuration.uniformVariableNameToVariableSpecification,
 			({type}) => type,
@@ -45,9 +43,11 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			uniformVariableNameToVariableType,
 			attributeVariableNameToVariableType,
 			configuration.varyingVariableNameToVariableType,
+			configuration.vertexShaderGlobalSourceCode,
 			configuration.vertexShaderMainContentCreator,
 			configuration.vertexShaderPrecision,
 			configuration.outputVariableNameToVariableType,
+			configuration.fragmentShaderGlobalSourceCode,
 			configuration.fragmentShaderMainContentCreator,
 			configuration.fragmentShaderPrecision,
 		);
@@ -56,6 +56,8 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			configuration.attributeVariableNameToVariableSpecification,
 			({size}) => size,
 		);
+		const buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 		setUpAttributes(attributeVariableNameToVariableSize, gl, program);
 		const uniformVariableNameToVariableSpecificationEntries = Object.entries(
 			configuration.uniformVariableNameToVariableSpecification,
@@ -102,13 +104,14 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 	private readonly vertexSerializers: readonly Serializer<Vertex>[];
 	private readonly uniformVariableSetters: readonly UniformVariableSetter<Scene>[];
 	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		gl.useProgram(this.program);
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		for (const setter of this.uniformVariableSetters) {
 			setter.set(gl, scene);
 		}
 		const triangles = this.trianglesSelector(scene);
 		const bufferData = computeBufferData(triangles, this.verticesSelector, this.vertexSerializers);
+		console.log(bufferData, triangles.length);
 		gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.STATIC_DRAW);
 		gl.drawArrays(gl.TRIANGLES, 0, triangles.length * 3);
 	}

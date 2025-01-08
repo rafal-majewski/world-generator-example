@@ -1,8 +1,9 @@
 <script lang="ts">
 	import {blockWebGlProgramWrapperConfiguration} from "./blockWebGlProgramWrapperConfiguration.ts";
 	import {generateBlocks} from "./generateBlocks.ts";
+	import type {RgbColor} from "./RgbColor.ts";
 	import type {Scene} from "./Scene.ts";
-	import {WebGlProgramWrapper} from "./WebGlProgramWrapper.ts";
+	import {skyboxWebGlProgramWrapperConfiguration} from "./skyboxWebGlProgramWrapperConfiguration.ts";
 	import {WebGlWrapper} from "./WebGlWrapper.ts";
 	import type {XyzCoordinates} from "./XyzCoordinates.ts";
 	function handleMount(canvas: HTMLCanvasElement) {
@@ -10,18 +11,18 @@
 		if (gl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-		const blockWebGlProgramWrapper = WebGlProgramWrapper.create(
+		const webglWrapper = WebGlWrapper.create(
 			gl,
-			blockWebGlProgramWrapperConfiguration,
+			[blockWebGlProgramWrapperConfiguration, skyboxWebGlProgramWrapperConfiguration] as const,
+			{
+				red: 0,
+				green: 0.5,
+				blue: 0.9,
+			} as const satisfies RgbColor,
 		);
-		const webglWrapper = WebGlWrapper.create(gl, [blockWebGlProgramWrapper], {
-			red: 0,
-			green: 0.5,
-			blue: 0.9,
-		});
 		const blocks = generateBlocks({
-			x: 11,
-			z: 11,
+			x: 1,
+			z: 1,
 		});
 		function computeCameraPosition(timestamp: Date): XyzCoordinates {
 			const angleRadians = computeCameraOrientationHorizontalRadians(timestamp);
@@ -94,7 +95,7 @@
 	}
 </script>
 
-<canvas class="canvas" use:handleMount></canvas>
+<canvas width="300" height="300" class="canvas" use:handleMount></canvas>
 
 <style lang="scss">
 	.canvas {

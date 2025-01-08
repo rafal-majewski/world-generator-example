@@ -11,6 +11,7 @@ export class WebGlFragmentShaderConfiguration<
 		uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
 		outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
+		globalContent: string,
 		sourceCodeMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			VaryingVariableName,
@@ -21,9 +22,11 @@ export class WebGlFragmentShaderConfiguration<
 		this.uniformVariableNameToVariableType = uniformVariableNameToVariableType;
 		this.varyingVariableNameToVariableType = varyingVariableNameToVariableType;
 		this.outputVariableNameToVariableType = outputVariableNameToVariableType;
+		this.globalContent = globalContent;
 		this.sourceCodeMainContentCreator = sourceCodeMainContentCreator;
 		this.precision = precision;
 	}
+	public readonly globalContent: string;
 	public readonly uniformVariableNameToVariableType: Readonly<
 		Record<UniformVariableName, VariableType>
 	>;

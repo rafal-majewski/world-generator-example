@@ -46,13 +46,19 @@ export const blockWebGlProgramWrapperConfiguration = new WebGlProgramWrapperConf
 		color: "vec3",
 		normal: "vec3",
 	},
-	({uniforms, ins, outs}) => `gl_Position = ${uniforms.projection} * vec4(${ins.position}, 1.0);
+	"",
+	({
+		uniforms,
+		ins,
+		outs,
+	}) => `gl_Position = ${uniforms.projection} * vec4(${ins.position} + vec3(-1, 0.0, 0.0), 1.0);
 ${outs.color} = ${ins.color};
 ${outs.normal} = ${ins.normal};`,
 	"highp",
 	{
 		color: "vec4",
 	},
+	"",
 	({uniforms, ins, outs}) =>
 		`float lightIntensity = max(dot(${uniforms.sunDirection}, -normalize(${ins.normal})), 0.0);
 vec3 diffuse = ${uniforms.sunColor} * lightIntensity;

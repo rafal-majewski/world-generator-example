@@ -22,6 +22,7 @@ export function createProgram<
 		configuration.uniformVariableNameToVariableType,
 		configuration.attributeVariableNameToVariableType,
 		configuration.varyingVariableNameToVariableType,
+		configuration.vertexShaderGlobalSourceCode,
 		configuration.vertexShaderSourceCodeMainContentCreator,
 		configuration.vertexShaderPrecision,
 	);
@@ -30,6 +31,7 @@ export function createProgram<
 		configuration.uniformVariableNameToVariableType,
 		configuration.varyingVariableNameToVariableType,
 		configuration.outputVariableNameToVariableType,
+		configuration.fragmentShaderGlobalSourceCode,
 		configuration.fragmentShaderSourceCodeMainContentCreator,
 		configuration.fragmentShaderPrecision,
 	);

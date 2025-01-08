@@ -11,6 +11,7 @@ export function createVertexShaderSourceCode<
 	uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 	attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
 	varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
+	globalContent: string,
 	mainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
 		UniformVariableName,
 		AttributeVariableName,
@@ -47,16 +48,14 @@ export function createVertexShaderSourceCode<
 			[Name in VaryingVariableName]: `v_${Name}`;
 		}>,
 	});
-	const mainContentLines = mainContent.split("\n");
-	const indentedMainContentLines = mainContentLines.map((line) => `	${line}`);
-	const indentedMainContent = indentedMainContentLines.join("\n");
 	return `#version 300 es
 precision ${precision} float;
 ${uniformSection}
 ${attributeSection}
 ${outputVaryingSection}
+${globalContent}
 void main() {
-${indentedMainContent}
+${mainContent}
 }
 ` as const;
 }

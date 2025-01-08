@@ -23,6 +23,7 @@ export class WebGlProgramWrapperConfiguration<
 			Record<AttributeVariableName, VariableSpecification<Vertex>>
 		>,
 		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
+		vertexShaderGlobalSourceCode: string,
 		vertexShaderMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			AttributeVariableName,
@@ -30,6 +31,7 @@ export class WebGlProgramWrapperConfiguration<
 		>,
 		vertexShaderPrecision: ShaderPrecision,
 		outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
+		fragmentShaderGlobalSourceCode: string,
 		fragmentShaderMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			VaryingVariableName,
@@ -43,14 +45,18 @@ export class WebGlProgramWrapperConfiguration<
 		this.attributeVariableNameToVariableSpecification =
 			attributeVariableNameToVariableSpecification;
 		this.varyingVariableNameToVariableType = varyingVariableNameToVariableType;
+		this.vertexShaderGlobalSourceCode = vertexShaderGlobalSourceCode;
 		this.vertexShaderMainContentCreator = vertexShaderMainContentCreator;
 		this.vertexShaderPrecision = vertexShaderPrecision;
 		this.outputVariableNameToVariableType = outputVariableNameToVariableType;
+		this.fragmentShaderGlobalSourceCode = fragmentShaderGlobalSourceCode;
 		this.fragmentShaderMainContentCreator = fragmentShaderMainContentCreator;
 		this.fragmentShaderPrecision = fragmentShaderPrecision;
 		this.trianglesSelector = trianglesSelector;
 		this.verticesSelector = verticesSelector;
 	}
+	public readonly vertexShaderGlobalSourceCode: string;
+	public readonly fragmentShaderGlobalSourceCode: string;
 	public readonly uniformVariableNameToVariableSpecification: Readonly<
 		Record<UniformVariableName, VariableSpecification<Scene>>
 	>;

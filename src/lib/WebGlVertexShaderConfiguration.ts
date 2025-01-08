@@ -11,6 +11,7 @@ export class WebGlVertexShaderConfiguration<
 		uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 		attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
 		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
+		globalContent: string,
 		mainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			AttributeVariableName,
@@ -21,9 +22,11 @@ export class WebGlVertexShaderConfiguration<
 		this.uniformVariableNameToVariableType = uniformVariableNameToVariableType;
 		this.attributeVariableNameToVariableType = attributeVariableNameToVariableType;
 		this.varyingVariableNameToVariableType = varyingVariableNameToVariableType;
+		this.globalContent = globalContent;
 		this.mainContentCreator = mainContentCreator;
 		this.precision = precision;
 	}
+	public readonly globalContent: string;
 	public readonly uniformVariableNameToVariableType: Readonly<
 		Record<UniformVariableName, VariableType>
 	>;

@@ -11,6 +11,7 @@ export function createFragmentShaderSourceCode<
 	uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 	varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
 	outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
+	globalContent: string,
 	mainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
 		UniformVariableName,
 		VaryingVariableName,
@@ -47,16 +48,14 @@ export function createFragmentShaderSourceCode<
 			[Name in OutputVariableName]: `o_${Name}`;
 		}>,
 	});
-	const mainContentLines = mainContent.split("\n");
-	const indentedMainContentLines = mainContentLines.map((line) => `	${line}`);
-	const indentedMainContent = indentedMainContentLines.join("\n");
 	return `#version 300 es
 precision ${precision} float;
 ${uniformSection}
 ${inputVaryingSection}
 ${outputSection}
+${globalContent}
 void main() {
-${indentedMainContent}
+${mainContent}
 }
 ` as const;
 }

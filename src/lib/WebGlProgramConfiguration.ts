@@ -13,6 +13,7 @@ export class WebGlProgramConfiguration<
 		uniformVariableNameToVariableType: Readonly<Record<UniformVariableName, VariableType>>,
 		attributeVariableNameToVariableType: Readonly<Record<AttributeVariableName, VariableType>>,
 		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
+		vertexShaderGlobalSourceCode: string,
 		vertexShaderSourceCodeMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			AttributeVariableName,
@@ -20,6 +21,7 @@ export class WebGlProgramConfiguration<
 		>,
 		vertexShaderPrecision: ShaderPrecision,
 		outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
+		fragmentShaderGlobalSourceCode: string,
 		fragmentShaderSourceCodeMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
 			UniformVariableName,
 			VaryingVariableName,
@@ -30,12 +32,16 @@ export class WebGlProgramConfiguration<
 		this.uniformVariableNameToVariableType = uniformVariableNameToVariableType;
 		this.attributeVariableNameToVariableType = attributeVariableNameToVariableType;
 		this.varyingVariableNameToVariableType = varyingVariableNameToVariableType;
+		this.vertexShaderGlobalSourceCode = vertexShaderGlobalSourceCode;
 		this.vertexShaderSourceCodeMainContentCreator = vertexShaderSourceCodeMainContentCreator;
 		this.vertexShaderPrecision = vertexShaderPrecision;
 		this.outputVariableNameToVariableType = outputVariableNameToVariableType;
+		this.fragmentShaderGlobalSourceCode = fragmentShaderGlobalSourceCode;
 		this.fragmentShaderSourceCodeMainContentCreator = fragmentShaderSourceCodeMainContentCreator;
 		this.fragmentShaderPrecision = fragmentShaderPrecision;
 	}
+	public readonly vertexShaderGlobalSourceCode: string;
+	public readonly fragmentShaderGlobalSourceCode: string;
 	public readonly uniformVariableNameToVariableType: Readonly<
 		Record<UniformVariableName, VariableType>
 	>;

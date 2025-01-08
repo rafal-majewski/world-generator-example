@@ -18,6 +18,7 @@ export function createFragmentShader<
 		configuration.uniformVariableNameToVariableType,
 		configuration.varyingVariableNameToVariableType,
 		configuration.outputVariableNameToVariableType,
+		configuration.globalContent,
 		configuration.sourceCodeMainContentCreator,
 		configuration.precision,
 	);

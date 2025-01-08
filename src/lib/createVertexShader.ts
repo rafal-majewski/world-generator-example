@@ -18,6 +18,7 @@ export function createVertexShader<
 		configuration.uniformVariableNameToVariableType,
 		configuration.attributeVariableNameToVariableType,
 		configuration.varyingVariableNameToVariableType,
+		configuration.globalContent,
 		configuration.mainContentCreator,
 		configuration.precision,
 	);
