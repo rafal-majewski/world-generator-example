@@ -13,7 +13,7 @@
 		}
 		const webglWrapper = WebGlWrapper.create(
 			gl,
-			[blockWebGlProgramWrapperConfiguration, skyboxWebGlProgramWrapperConfiguration] as const,
+			[skyboxWebGlProgramWrapperConfiguration, blockWebGlProgramWrapperConfiguration] as const,
 			{
 				red: 0,
 				green: 0.5,
@@ -21,19 +21,19 @@
 			} as const satisfies RgbColor,
 		);
 		const blocks = generateBlocks({
-			x: 1,
-			z: 1,
+			x: 11,
+			z: 11,
 		});
 		function computeCameraPosition(timestamp: Date): XyzCoordinates {
 			const angleRadians = computeCameraOrientationHorizontalRadians(timestamp);
 			return {
-				x: -8 * Math.sin(angleRadians),
-				y: 6,
-				z: -8 * Math.cos(angleRadians),
+				x: -20 * Math.sin(angleRadians),
+				y: 20,
+				z: -20 * Math.cos(angleRadians),
 			};
 		}
 		function computeCameraOrientationHorizontalRadians(timestamp: Date): number {
-			return (0.1 * timestamp.getTime()) / 1000;
+			return (0.644 * timestamp.getTime()) / 1000;
 		}
 		function computeSunAngleRadians(timestamp: Date): number {
 			return (1 * timestamp.getTime()) / 1000;
@@ -44,7 +44,7 @@
 				position: computeCameraPosition(new Date()),
 				orientation: {
 					horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
-					verticalRadians: (-Math.PI / 2) * 0.5,
+					verticalRadians: (-Math.PI / 2) * 0.2,
 				},
 				fieldOfView: {
 					horizontalRadians: Math.PI / 2,

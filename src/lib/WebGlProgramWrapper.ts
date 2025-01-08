@@ -1,15 +1,15 @@
-import type {VariableName} from "./VariableName.ts";
 import {computeBufferData} from "./computeBufferData.ts";
 import {createProgram} from "./createProgram.ts";
-import {setUpAttributes} from "./setUpAttributes.ts";
-import type {VariableSpecification} from "./VariableSpecification.ts";
-import type {WebGlProgramWrapperConfiguration} from "./WebGlProgramWrapperConfiguration.ts";
-import {WebGlProgramConfiguration} from "./WebGlProgramConfiguration.ts";
 import {mapObjectValueWise} from "./mapObjectValueWise.ts";
+import type {Serializer} from "./Serializer.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
 import {UniformVariableSetter} from "./UniformVariableSetter.ts";
+import type {VariableName} from "./VariableName.ts";
+import type {VariableSize} from "./VariableSize.ts";
+import type {VariableSpecification} from "./VariableSpecification.ts";
 import type {VerticesSelector} from "./VerticesSelector.ts";
-import type {Serializer} from "./Serializer.ts";
+import {WebGlProgramConfiguration} from "./WebGlProgramConfiguration.ts";
+import type {WebGlProgramWrapperConfiguration} from "./WebGlProgramWrapperConfiguration.ts";
 export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 	public static create<
 		Scene,
@@ -31,6 +31,8 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			OutputVariableName
 		>,
 	) {
+		const buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 		const uniformVariableNameToVariableType = mapObjectValueWise(
 			configuration.uniformVariableNameToVariableSpecification,
 			({type}) => type,
@@ -56,9 +58,23 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			configuration.attributeVariableNameToVariableSpecification,
 			({size}) => size,
 		);
-		const buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-		setUpAttributes(attributeVariableNameToVariableSize, gl, program);
+		const vao = gl.createVertexArray();
+		const strideBytes =
+			(Object.values(attributeVariableNameToVariableSize) as readonly VariableSize[]).reduce(
+				(acumulatedStride, size) => acumulatedStride + size,
+				0,
+			) * Float32Array.BYTES_PER_ELEMENT;
+		let offsetBytes = 0;
+		const attributeVariableNameToVariableSizeEntries = Object.entries(
+			attributeVariableNameToVariableSize,
+		) as unknown as readonly (readonly [AttributeVariableName, VariableSize])[];
+		gl.bindVertexArray(vao);
+		for (const [name, size] of attributeVariableNameToVariableSizeEntries) {
+			const location = gl.getAttribLocation(program, `a_${name}`);
+			gl.enableVertexAttribArray(location);
+			gl.vertexAttribPointer(location, size, gl.FLOAT, false, strideBytes, offsetBytes);
+			offsetBytes += size * Float32Array.BYTES_PER_ELEMENT;
+		}
 		const uniformVariableNameToVariableSpecificationEntries = Object.entries(
 			configuration.uniformVariableNameToVariableSpecification,
 		) as unknown as readonly (readonly [UniformVariableName, VariableSpecification<Scene>])[];
@@ -73,6 +89,7 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			configuration.attributeVariableNameToVariableSpecification,
 		) as readonly Serializer<Vertex>[];
 		const programWrapper = new WebGlProgramWrapper(
+			vao,
 			buffer,
 			program,
 			uniformVariableSetters,
@@ -80,9 +97,12 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 			configuration.verticesSelector,
 			vertexSerializers,
 		);
+		// gl.bindVertexArray(null);
+		// gl.bindBuffer(gl.ARRAY_BUFFER, null);
 		return programWrapper;
 	}
-	protected constructor(
+	private constructor(
+		vao: WebGLVertexArrayObject,
 		buffer: WebGLBuffer,
 		program: WebGLProgram,
 		uniformVariableSetters: readonly UniformVariableSetter<Scene>[],
@@ -90,6 +110,7 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 		verticesSelector: VerticesSelector<Triangle, Vertex>,
 		vertexSerializers: readonly Serializer<Vertex>[],
 	) {
+		this.vao = vao;
 		this.buffer = buffer;
 		this.program = program;
 		this.uniformVariableSetters = uniformVariableSetters;
@@ -97,6 +118,7 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 		this.verticesSelector = verticesSelector;
 		this.vertexSerializers = vertexSerializers;
 	}
+	private readonly vao: WebGLVertexArrayObject;
 	private readonly buffer: WebGLBuffer;
 	private readonly program: WebGLProgram;
 	private readonly trianglesSelector: TrianglesSelector<Scene, Triangle>;
@@ -106,12 +128,12 @@ export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
 	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
 		gl.useProgram(this.program);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+		gl.bindVertexArray(this.vao);
 		for (const setter of this.uniformVariableSetters) {
 			setter.set(gl, scene);
 		}
 		const triangles = this.trianglesSelector(scene);
 		const bufferData = computeBufferData(triangles, this.verticesSelector, this.vertexSerializers);
-		console.log(bufferData, triangles.length);
 		gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.STATIC_DRAW);
 		gl.drawArrays(gl.TRIANGLES, 0, triangles.length * 3);
 	}

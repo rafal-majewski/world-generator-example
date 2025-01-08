@@ -2,6 +2,7 @@ import {computeProjection} from "./computeProjection.ts";
 import {Mat4VariableSpecification} from "./Mat4VariableSpecification.ts";
 import type {Scene} from "./Scene.ts";
 import {Vec2VariableSpecification} from "./Vec2VariableSpecification.ts";
+import {Vec3VariableSpecification} from "./Vec3VariableSpecification.ts";
 import type {VertexSelection} from "./VertexSelection.ts";
 import {WebGlProgramWrapperConfiguration} from "./WebGlProgramWrapperConfiguration.ts";
 import type {XyCoordinates} from "./XyCoordinates.ts";
@@ -10,6 +11,12 @@ export const skyboxWebGlProgramWrapperConfiguration = new WebGlProgramWrapperCon
 		projection: new Mat4VariableSpecification((scene: Scene) => {
 			const projection = computeProjection(scene.camera);
 			return projection;
+		}),
+		sunDirection: new Vec3VariableSpecification((scene: Scene) => {
+			const sunDirectionX = 0;
+			const sunDirectionY = Math.sin(scene.sun.angleRadians);
+			const sunDirectionZ = Math.cos(scene.sun.angleRadians);
+			return [sunDirectionX, sunDirectionY, sunDirectionZ];
 		}),
 	},
 	{
@@ -240,16 +247,24 @@ bool checkIfIsStar(vec3 direction) {
 	}
 	return false;
 }
+bool checkIfIsSun(vec3 direction) {
+	return dot(u_sunDirection, direction) > 0.99;
+}
 `,
 	({uniforms, ins, outs}) =>
 		`
 mat4 inversedProjection = inverse(${uniforms.projection});
 vec3 rayDirection = normalize((inversedProjection * vec4(${ins.position}, 1.0, 1.0)).xyz);
-bool isStar = checkIfIsStar(rayDirection);
-if (isStar) {
-	${outs.color} = vec4(1.0, 1.0, 1.0, 1.0);
+bool isSun = checkIfIsSun(rayDirection);
+if (isSun) {
+	${outs.color} = vec4(1.0, 1.0, 0.0, 1.0);
 } else {
-	discard;
+	bool isStar = checkIfIsStar(rayDirection);
+	if (isStar) {
+		${outs.color} = vec4(1.0, 1.0, 1.0, 1.0);
+	} else {
+		discard;
+	}
 }
 `,
 	"highp",
@@ -275,10 +290,10 @@ if (isStar) {
 			y: 1,
 		};
 		return [
-			// [leftBottom, center, leftTop],
-			// [rightBottom, center, rightTop],
-			// [leftBottom, center, rightBottom],
-			// [leftTop, center, rightTop],
+			[leftBottom, center, leftTop],
+			[rightBottom, center, rightTop],
+			[leftBottom, center, rightBottom],
+			[leftTop, center, rightTop],
 		];
 	},
 	(
