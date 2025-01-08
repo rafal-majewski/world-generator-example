@@ -12,6 +12,15 @@ export const blockWebGlProgramWrapperConfiguration = new WebGlProgramWrapperConf
 			const projection = computeProjection(scene.camera);
 			return projection;
 		}),
+		sunDirection: new Vec3VariableSpecification((scene: Scene) => {
+			const angleRadians = scene.sun.angleRadians;
+			return [Math.sin(angleRadians), Math.cos(angleRadians), 0];
+		}),
+		sunColor: new Vec3VariableSpecification((scene: Scene) => [
+			scene.sun.color.red,
+			scene.sun.color.green,
+			scene.sun.color.blue,
+		]),
 	},
 	{
 		position: new Vec3VariableSpecification((vertex: Vertex) => [
@@ -34,7 +43,10 @@ ${outs.color} = ${ins.color};`,
 	{
 		color: "vec4",
 	},
-	({ins, outs}) => `${outs.color} = vec4(${ins.color}, 1.0);`,
+	({uniforms, ins, outs}) => `vec3 lightDirection = normalize(${uniforms.sunDirection});
+float lightIntensity = max(dot(lightDirection, vec3(0, 0, 1)), 0.0);
+vec3 diffuse = ${uniforms.sunColor} * lightIntensity;
+${outs.color} = vec4(diffuse * ${ins.color}, 1.0);`,
 	"highp",
 	(scene: Scene) => {
 		const triangles = scene.blocks.flatMap(computeTrianglesFromBlock);

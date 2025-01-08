@@ -55,8 +55,14 @@ precision ${precision} float;
 ${uniformSection}
 ${inputVaryingSection}
 ${outputSection}
+uniform vec3 u_sunDirection;
+uniform vec3 u_sunColor;
 void main() {
 ${indentedMainContent}
+	vec3 lightDirection = normalize(u_sunDirection);
+	float lightIntensity = max(dot(lightDirection, vec3(0, 0, 1)), 0.0);
+	vec3 diffuse = u_sunColor * lightIntensity;
+	o_color = vec4(diffuse * v_color, 1.0);
 }
 ` as const;
 }
