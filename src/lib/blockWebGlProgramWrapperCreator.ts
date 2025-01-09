@@ -7,8 +7,8 @@ import type {Vec3} from "./Vec3.ts";
 import {Vec3VariableSpecification} from "./Vec3VariableSpecification.ts";
 import type {Vertex} from "./Vertex.ts";
 import type {VertexSelection} from "./VertexSelection.ts";
-import {WebGlProgramWrapperConfiguration} from "./WebGlProgramWrapperConfiguration.ts";
-export const blockWebGlProgramWrapperConfiguration = new WebGlProgramWrapperConfiguration(
+import {WebGlProgramWrapperCreator} from "./WebGlProgramWrapperCreator.ts";
+export const blockWebGlProgramWrapperCreator = new WebGlProgramWrapperCreator(
 	{
 		projection: new Mat4VariableSpecification((scene: Scene) => {
 			const projection = computeProjection(scene.camera);

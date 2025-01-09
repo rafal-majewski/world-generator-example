@@ -1,9 +1,11 @@
 <script lang="ts">
-	import {blockWebGlProgramWrapperConfiguration} from "./blockWebGlProgramWrapperConfiguration.ts";
+	import {blockWebGlProgramWrapperCreator} from "./blockWebGlProgramWrapperCreator.ts";
+	import type {Dimensions} from "./Dimensions.ts";
 	import {generateBlocks} from "./generateBlocks.ts";
 	import type {RgbColor} from "./RgbColor.ts";
 	import type {Scene} from "./Scene.ts";
-	import {skyboxWebGlProgramWrapperConfiguration} from "./skyboxWebGlProgramWrapperConfiguration.ts";
+	import {skyboxWebGlProgramWrapperCreator} from "./skyboxWebGlProgramWrapperCreator.ts";
+	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
 	import {WebGlWrapper} from "./WebGlWrapper.ts";
 	import type {XyzCoordinates} from "./XyzCoordinates.ts";
 	function handleMount(canvas: HTMLCanvasElement) {
@@ -13,13 +15,25 @@
 		}
 		const webglWrapper = WebGlWrapper.create(
 			gl,
-			[skyboxWebGlProgramWrapperConfiguration, blockWebGlProgramWrapperConfiguration] as const,
+			[skyboxWebGlProgramWrapperCreator, blockWebGlProgramWrapperCreator] as const,
 			{
 				red: 0,
 				green: 0.5,
 				blue: 0.9,
 			} as const satisfies RgbColor,
 		);
+
+		$effect(() => {
+			const stopListeningForResizes = startListeningForHtmlElementResizes(
+				canvas,
+				function handleResize(dimensions: Dimensions) {
+					console.log(dimensions);
+					webglWrapper.resize(dimensions);
+					webglWrapper.draw(scene);
+				},
+			);
+			return stopListeningForResizes;
+		});
 		const blocks = generateBlocks({
 			x: 11,
 			z: 11,
@@ -27,16 +41,16 @@
 		function computeCameraPosition(timestamp: Date): XyzCoordinates {
 			const angleRadians = computeCameraOrientationHorizontalRadians(timestamp);
 			return {
-				x: -20 * Math.sin(angleRadians),
-				y: 20,
-				z: -20 * Math.cos(angleRadians),
+				x: -0 * Math.sin(angleRadians),
+				y: 3,
+				z: -0 * Math.cos(angleRadians),
 			};
 		}
 		function computeCameraOrientationHorizontalRadians(timestamp: Date): number {
-			return (0.644 * timestamp.getTime()) / 1000;
+			return (0.2 * timestamp.getTime()) / 1000;
 		}
 		function computeSunAngleRadians(timestamp: Date): number {
-			return (1 * timestamp.getTime()) / 1000;
+			return (0.2 * timestamp.getTime()) / 1000;
 		}
 		let scene = {
 			blocks,
@@ -44,11 +58,11 @@
 				position: computeCameraPosition(new Date()),
 				orientation: {
 					horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
-					verticalRadians: (-Math.PI / 2) * 0.2,
+					verticalRadians: 0,
 				},
 				fieldOfView: {
-					horizontalRadians: Math.PI / 2,
-					verticalRadians: Math.PI / 2,
+					horizontalRadians: Math.PI * 0.6,
+					verticalRadians: Math.PI * 0.5,
 				},
 			},
 			sun: {
@@ -90,8 +104,8 @@
 				},
 			};
 			webglWrapper.draw(scene);
-			setTimeout(animate, 30);
-		}, 30);
+			setTimeout(animate, 80);
+		}, 80);
 	}
 </script>
 
@@ -100,5 +114,7 @@
 <style lang="scss">
 	.canvas {
 		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 </style>

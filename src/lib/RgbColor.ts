@@ -1,5 +1,6 @@
+import type {RgbColorComponent} from "./RgbColorComponent.ts";
 export type RgbColor = Readonly<{
-	red: number;
-	green: number;
-	blue: number;
+	red: RgbColorComponent;
+	green: RgbColorComponent;
+	blue: RgbColorComponent;
 }>;

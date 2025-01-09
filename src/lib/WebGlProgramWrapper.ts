@@ -8,9 +8,10 @@ import type {VariableName} from "./VariableName.ts";
 import type {VariableSize} from "./VariableSize.ts";
 import type {VariableSpecification} from "./VariableSpecification.ts";
 import type {VerticesSelector} from "./VerticesSelector.ts";
+import type {WebGlDrawable} from "./WebGlDrawable.ts";
 import {WebGlProgramConfiguration} from "./WebGlProgramConfiguration.ts";
 import type {WebGlProgramWrapperConfiguration} from "./WebGlProgramWrapperConfiguration.ts";
-export class WebGlProgramWrapper<Scene, Triangle, Vertex> {
+export class WebGlProgramWrapper<Scene, Triangle, Vertex> implements WebGlDrawable<Scene> {
 	public static create<
 		Scene,
 		Triangle,

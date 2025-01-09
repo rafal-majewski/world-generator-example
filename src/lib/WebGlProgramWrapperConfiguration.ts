@@ -6,7 +6,7 @@ import type {WebGlVertexShaderSourceCodeMainContentCreator} from "./WebGlVertexS
 import type {WebGlFragmentShaderSourceCodeMainContentCreator} from "./WebGlFragmentShaderSourceCodeMainContentCreator.ts";
 import type {VerticesSelector} from "./VerticesSelector.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
-export class WebGlProgramWrapperConfiguration<
+export type WebGlProgramWrapperConfiguration<
 	Scene,
 	Triangle,
 	Vertex,
@@ -14,73 +14,29 @@ export class WebGlProgramWrapperConfiguration<
 	AttributeVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
 	OutputVariableName extends VariableName,
-> {
-	public constructor(
-		uniformVariableNameToVariableSpecification: Readonly<
-			Record<UniformVariableName, VariableSpecification<Scene>>
-		>,
-		attributeVariableNameToVariableSpecification: Readonly<
-			Record<AttributeVariableName, VariableSpecification<Vertex>>
-		>,
-		varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>,
-		vertexShaderGlobalSourceCode: string,
-		vertexShaderMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
-			UniformVariableName,
-			AttributeVariableName,
-			VaryingVariableName
-		>,
-		vertexShaderPrecision: ShaderPrecision,
-		outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>,
-		fragmentShaderGlobalSourceCode: string,
-		fragmentShaderMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
-			UniformVariableName,
-			VaryingVariableName,
-			OutputVariableName
-		>,
-		fragmentShaderPrecision: ShaderPrecision,
-		trianglesSelector: TrianglesSelector<Scene, Triangle>,
-		verticesSelector: VerticesSelector<Triangle, Vertex>,
-	) {
-		this.uniformVariableNameToVariableSpecification = uniformVariableNameToVariableSpecification;
-		this.attributeVariableNameToVariableSpecification =
-			attributeVariableNameToVariableSpecification;
-		this.varyingVariableNameToVariableType = varyingVariableNameToVariableType;
-		this.vertexShaderGlobalSourceCode = vertexShaderGlobalSourceCode;
-		this.vertexShaderMainContentCreator = vertexShaderMainContentCreator;
-		this.vertexShaderPrecision = vertexShaderPrecision;
-		this.outputVariableNameToVariableType = outputVariableNameToVariableType;
-		this.fragmentShaderGlobalSourceCode = fragmentShaderGlobalSourceCode;
-		this.fragmentShaderMainContentCreator = fragmentShaderMainContentCreator;
-		this.fragmentShaderPrecision = fragmentShaderPrecision;
-		this.trianglesSelector = trianglesSelector;
-		this.verticesSelector = verticesSelector;
-	}
-	public readonly vertexShaderGlobalSourceCode: string;
-	public readonly fragmentShaderGlobalSourceCode: string;
-	public readonly uniformVariableNameToVariableSpecification: Readonly<
+> = Readonly<{
+	uniformVariableNameToVariableSpecification: Readonly<
 		Record<UniformVariableName, VariableSpecification<Scene>>
 	>;
-	public readonly attributeVariableNameToVariableSpecification: Readonly<
+	attributeVariableNameToVariableSpecification: Readonly<
 		Record<AttributeVariableName, VariableSpecification<Vertex>>
 	>;
-	public readonly varyingVariableNameToVariableType: Readonly<
-		Record<VaryingVariableName, VariableType>
-	>;
-	public readonly vertexShaderMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
+	varyingVariableNameToVariableType: Readonly<Record<VaryingVariableName, VariableType>>;
+	vertexShaderGlobalSourceCode: string;
+	vertexShaderMainContentCreator: WebGlVertexShaderSourceCodeMainContentCreator<
 		UniformVariableName,
 		AttributeVariableName,
 		VaryingVariableName
 	>;
-	public readonly vertexShaderPrecision: ShaderPrecision;
-	public readonly outputVariableNameToVariableType: Readonly<
-		Record<OutputVariableName, VariableType>
-	>;
-	public readonly fragmentShaderMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
+	vertexShaderPrecision: ShaderPrecision;
+	outputVariableNameToVariableType: Readonly<Record<OutputVariableName, VariableType>>;
+	fragmentShaderGlobalSourceCode: string;
+	fragmentShaderMainContentCreator: WebGlFragmentShaderSourceCodeMainContentCreator<
 		UniformVariableName,
 		VaryingVariableName,
 		OutputVariableName
 	>;
-	public readonly fragmentShaderPrecision: ShaderPrecision;
-	public readonly trianglesSelector: TrianglesSelector<Scene, Triangle>;
-	public readonly verticesSelector: VerticesSelector<Triangle, Vertex>;
-}
+	fragmentShaderPrecision: ShaderPrecision;
+	trianglesSelector: TrianglesSelector<Scene, Triangle>;
+	verticesSelector: VerticesSelector<Triangle, Vertex>;
+}>;
