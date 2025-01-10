@@ -1,5 +1,5 @@
-import {computeRandomNormalizedNumberDeterministically} from "./computeRandomNumberDeterministically.ts";
-import {NoiseGenerator} from "./NoiseGenerator.ts";
+import {computeRandomNormalizedNumberDeterministically} from "./random/computeRandomNumberDeterministically.ts";
+import {NoiseGenerator} from "./noise/NoiseGenerator.ts";
 export const terrainHeightNoiseGenerator = new NoiseGenerator(
 	30,
 	(normalizedLayerIndex: number) => 1 / (normalizedLayerIndex + 1) ** 20,

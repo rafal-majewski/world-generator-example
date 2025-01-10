@@ -1,4 +1,4 @@
-export type FieldOfView = Readonly<{
+export type PerspectiveFieldOfView = Readonly<{
 	horizontalRadians: number;
 	verticalRadians: number;
 }>;

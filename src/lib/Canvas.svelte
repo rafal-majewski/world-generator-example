@@ -1,40 +1,44 @@
 <script lang="ts">
-	import {blockWebGlProgramWrapperCreator} from "./blockWebGlProgramWrapperCreator.ts";
 	import type {Dimensions} from "./Dimensions.ts";
-	import {generateBlocks} from "./generateBlocks.ts";
-	import type {RgbColor} from "./RgbColor.ts";
+	import {generateWorld} from "./generateWorld.ts";
+	import {grassProgramWrapperCreator} from "./grassProgramWrapperCreator.ts";
+	import {PerspectiveCamera} from "./PerspectiveCamera.ts";
 	import type {Scene} from "./Scene.ts";
-	import {skyboxWebGlProgramWrapperCreator} from "./skyboxWebGlProgramWrapperCreator.ts";
+	import {skyboxProgramWrapperCreator} from "./skyboxWebGlProgramWrapperCreator.ts";
 	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
-	import {WebGlWrapper} from "./WebGlWrapper.ts";
+	import {Sun} from "./Sun.ts";
+	import {terrainFromSunWebGlProgramWrapperCreator} from "./terrainFromSunWebGlProgramWrapperCreator.ts";
+	import {terrainProgramWrapperCreator} from "./terrainWebGlProgramWrapperCreator.ts";
+	import {WebGlWrapper} from "./web-gl/WebGlWrapper.ts";
+	import type {World} from "./World.ts";
 	import type {XyzCoordinates} from "./XyzCoordinates.ts";
-	function handleMount(canvas: HTMLCanvasElement) {
-		const gl = canvas.getContext("webgl2");
-		if (gl === null) {
+	let mainCanvas: HTMLCanvasElement;
+	let sunCanvas: HTMLCanvasElement;
+	$effect(function handleMount() {
+		const mainGl = mainCanvas.getContext("webgl2");
+		const sunGl = sunCanvas.getContext("webgl2");
+		if (mainGl === null || sunGl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-		const webglWrapper = WebGlWrapper.create(
-			gl,
-			[skyboxWebGlProgramWrapperCreator, blockWebGlProgramWrapperCreator] as const,
-			{
-				red: 0,
-				green: 0.5,
-				blue: 0.9,
-			} as const satisfies RgbColor,
-		);
-
+		const mainWebGlWrapper = WebGlWrapper.create(mainGl, [
+			skyboxProgramWrapperCreator,
+			terrainProgramWrapperCreator,
+			grassProgramWrapperCreator,
+		] as const);
+		const sunWebGlWrapper = WebGlWrapper.create(sunGl, [
+			terrainFromSunWebGlProgramWrapperCreator,
+		] as const);
 		$effect(() => {
 			const stopListeningForResizes = startListeningForHtmlElementResizes(
-				canvas,
+				mainCanvas,
 				function handleResize(dimensions: Dimensions) {
-					console.log(dimensions);
-					webglWrapper.resize(dimensions);
-					webglWrapper.draw(scene);
+					mainWebGlWrapper.resize(dimensions);
+					mainWebGlWrapper.draw(scene);
 				},
 			);
 			return stopListeningForResizes;
 		});
-		const blocks = generateBlocks({
+		const world: World = generateWorld({
 			x: 11,
 			z: 11,
 		});
@@ -42,7 +46,7 @@
 			const angleRadians = computeCameraOrientationHorizontalRadians(timestamp);
 			return {
 				x: -0 * Math.sin(angleRadians),
-				y: 3,
+				y: 2,
 				z: -0 * Math.cos(angleRadians),
 			};
 		}
@@ -50,70 +54,57 @@
 			return (0.2 * timestamp.getTime()) / 1000;
 		}
 		function computeSunAngleRadians(timestamp: Date): number {
-			return (0.2 * timestamp.getTime()) / 1000;
+			return timestamp.getTime() * 0.0001;
 		}
-		let scene = {
-			blocks,
-			camera: {
-				position: computeCameraPosition(new Date()),
-				orientation: {
+		let scene: Scene = {
+			world,
+			camera: new PerspectiveCamera(
+				computeCameraPosition(new Date()),
+				{
 					horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
 					verticalRadians: 0,
 				},
-				fieldOfView: {
-					horizontalRadians: Math.PI * 0.6,
-					verticalRadians: Math.PI * 0.5,
+				{
+					horizontalRadians: Math.PI / 2,
+					verticalRadians: Math.PI / 2,
 				},
-			},
-			sun: {
-				angleRadians: computeSunAngleRadians(new Date()),
-				color: {
-					red: 1,
-					green: 1,
-					blue: 1,
-				},
-			},
-		} as const satisfies Scene;
-		// webglWrapper.resize({
-		// 	width: canvas.width,
-		// 	height: canvas.height,
-		// });
-		webglWrapper.draw(scene);
-		// $effect(function handleDimensionsChange() {
-		// 	if (oldDimensions !== dimensions) {
-		// 		webglWrapper.resize(dimensions);
-		// 		webglWrapper.draw(scene);
-		// 		oldDimensions = dimensions;
-		// 	}
-		// });
-		setTimeout(function animate() {
+			),
+			sun: new Sun(computeSunAngleRadians(new Date()), {
+				red: 1,
+				green: 1,
+				blue: 1,
+			}),
+		};
+		mainWebGlWrapper.draw(scene);
+		sunWebGlWrapper.draw(scene);
+		requestAnimationFrame(function animate() {
 			scene = {
 				...scene,
-				blocks,
-				camera: {
-					...scene.camera,
-					position: computeCameraPosition(new Date()),
-					orientation: {
-						...scene.camera.orientation,
+				camera: new PerspectiveCamera(
+					computeCameraPosition(new Date()),
+					{
 						horizontalRadians: computeCameraOrientationHorizontalRadians(new Date()),
+						verticalRadians: scene.camera.orientation.verticalRadians,
 					},
-				},
-				sun: {
-					...scene.sun,
-					angleRadians: computeSunAngleRadians(new Date()),
-				},
+					scene.camera.fieldOfView,
+				),
+				sun: new Sun(computeSunAngleRadians(new Date()), scene.sun.color),
 			};
-			webglWrapper.draw(scene);
-			setTimeout(animate, 80);
-		}, 80);
-	}
+			mainWebGlWrapper.draw(scene);
+			sunWebGlWrapper.draw(scene);
+			requestAnimationFrame(animate);
+		});
+	});
 </script>
 
-<canvas width="300" height="300" class="canvas" use:handleMount></canvas>
+<canvas class="canvas canvas--main" bind:this={mainCanvas}></canvas>
+<canvas class="canvas canvas--sun" bind:this={sunCanvas}></canvas>
 
 <style lang="scss">
 	.canvas {
 		position: absolute;
+	}
+	.canvas--main {
 		width: 100%;
 		height: 100%;
 	}

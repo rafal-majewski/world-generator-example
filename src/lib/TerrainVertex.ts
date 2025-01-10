@@ -1,8 +1,7 @@
-import type {RgbColor} from "./RgbColor.ts";
 import type {TerrainMaterial} from "./TerrainMaterial.ts";
 import type {XyzCoordinates} from "./XyzCoordinates.ts";
-export type Block = Readonly<{
+export type TerrainVertex = Readonly<{
 	position: XyzCoordinates;
-	color: RgbColor;
+	normal: XyzCoordinates;
 	material: TerrainMaterial;
 }>;

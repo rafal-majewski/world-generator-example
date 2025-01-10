@@ -1,4 +1,4 @@
-import type {Serializer} from "./Serializer.ts";
+import type {Serializer} from "./web-gl/Serializer.ts";
 export function serializeVertex<Vertex>(
 	vertex: Vertex,
 	serializers: readonly Serializer<Vertex>[],

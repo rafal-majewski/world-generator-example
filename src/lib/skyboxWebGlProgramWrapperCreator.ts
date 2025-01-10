@@ -1,18 +1,13 @@
-import {computeProjection} from "./computeProjection.ts";
-import {FloatVariableSpecification} from "./FloatVariableSpecification.ts";
-import {Mat4VariableSpecification} from "./Mat4VariableSpecification.ts";
 import type {Scene} from "./Scene.ts";
-import {Vec2VariableSpecification} from "./Vec2VariableSpecification.ts";
-import {Vec3VariableSpecification} from "./Vec3VariableSpecification.ts";
-import type {VertexSelection} from "./VertexSelection.ts";
-import {WebGlProgramWrapperCreator} from "./WebGlProgramWrapperCreator.ts";
+import {FloatVariableSpecification} from "./web-gl/FloatVariableSpecification.ts";
+import {Mat4VariableSpecification} from "./web-gl/Mat4VariableSpecification.ts";
+import {ProgramWrapperCreator} from "./web-gl/ProgramWrapperCreator.ts";
+import {Vec2VariableSpecification} from "./web-gl/Vec2VariableSpecification.ts";
+import {Vec3VariableSpecification} from "./web-gl/Vec3VariableSpecification.ts";
 import type {XyCoordinates} from "./XyCoordinates.ts";
-export const skyboxWebGlProgramWrapperCreator = new WebGlProgramWrapperCreator(
+export const skyboxProgramWrapperCreator = new ProgramWrapperCreator(
 	{
-		projection: new Mat4VariableSpecification((scene: Scene) => {
-			const projection = computeProjection(scene.camera);
-			return projection;
-		}),
+		projection: new Mat4VariableSpecification((scene: Scene) => scene.camera.projection),
 		sunDirection: new Vec3VariableSpecification((scene: Scene) => {
 			const sunDirectionX = 0;
 			const sunDirectionY = Math.sin(scene.sun.angleRadians);
@@ -24,7 +19,7 @@ export const skyboxWebGlProgramWrapperCreator = new WebGlProgramWrapperCreator(
 		),
 		importanceOfDistanceToSun: new FloatVariableSpecification((scene: Scene) => {
 			const importanceOfDistanceToSun =
-				(Math.max(0, -Math.sin(scene.sun.angleRadians) + 0.5) / 1.5) * 10;
+				(Math.max(0, -Math.sin(scene.sun.angleRadians) + 0.5) / 1.5) * 20;
 			return importanceOfDistanceToSun;
 		}),
 		sunColor: new Vec3VariableSpecification((scene: Scene) => [
@@ -316,7 +311,4 @@ if (isSun) {
 			[leftTop, center, rightTop],
 		];
 	},
-	(
-		triangle: readonly [XyCoordinates, XyCoordinates, XyCoordinates],
-	): VertexSelection<XyCoordinates> => triangle,
 );

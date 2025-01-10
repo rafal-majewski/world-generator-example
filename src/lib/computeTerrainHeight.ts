@@ -5,6 +5,6 @@ export function computeTerrainHeight(position: XzCoordinates): number {
 		terrainHeightNoiseGenerator.compute({
 			x: position.x,
 			y: position.z,
-		}) * 5;
+		}) * 10;
 	return height;
 }

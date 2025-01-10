@@ -1,4 +1,4 @@
-import type {Mat4} from "./Mat4.ts";
+import type {Mat4} from "./web-gl/Mat4.ts";
 export function multiplyMat4ByMat4(matrix1: Mat4, matrix2: Mat4): Mat4 {
 	return [
 		[

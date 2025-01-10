@@ -1,5 +1,4 @@
-import type {NoiseGeneratorLayerNumberComputer} from "./NoiseGeneratorLayerNumberComputer.ts";
-
+import type {NoiseGeneratorLayerNumberComputer} from "./noise/NoiseGeneratorLayerNumberComputer.ts";
 export function computeNoiseGeneratorAmplitudeMultiplier(
 	layerCount: number,
 	amplitudeComputer: NoiseGeneratorLayerNumberComputer,
