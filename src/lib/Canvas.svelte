@@ -1,33 +1,25 @@
 <script lang="ts">
 	import type {Dimensions} from "./Dimensions.ts";
 	import {generateWorld} from "./generateWorld.ts";
-	import {grassProgramWrapperCreator} from "./grassProgramWrapperCreator.ts";
+	import {mainWebGlWrapperCreator} from "./mainWebGlWrapperCreator.ts";
 	import {PerspectiveCamera} from "./PerspectiveCamera.ts";
 	import type {Scene} from "./Scene.ts";
-	import {skyboxProgramWrapperCreator} from "./skyboxWebGlProgramWrapperCreator.ts";
 	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
 	import {Sun} from "./Sun.ts";
-	import {terrainFromSunWebGlProgramWrapperCreator} from "./terrainFromSunWebGlProgramWrapperCreator.ts";
-	import {terrainProgramWrapperCreator} from "./terrainWebGlProgramWrapperCreator.ts";
-	import {WebGlWrapper} from "./web-gl/WebGlWrapper.ts";
 	import type {World} from "./World.ts";
 	import type {XyzCoordinates} from "./XyzCoordinates.ts";
 	let mainCanvas: HTMLCanvasElement;
-	let sunCanvas: HTMLCanvasElement;
+	// let sunCanvas: HTMLCanvasElement;
 	$effect(function handleMount() {
 		const mainGl = mainCanvas.getContext("webgl2");
-		const sunGl = sunCanvas.getContext("webgl2");
-		if (mainGl === null || sunGl === null) {
+		// const sunGl = sunCanvas.getContext("webgl2");
+		if (mainGl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-		const mainWebGlWrapper = WebGlWrapper.create(mainGl, [
-			skyboxProgramWrapperCreator,
-			terrainProgramWrapperCreator,
-			grassProgramWrapperCreator,
-		] as const);
-		const sunWebGlWrapper = WebGlWrapper.create(sunGl, [
-			terrainFromSunWebGlProgramWrapperCreator,
-		] as const);
+		const mainWebGlWrapper = mainWebGlWrapperCreator.create(mainGl);
+		// const sunWebGlWrapper = WebGlWrapper.create(sunGl, [
+		// 	terrainFromSunWebGlProgramWrapperCreator,
+		// ] as const);
 		$effect(() => {
 			const stopListeningForResizes = startListeningForHtmlElementResizes(
 				mainCanvas,
@@ -76,7 +68,7 @@
 			}),
 		};
 		mainWebGlWrapper.draw(scene);
-		sunWebGlWrapper.draw(scene);
+		// sunWebGlWrapper.draw(scene);
 		requestAnimationFrame(function animate() {
 			scene = {
 				...scene,
@@ -91,14 +83,15 @@
 				sun: new Sun(computeSunAngleRadians(new Date()), scene.sun.color),
 			};
 			mainWebGlWrapper.draw(scene);
-			sunWebGlWrapper.draw(scene);
+			// sunWebGlWrapper.draw(scene);
 			requestAnimationFrame(animate);
 		});
 	});
 </script>
 
 <canvas class="canvas canvas--main" bind:this={mainCanvas}></canvas>
-<canvas class="canvas canvas--sun" bind:this={sunCanvas}></canvas>
+
+<!-- <canvas class="canvas canvas--sun" bind:this={sunCanvas}></canvas> -->
 
 <style lang="scss">
 	.canvas {
