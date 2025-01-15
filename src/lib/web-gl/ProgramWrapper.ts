@@ -119,7 +119,7 @@ export class ProgramWrapper<Scene, Vertex> implements WithoutContextDrawable<Sce
 	private readonly trianglesSelector: TrianglesSelector<Scene, Vertex>;
 	private readonly vertexSerializers: readonly Serializer<Vertex>[];
 	private readonly uniformVariableSetters: readonly UniformVariableSetter<Scene>[];
-	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
+	public draw(gl: WebGL2RenderingContext, scene: Scene): undefined {
 		gl.useProgram(this.program);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		gl.bindVertexArray(this.vao);

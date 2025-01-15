@@ -17,7 +17,7 @@ export class Mat4VariableSpecification<Datum> extends VariableSpecification<Datu
 		gl: WebGL2RenderingContext,
 		location: WebGLUniformLocation,
 		rawSerializedValue: Float32Array,
-	): void {
+	): undefined {
 		gl.uniformMatrix4fv(location, false, rawSerializedValue);
 	}
 }

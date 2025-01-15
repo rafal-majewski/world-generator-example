@@ -1,8 +1,8 @@
 import type {Dimensions} from "./Dimensions.ts";
 export function startListeningForHtmlElementResizes(
 	element: HTMLElement,
-	handleResize: (dimensions: Dimensions) => void,
-): () => void {
+	handleResize: (dimensions: Dimensions) => undefined,
+): () => undefined {
 	const observer = new ResizeObserver(function handleResizeObservation(entries) {
 		for (const entry of entries) {
 			handleResize({
@@ -12,7 +12,7 @@ export function startListeningForHtmlElementResizes(
 		}
 	});
 	observer.observe(element);
-	return function stopListeningForHtmlElementResizes(): void {
+	return function stopListeningForHtmlElementResizes(): undefined {
 		observer.disconnect();
 	};
 }

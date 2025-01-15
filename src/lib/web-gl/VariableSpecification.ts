@@ -9,12 +9,12 @@ export abstract class VariableSpecification<Datum> implements Serializer<Datum> 
 		gl: WebGL2RenderingContext,
 		location: WebGLUniformLocation,
 		serializedValue: Float32Array,
-	): void;
+	): undefined;
 	public setUniform(
 		gl: WebGL2RenderingContext,
 		location: WebGLUniformLocation,
 		datum: Datum,
-	): void {
+	): undefined {
 		const serializedValue = this.serialize(datum);
 		const rawSerializedValue = new Float32Array(serializedValue);
 		this.setUniformWithRawSerializedValue(gl, location, rawSerializedValue);

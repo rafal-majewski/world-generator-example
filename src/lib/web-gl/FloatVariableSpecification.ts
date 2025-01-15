@@ -16,7 +16,7 @@ export class FloatVariableSpecification<Datum> extends VariableSpecification<Dat
 		gl: WebGL2RenderingContext,
 		location: WebGLUniformLocation,
 		rawSerializedValue: Float32Array,
-	): void {
+	): undefined {
 		gl.uniform1fv(location, rawSerializedValue);
 	}
 }

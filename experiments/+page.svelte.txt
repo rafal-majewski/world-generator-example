@@ -182,7 +182,7 @@
 		),
 		sandLayerGenerators.length,
 	);
-	function handleMount(canvas: HTMLCanvasElement): void {
+	function handleMount(canvas: HTMLCanvasElement): undefined {
 		const ctx = canvas.getContext("2d");
 		if (ctx === null) {
 			throw new Error("Failed to get 2D context.");

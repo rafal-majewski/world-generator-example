@@ -12,8 +12,8 @@ export class ForgettingContextCombinedDrawable<Scene, Context>
 		this.headDrawable = headDrawable;
 		this.tailDrawable = tailDrawable;
 	}
-	public draw(gl: WebGL2RenderingContext, scene: Scene, context: Context): void {
-		this.headDrawable.draw(gl, scene, context);
+	public draw(gl: WebGL2RenderingContext, context: Context, scene: Scene): undefined {
+		this.headDrawable.draw(gl, context, scene);
 		this.tailDrawable.draw(gl, scene);
 	}
 }

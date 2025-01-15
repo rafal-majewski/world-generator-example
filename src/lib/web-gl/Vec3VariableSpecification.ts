@@ -16,7 +16,7 @@ export class Vec3VariableSpecification<Datum> extends VariableSpecification<Datu
 		gl: WebGL2RenderingContext,
 		location: WebGLUniformLocation,
 		rawSerializedValue: Float32Array,
-	): void {
+	): undefined {
 		gl.uniform3fv(location, rawSerializedValue);
 	}
 }

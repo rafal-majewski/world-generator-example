@@ -3,10 +3,10 @@ import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
 export class WebGlWrapper<Scene> {
 	private readonly gl: WebGL2RenderingContext;
 	private readonly drawable: WithoutContextDrawable<Scene>;
-	public draw(scene: Scene): void {
+	public draw(scene: Scene): undefined {
 		this.drawable.draw(this.gl, scene);
 	}
-	public resize(dimensions: Dimensions): void {
+	public resize(dimensions: Dimensions): undefined {
 		this.gl.canvas.width = dimensions.width;
 		this.gl.canvas.height = dimensions.height;
 		this.gl.viewport(0, 0, dimensions.width, dimensions.height);

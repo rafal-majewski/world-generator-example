@@ -13,8 +13,8 @@ export class CreatingContextCombinedDrawable<Scene, Context>
 		this.headDrawable = headDrawable;
 		this.tailDrawable = tailDrawable;
 	}
-	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
+	public draw(gl: WebGL2RenderingContext, scene: Scene): undefined {
 		const context = this.headDrawable.draw(gl, scene);
-		this.tailDrawable.draw(gl, scene, context);
+		this.tailDrawable.draw(gl, context, scene);
 	}
 }

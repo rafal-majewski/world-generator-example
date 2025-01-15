@@ -1,3 +1,3 @@
 export interface Initializable {
-	initialize(gl: WebGL2RenderingContext): void;
+	initialize(gl: WebGL2RenderingContext): undefined;
 }

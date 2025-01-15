@@ -9,7 +9,7 @@ export class WithoutContextCombinedDrawable<Scene> {
 		this.headDrawable = headDrawable;
 		this.tailDrawable = tailDrawable;
 	}
-	public draw(gl: WebGL2RenderingContext, scene: Scene): void {
+	public draw(gl: WebGL2RenderingContext, scene: Scene): undefined {
 		this.headDrawable.draw(gl, scene);
 		this.tailDrawable.draw(gl, scene);
 	}
