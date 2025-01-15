@@ -1,6 +1,8 @@
 import {WithoutContextCombinedDrawable} from "./WithoutContextCombinedDrawable.ts";
 import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
-export class WithoutContextCombinedDrawableCreator<Scene> {
+export class WithoutContextCombinedDrawableCreator<Scene>
+	implements WithoutContextDrawableCreator<Scene>
+{
 	private readonly headCreator: WithoutContextDrawableCreator<Scene>;
 	private readonly tailCreator: WithoutContextDrawableCreator<Scene>;
 	public constructor(

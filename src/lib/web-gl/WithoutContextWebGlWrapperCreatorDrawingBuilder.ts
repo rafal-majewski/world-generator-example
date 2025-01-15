@@ -4,6 +4,7 @@ import type {Initializable} from "./Initializable.ts";
 import {WithContextWebGlWrapperCreatorDrawingBuilder} from "./WithContextWebGlWrapperCreatorDrawingBuilder.ts";
 import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
 import {ForgettingContextCombinedDrawableCreator} from "./ForgettingContextCombinedDrawableCreator.ts";
+import {WebGlWrapperCreator} from "./WebGlWrapperCreator.ts";
 export class WithoutContextWebGlWrapperCreatorDrawingBuilder<Scene> {
 	private readonly initializables: readonly Initializable[];
 	private readonly drawableCreator: WithoutContextDrawableCreator<Scene>;
@@ -39,5 +40,9 @@ export class WithoutContextWebGlWrapperCreatorDrawingBuilder<Scene> {
 			combinedCreator,
 		);
 		return builder;
+	}
+	public build(): WebGlWrapperCreator<Scene> {
+		const creator = new WebGlWrapperCreator(this.initializables, this.drawableCreator);
+		return creator;
 	}
 }

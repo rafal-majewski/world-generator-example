@@ -1,7 +1,6 @@
 import type {VariableName} from "./VariableName.ts";
 import type {VariableSize} from "./VariableSize.ts";
 import type {VariableSpecification} from "./VariableSpecification.ts";
-import type {Drawable} from "./Drawable.ts";
 import {ProgramConfiguration} from "./ProgramConfiguration.ts";
 import type {ProgramWrapperConfiguration} from "./ProgramWrapperConfiguration.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
@@ -10,7 +9,8 @@ import {mapObjectValueWise} from "./mapObjectValueWise.ts";
 import type {Serializer} from "./Serializer.ts";
 import {UniformVariableSetter} from "./UniformVariableSetter.ts";
 import {computeBufferData} from "./computeBufferData.ts";
-export class ProgramWrapper<Scene, Vertex> implements Drawable<Scene> {
+import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
+export class ProgramWrapper<Scene, Vertex> implements WithoutContextDrawable<Scene> {
 	public static create<
 		Scene,
 		Vertex,

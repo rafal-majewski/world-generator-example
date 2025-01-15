@@ -1,4 +1,3 @@
-import type {DrawableCreator} from "./DrawableCreator.ts";
 import type {FragmentShaderSourceCodeMainContentCreator} from "./FragmentShaderSourceCodeMainContentCreator.ts";
 import {ProgramWrapper} from "./ProgramWrapper.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
@@ -7,6 +6,7 @@ import type {VariableName} from "./VariableName.ts";
 import type {VariableSpecification} from "./VariableSpecification.ts";
 import type {VariableType} from "./VariableType.ts";
 import type {VertexShaderSourceCodeMainContentCreator} from "./VertexShaderSourceCodeMainContentCreator.ts";
+import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
 export class ProgramWrapperCreator<
 	Scene,
 	Vertex,
@@ -14,7 +14,7 @@ export class ProgramWrapperCreator<
 	AttributeVariableName extends VariableName,
 	VaryingVariableName extends VariableName,
 	OutputVariableName extends VariableName,
-> implements DrawableCreator<Scene>
+> implements WithoutContextDrawableCreator<Scene>
 {
 	public constructor(
 		uniformVariableNameToVariableSpecification: Readonly<

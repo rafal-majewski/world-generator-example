@@ -1,7 +1,9 @@
 import {ChangingContextCombinedDrawable} from "./ChangingContextCombinedDrawable.ts";
 import type {ChangingContextDrawableCreator} from "./ChangingContextDrawableCreator.ts";
 import type {ForgettingContextDrawableCreator} from "./ForgettingContextDrawableCreator.ts";
-export class ChangingContextCombinedDrawableCreator<Scene, OldContext, NewContext> {
+export class ChangingContextCombinedDrawableCreator<Scene, OldContext, NewContext>
+	implements ForgettingContextDrawableCreator<Scene, OldContext>
+{
 	private readonly headCreator: ChangingContextDrawableCreator<Scene, OldContext, NewContext>;
 	private readonly tailCreator: ForgettingContextDrawableCreator<Scene, NewContext>;
 	public constructor(

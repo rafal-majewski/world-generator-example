@@ -1,7 +1,9 @@
 import {ForgettingContextCombinedDrawable} from "./ForgettingContextCombinedDrawable.ts";
 import type {ForgettingContextDrawableCreator} from "./ForgettingContextDrawableCreator.ts";
 import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
-export class ForgettingContextCombinedDrawableCreator<Scene, Context> {
+export class ForgettingContextCombinedDrawableCreator<Scene, Context>
+	implements ForgettingContextDrawableCreator<Scene, Context>
+{
 	private readonly headCreator: ForgettingContextDrawableCreator<Scene, Context>;
 	private readonly tailCreator: WithoutContextDrawableCreator<Scene>;
 	public constructor(

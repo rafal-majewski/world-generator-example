@@ -1,27 +1,17 @@
+import {EmptyWebGlWrapperCreatorDrawingBuilder} from "./EmptyWebGlWrapperCreatorDrawingBuilder.ts";
 import type {Initializable} from "./Initializable.ts";
-import {WebGlWrapperCreator} from "./WebGlWrapperCreator.ts";
-import type {WebGlWrapperCreatorBuilderAbleToBuild} from "./WebGlWrapperCreatorBuilderAbleToBuild.ts";
-import type {WebGlWrapperCreatorBuilderAbleToStartConfiguringDrawing} from "./WebGlWrapperCreatorBuilderAbleToStartConfiguringDrawing.ts";
-import {WebGlWrapperCreatorDrawingBuilder} from "./WebGlWrapperCreatorFullDrawingBuilder.ts";
-export class WebGlWrapperCreatorInitializingBuilder<Scene>
-	implements
-		WebGlWrapperCreatorBuilderAbleToBuild<Scene>,
-		WebGlWrapperCreatorBuilderAbleToStartConfiguringDrawing<Scene>
-{
-	public startConfiguringDrawing(): WebGlWrapperCreatorDrawingBuilder<Scene> {
-		const builder = new WebGlWrapperCreatorDrawingBuilder(this.initializables);
+export class WebGlWrapperCreatorInitializingBuilder<Scene> {
+	public startConfiguringDrawing(): EmptyWebGlWrapperCreatorDrawingBuilder<Scene> {
+		const builder = new EmptyWebGlWrapperCreatorDrawingBuilder(this.initializables);
 		return builder;
 	}
-	private initializables: readonly Initializable[];
-	public build(): WebGlWrapperCreator<Scene> {
-		const creator = new WebGlWrapperCreator(this.initializables, []);
-		return creator;
+	private readonly initializables: readonly Initializable[];
+	public constructor(initializables: readonly Initializable[]) {
+		this.initializables = initializables;
 	}
-	public constructor() {
-		this.initializables = [];
-	}
-	public add(initializable: Initializable): this {
-		this.initializables = [...this.initializables, initializable];
-		return this;
+	public add(initializable: Initializable): WebGlWrapperCreatorInitializingBuilder<Scene> {
+		const newInitializables = [...this.initializables, initializable];
+		const builder = new WebGlWrapperCreatorInitializingBuilder(newInitializables);
+		return builder;
 	}
 }
