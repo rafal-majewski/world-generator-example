@@ -15,6 +15,6 @@ export class CreatingContextCombinedDrawable<Scene, Context>
 	}
 	public draw(gl: WebGL2RenderingContext, scene: Scene): undefined {
 		const context = this.headDrawable.draw(gl, scene);
-		this.tailDrawable.draw(gl, context, scene);
+		this.tailDrawable.draw(gl, scene, context);
 	}
 }

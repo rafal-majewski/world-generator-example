@@ -20,12 +20,12 @@ import {WebGlWrapperCreatorBuilder} from "./web-gl/WebGlWrapperCreatorBuilder.ts
 // 		scene: Scene,
 // 	) => NewContext;
 // 	public constructor(
-// 		drawer: (gl: WebGL2RenderingContext, context: OldContext, scene: Scene) => NewContext,
+// 		drawer: (gl: WebGL2RenderingContext, scene: Scene, context: OldContext) => NewContext,
 // 	) {
 // 		this.drawer = drawer;
 // 	}
-// 	public draw(gl: WebGL2RenderingContext, context: OldContext, scene: Scene): NewContext {
-// 		const newContext = this.drawer(gl, context, scene);
+// 	public draw(gl: WebGL2RenderingContext, scene: Scene, context: OldContext): NewContext {
+// 		const newContext = this.drawer(gl, scene, context);
 // 		return newContext;
 // 	}
 // }
@@ -38,7 +38,7 @@ import {WebGlWrapperCreatorBuilder} from "./web-gl/WebGlWrapperCreatorBuilder.ts
 // 		scene: Scene,
 // 	) => NewContext;
 // 	public constructor(
-// 		drawer: (gl: WebGL2RenderingContext, context: OldContext, scene: Scene) => NewContext,
+// 		drawer: (gl: WebGL2RenderingContext, scene: Scene, context: OldContext) => NewContext,
 // 	) {
 // 		this.drawer = drawer;
 // 	}
@@ -52,16 +52,16 @@ class CustomKeepingContextDrawable<Scene, Context>
 {
 	private readonly drawer: (
 		gl: WebGL2RenderingContext,
-		context: Context,
 		scene: Scene,
+		context: Context,
 	) => undefined;
 	public constructor(
-		drawer: (gl: WebGL2RenderingContext, context: Context, scene: Scene) => undefined,
+		drawer: (gl: WebGL2RenderingContext, scene: Scene, context: Context) => undefined,
 	) {
 		this.drawer = drawer;
 	}
-	public draw(gl: WebGL2RenderingContext, context: Context, scene: Scene): Context {
-		this.drawer(gl, context, scene);
+	public draw(gl: WebGL2RenderingContext, scene: Scene, context: Context): Context {
+		this.drawer(gl, scene, context);
 		return context;
 	}
 }
@@ -70,11 +70,11 @@ class CustomKeepingContextDrawableCreator<Scene, Context>
 {
 	private readonly drawer: (
 		gl: WebGL2RenderingContext,
-		context: Context,
 		scene: Scene,
+		context: Context,
 	) => undefined;
 	public constructor(
-		drawer: (gl: WebGL2RenderingContext, context: Context, scene: Scene) => undefined,
+		drawer: (gl: WebGL2RenderingContext, scene: Scene, context: Context) => undefined,
 	) {
 		this.drawer = drawer;
 	}
@@ -112,16 +112,16 @@ class CustomForgettingContextDrawable<Scene, Context>
 {
 	private readonly drawer: (
 		gl: WebGL2RenderingContext,
-		context: Context,
 		scene: Scene,
+		context: Context,
 	) => undefined;
 	public constructor(
-		drawer: (gl: WebGL2RenderingContext, context: Context, scene: Scene) => undefined,
+		drawer: (gl: WebGL2RenderingContext, scene: Scene, context: Context) => undefined,
 	) {
 		this.drawer = drawer;
 	}
-	public draw(gl: WebGL2RenderingContext, context: Context, scene: Scene): undefined {
-		this.drawer(gl, context, scene);
+	public draw(gl: WebGL2RenderingContext, scene: Scene, context: Context): undefined {
+		this.drawer(gl, scene, context);
 	}
 }
 class CustomForgettingContextDrawableCreator<Scene, Context>
@@ -129,11 +129,11 @@ class CustomForgettingContextDrawableCreator<Scene, Context>
 {
 	private readonly drawer: (
 		gl: WebGL2RenderingContext,
-		context: Context,
 		scene: Scene,
+		context: Context,
 	) => undefined;
 	public constructor(
-		drawer: (gl: WebGL2RenderingContext, context: Context, scene: Scene) => undefined,
+		drawer: (gl: WebGL2RenderingContext, scene: Scene, context: Context) => undefined,
 	) {
 		this.drawer = drawer;
 	}
@@ -164,14 +164,15 @@ class CustomForgettingContextDrawableCreator<Scene, Context>
 export const mainWebGlWrapperCreator = new WebGlWrapperCreatorBuilder<Scene>()
 	.startConfiguringInitializing()
 	.add(depthTestInitializable)
+	// FIX with mapping
 	.startConfiguringDrawing()
-	.addForgettingContext(new CustomForgettingContextDrawableCreator((gl, c: "dupa") => {}))
+	.addCreatingContext(new CustomCreatingContextDrawableCreator(() => 5))
 	.addKeepingContext(
 		new CustomKeepingContextDrawableCreator((gl, c) => {
 			console.log(c);
 		}),
 	)
-	.addCreatingContext(new CustomCreatingContextDrawableCreator(() => 5));
+	.addForgettingContext(new CustomForgettingContextDrawableCreator((gl, c) => {}));
 // // .addWithoutContext(new CustomWithoutContextDrawableCreator(() => {}));
 // // .addForgettingContext(skyboxProgramWrapperCreator)
 // // .addKeepingContext(terrainProgramWrapperCreator)

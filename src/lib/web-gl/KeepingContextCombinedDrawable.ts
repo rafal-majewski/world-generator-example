@@ -12,8 +12,8 @@ export class KeepingContextCombinedDrawable<Scene, OldContext, NewContext>
 		this.headDrawable = headDrawable;
 		this.tailDrawable = tailDrawable;
 	}
-	public draw(gl: WebGL2RenderingContext, context: OldContext, scene: Scene): undefined {
-		const newContext = this.headDrawable.draw(gl, context, scene);
-		this.tailDrawable.draw(gl, newContext, scene);
+	public draw(gl: WebGL2RenderingContext, scene: Scene, context: OldContext): undefined {
+		const newContext = this.headDrawable.draw(gl, scene, context);
+		this.tailDrawable.draw(gl, scene, newContext);
 	}
 }

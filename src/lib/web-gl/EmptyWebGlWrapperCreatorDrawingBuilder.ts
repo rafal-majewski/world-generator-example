@@ -1,4 +1,4 @@
-import type {ForgettingContextDrawableCreator} from "./ForgettingContextDrawableCreator.ts";
+import type {CreatingContextDrawableCreator} from "./CreatingContextDrawableCreator.ts";
 import type {Initializable} from "./Initializable.ts";
 import {WithContextWebGlWrapperCreatorDrawingBuilder} from "./WithContextWebGlWrapperCreatorDrawingBuilder.ts";
 import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
@@ -8,12 +8,12 @@ export class EmptyWebGlWrapperCreatorDrawingBuilder<Scene> {
 	public constructor(initializables: readonly Initializable[]) {
 		this.initializables = initializables;
 	}
-	public addForgettingContext<Context>(
-		creator: ForgettingContextDrawableCreator<Scene, Context>,
-	): WithContextWebGlWrapperCreatorDrawingBuilder<Scene, Context> {
-		const builder = new WithContextWebGlWrapperCreatorDrawingBuilder(this.initializables, creator);
-		return builder;
-	}
+	// public addForgettingContext<Context>(
+	// 	creator: ForgettingContextDrawableCreator<Scene, Context>,
+	// ): WithContextWebGlWrapperCreatorDrawingBuilder<Scene, Context> {
+	// 	const builder = new WithContextWebGlWrapperCreatorDrawingBuilder(this.initializables, creator);
+	// 	return builder;
+	// }
 	public addWithoutContext(
 		creator: WithoutContextDrawableCreator<Scene>,
 	): WithoutContextWebGlWrapperCreatorDrawingBuilder<Scene> {
@@ -21,6 +21,12 @@ export class EmptyWebGlWrapperCreatorDrawingBuilder<Scene> {
 			this.initializables,
 			creator,
 		);
+		return builder;
+	}
+	public addCreatingContext<Context>(
+		creator: CreatingContextDrawableCreator<Scene, Context>,
+	): WithContextWebGlWrapperCreatorDrawingBuilder<Scene, Context> {
+		const builder = new WithContextWebGlWrapperCreatorDrawingBuilder(this.initializables, creator);
 		return builder;
 	}
 }
