@@ -3,17 +3,17 @@ import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
 export class ForgettingContextCombinedDrawable<Scene, Context>
 	implements ForgettingContextDrawable<Scene, Context>
 {
-	private readonly headDrawable: ForgettingContextDrawable<Scene, Context>;
-	private readonly tailDrawable: WithoutContextDrawable<Scene>;
+	private readonly firstDrawable: ForgettingContextDrawable<Scene, Context>;
+	private readonly restDrawable: WithoutContextDrawable<Scene>;
 	public constructor(
-		headDrawable: ForgettingContextDrawable<Scene, Context>,
-		tailDrawable: WithoutContextDrawable<Scene>,
+		firstDrawable: ForgettingContextDrawable<Scene, Context>,
+		restDrawable: WithoutContextDrawable<Scene>,
 	) {
-		this.headDrawable = headDrawable;
-		this.tailDrawable = tailDrawable;
+		this.firstDrawable = firstDrawable;
+		this.restDrawable = restDrawable;
 	}
 	public draw(gl: WebGL2RenderingContext, scene: Scene, context: Context): undefined {
-		this.headDrawable.draw(gl, scene, context);
-		this.tailDrawable.draw(gl, scene);
+		this.firstDrawable.draw(gl, scene, context);
+		this.restDrawable.draw(gl, scene);
 	}
 }

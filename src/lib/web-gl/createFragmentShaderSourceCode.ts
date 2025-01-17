@@ -54,7 +54,7 @@ ${uniformSection}
 ${inputVaryingSection}
 ${outputSection}
 ${globalContent}
-undefined main() {
+void main() {
 ${mainContent}
 }
 ` as const;

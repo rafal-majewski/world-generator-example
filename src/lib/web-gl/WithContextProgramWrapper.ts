@@ -9,8 +9,10 @@ import {mapObjectValueWise} from "./mapObjectValueWise.ts";
 import type {Serializer} from "./Serializer.ts";
 import {UniformVariableSetter} from "./UniformVariableSetter.ts";
 import {computeBufferData} from "./computeBufferData.ts";
-import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
-export class ProgramWrapper<Scene, Vertex> implements WithoutContextDrawable<Scene> {
+import type {ForgettingContextDrawable} from "./ForgettingContextDrawable.ts";
+export class WithContextProgramWrapper<Scene, Vertex, Context>
+	implements ForgettingContextDrawable<Scene, Context>
+{
 	public static create<
 		Scene,
 		Vertex,
@@ -86,7 +88,7 @@ export class ProgramWrapper<Scene, Vertex> implements WithoutContextDrawable<Sce
 		const vertexSerializers = Object.values(
 			configuration.attributeVariableNameToVariableSpecification,
 		) as readonly Serializer<Vertex>[];
-		const programWrapper = new ProgramWrapper(
+		const programWrapper = new WithContextProgramWrapper(
 			vao,
 			buffer,
 			program,

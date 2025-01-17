@@ -1,5 +1,4 @@
 import type {FragmentShaderSourceCodeMainContentCreator} from "./FragmentShaderSourceCodeMainContentCreator.ts";
-import {ProgramWrapper} from "./ProgramWrapper.ts";
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
 import type {VariableName} from "./VariableName.ts";
@@ -7,7 +6,8 @@ import type {VariableSpecification} from "./VariableSpecification.ts";
 import type {VariableType} from "./VariableType.ts";
 import type {VertexShaderSourceCodeMainContentCreator} from "./VertexShaderSourceCodeMainContentCreator.ts";
 import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
-export class ProgramWrapperCreator<
+import {WithoutContextProgramWrapper} from "./WithoutContextProgramWrapper.ts";
+export class WithoutContextProgramWrapperCreator<
 	Scene,
 	Vertex,
 	UniformVariableName extends VariableName,
@@ -81,8 +81,8 @@ export class ProgramWrapperCreator<
 	>;
 	public readonly fragmentShaderPrecision: ShaderPrecision;
 	public readonly trianglesSelector: TrianglesSelector<Scene, Vertex>;
-	public create(gl: WebGL2RenderingContext): ProgramWrapper<Scene, Vertex> {
-		const programWrapper = ProgramWrapper.create(gl, {
+	public create(gl: WebGL2RenderingContext): WithoutContextProgramWrapper<Scene, Vertex> {
+		const programWrapper = WithoutContextProgramWrapper.create(gl, {
 			uniformVariableNameToVariableSpecification: this.uniformVariableNameToVariableSpecification,
 			attributeVariableNameToVariableSpecification:
 				this.attributeVariableNameToVariableSpecification,

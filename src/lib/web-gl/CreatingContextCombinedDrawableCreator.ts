@@ -5,19 +5,19 @@ import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreato
 export class CreatingContextCombinedDrawableCreator<Scene, Context>
 	implements WithoutContextDrawableCreator<Scene>
 {
-	private readonly headCreator: CreatingContextDrawableCreator<Scene, Context>;
-	private readonly tailCreator: ForgettingContextDrawableCreator<Scene, Context>;
+	private readonly firstCreator: CreatingContextDrawableCreator<Scene, Context>;
+	private readonly restCreator: ForgettingContextDrawableCreator<Scene, Context>;
 	public constructor(
-		headCreator: CreatingContextDrawableCreator<Scene, Context>,
-		tailCreator: ForgettingContextDrawableCreator<Scene, Context>,
+		firstCreator: CreatingContextDrawableCreator<Scene, Context>,
+		restCreator: ForgettingContextDrawableCreator<Scene, Context>,
 	) {
-		this.headCreator = headCreator;
-		this.tailCreator = tailCreator;
+		this.firstCreator = firstCreator;
+		this.restCreator = restCreator;
 	}
 	public create(gl: WebGL2RenderingContext): CreatingContextCombinedDrawable<Scene, Context> {
-		const headDrawable = this.headCreator.create(gl);
-		const tailDrawable = this.tailCreator.create(gl);
-		const combinedDrawable = new CreatingContextCombinedDrawable(headDrawable, tailDrawable);
+		const firstDrawable = this.firstCreator.create(gl);
+		const restDrawable = this.restCreator.create(gl);
+		const combinedDrawable = new CreatingContextCombinedDrawable(firstDrawable, restDrawable);
 		return combinedDrawable;
 	}
 }

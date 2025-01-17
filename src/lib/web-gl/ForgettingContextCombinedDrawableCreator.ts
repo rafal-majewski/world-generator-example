@@ -4,19 +4,19 @@ import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreato
 export class ForgettingContextCombinedDrawableCreator<Scene, Context>
 	implements ForgettingContextDrawableCreator<Scene, Context>
 {
-	private readonly headCreator: ForgettingContextDrawableCreator<Scene, Context>;
-	private readonly tailCreator: WithoutContextDrawableCreator<Scene>;
+	private readonly firstCreator: ForgettingContextDrawableCreator<Scene, Context>;
+	private readonly restCreator: WithoutContextDrawableCreator<Scene>;
 	public constructor(
-		headCreator: ForgettingContextDrawableCreator<Scene, Context>,
-		tailCreator: WithoutContextDrawableCreator<Scene>,
+		firstCreator: ForgettingContextDrawableCreator<Scene, Context>,
+		restCreator: WithoutContextDrawableCreator<Scene>,
 	) {
-		this.headCreator = headCreator;
-		this.tailCreator = tailCreator;
+		this.firstCreator = firstCreator;
+		this.restCreator = restCreator;
 	}
 	public create(gl: WebGL2RenderingContext): ForgettingContextCombinedDrawable<Scene, Context> {
-		const headDrawable = this.headCreator.create(gl);
-		const tailDrawable = this.tailCreator.create(gl);
-		const combinedDrawable = new ForgettingContextCombinedDrawable(headDrawable, tailDrawable);
+		const firstDrawable = this.firstCreator.create(gl);
+		const restDrawable = this.restCreator.create(gl);
+		const combinedDrawable = new ForgettingContextCombinedDrawable(firstDrawable, restDrawable);
 		return combinedDrawable;
 	}
 }

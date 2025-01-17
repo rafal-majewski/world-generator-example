@@ -3,17 +3,17 @@ import type {ForgettingContextDrawable} from "./ForgettingContextDrawable.ts";
 export class ChangingContextCombinedDrawable<Scene, OldContext, NewContext>
 	implements ForgettingContextDrawable<Scene, OldContext>
 {
-	private readonly headDrawable: ChangingContextDrawable<Scene, OldContext, NewContext>;
-	private readonly tailDrawable: ForgettingContextDrawable<Scene, NewContext>;
+	private readonly firstDrawable: ChangingContextDrawable<Scene, OldContext, NewContext>;
+	private readonly restDrawable: ForgettingContextDrawable<Scene, NewContext>;
 	public constructor(
-		headDrawable: ChangingContextDrawable<Scene, OldContext, NewContext>,
-		tailDrawable: ForgettingContextDrawable<Scene, NewContext>,
+		firstDrawable: ChangingContextDrawable<Scene, OldContext, NewContext>,
+		restDrawable: ForgettingContextDrawable<Scene, NewContext>,
 	) {
-		this.headDrawable = headDrawable;
-		this.tailDrawable = tailDrawable;
+		this.firstDrawable = firstDrawable;
+		this.restDrawable = restDrawable;
 	}
 	public draw(gl: WebGL2RenderingContext, scene: Scene, context: OldContext): undefined {
-		const newContext = this.headDrawable.draw(gl, scene, context);
-		this.tailDrawable.draw(gl, scene, newContext);
+		const newContext = this.firstDrawable.draw(gl, scene, context);
+		this.restDrawable.draw(gl, scene, newContext);
 	}
 }

@@ -1,7 +1,7 @@
 import type {Scene} from "./Scene.ts";
 import type {TerrainVertex} from "./TerrainVertex.ts";
 import {Mat4VariableSpecification} from "./web-gl/Mat4VariableSpecification.ts";
-import {ProgramWrapperCreator} from "./web-gl/ProgramWrapperCreator.ts";
+import {ProgramWrapperCreator} from "./web-gl/WithoutContextProgramWrapperCreator.ts";
 import type {Triangle} from "./web-gl/Triangle.ts";
 import {Vec3VariableSpecification} from "./web-gl/Vec3VariableSpecification.ts";
 export const terrainFromSunProgramWrapperCreator = new ProgramWrapperCreator(

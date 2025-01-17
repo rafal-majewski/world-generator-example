@@ -1,20 +1,18 @@
 import type {Initializable} from "./Initializable.ts";
 import {WebGlWrapper} from "./WebGlWrapper.ts";
 import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
-export class WebGlWrapperCreator<Scene> {
+export class WithConfiguredInitializingWebGlWrapperCreator<Scene> {
 	private readonly drawableCreator: WithoutContextDrawableCreator<Scene>;
-	private readonly initializables: readonly Initializable[];
+	private readonly initializable: Initializable;
 	public constructor(
-		initializables: readonly Initializable[],
+		initializable: Initializable,
 		drawableCreator: WithoutContextDrawableCreator<Scene>,
 	) {
-		this.initializables = initializables;
+		this.initializable = initializable;
 		this.drawableCreator = drawableCreator;
 	}
 	public create(gl: WebGL2RenderingContext): WebGlWrapper<Scene> {
-		for (const initializable of this.initializables) {
-			initializable.initialize(gl);
-		}
+		this.initializable.initialize(gl);
 		const drawable = this.drawableCreator.create(gl);
 		const wrapper = new WebGlWrapper(gl, drawable);
 		return wrapper;

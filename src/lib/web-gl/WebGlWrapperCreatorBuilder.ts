@@ -1,12 +1,13 @@
-import {EmptyWebGlWrapperCreatorDrawingBuilder} from "./EmptyWebGlWrapperCreatorDrawingBuilder.ts";
-import {WebGlWrapperCreatorInitializingBuilder} from "./WebGlWrapperCreatorInitializingBuilder.ts";
-export class WebGlWrapperCreatorBuilder<Scene> {
-	public startConfiguringInitializing(): WebGlWrapperCreatorInitializingBuilder<Scene> {
-		const initializingBuilder = new WebGlWrapperCreatorInitializingBuilder([]);
-		return initializingBuilder;
+import {EmptyConfiguringDrawingWithoutConfiguredInitializingWebGlWrapperCreatorBuilder} from "./EmptyConfiguringDrawingWithoutConfiguredInitializingWebGlWrapperCreatorBuilder.ts";
+import {EmptyConfiguringInitializingWebGlWrapperCreatorBuilder} from "./EmptyConfiguringInitializingWebGlWrapperCreatorBuilder.ts";
+export class WebGlWrapperCreatorBuilder {
+	public startConfiguringInitializing(): EmptyConfiguringInitializingWebGlWrapperCreatorBuilder {
+		const newBuilder = new EmptyConfiguringInitializingWebGlWrapperCreatorBuilder();
+		return newBuilder;
 	}
-	public startConfiguringDrawing(): EmptyWebGlWrapperCreatorDrawingBuilder<Scene> {
-		const drawingBuilder = new EmptyWebGlWrapperCreatorDrawingBuilder([]);
-		return drawingBuilder;
+	public startConfiguringDrawing(): EmptyConfiguringDrawingWithoutConfiguredInitializingWebGlWrapperCreatorBuilder {
+		const newBuilder =
+			new EmptyConfiguringDrawingWithoutConfiguredInitializingWebGlWrapperCreatorBuilder();
+		return newBuilder;
 	}
 }

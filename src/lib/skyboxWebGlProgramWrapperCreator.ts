@@ -1,7 +1,7 @@
 import type {Scene} from "./Scene.ts";
 import {FloatVariableSpecification} from "./web-gl/FloatVariableSpecification.ts";
 import {Mat4VariableSpecification} from "./web-gl/Mat4VariableSpecification.ts";
-import {ProgramWrapperCreator} from "./web-gl/ProgramWrapperCreator.ts";
+import {ProgramWrapperCreator} from "./web-gl/WithoutContextProgramWrapperCreator.ts";
 import {Vec2VariableSpecification} from "./web-gl/Vec2VariableSpecification.ts";
 import {Vec3VariableSpecification} from "./web-gl/Vec3VariableSpecification.ts";
 import type {XyCoordinates} from "./XyCoordinates.ts";

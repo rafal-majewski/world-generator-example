@@ -4,17 +4,17 @@ import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
 export class CreatingContextCombinedDrawable<Scene, Context>
 	implements WithoutContextDrawable<Scene>
 {
-	private readonly headDrawable: CreatingContextDrawable<Scene, Context>;
-	private readonly tailDrawable: ForgettingContextDrawable<Scene, Context>;
+	private readonly firstDrawable: CreatingContextDrawable<Scene, Context>;
+	private readonly restDrawable: ForgettingContextDrawable<Scene, Context>;
 	public constructor(
-		headDrawable: CreatingContextDrawable<Scene, Context>,
-		tailDrawable: ForgettingContextDrawable<Scene, Context>,
+		firstDrawable: CreatingContextDrawable<Scene, Context>,
+		restDrawable: ForgettingContextDrawable<Scene, Context>,
 	) {
-		this.headDrawable = headDrawable;
-		this.tailDrawable = tailDrawable;
+		this.firstDrawable = firstDrawable;
+		this.restDrawable = restDrawable;
 	}
 	public draw(gl: WebGL2RenderingContext, scene: Scene): undefined {
-		const context = this.headDrawable.draw(gl, scene);
-		this.tailDrawable.draw(gl, scene, context);
+		const context = this.firstDrawable.draw(gl, scene);
+		this.restDrawable.draw(gl, scene, context);
 	}
 }

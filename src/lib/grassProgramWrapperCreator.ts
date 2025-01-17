@@ -4,7 +4,7 @@ import type {Scene} from "./Scene.ts";
 import type {Vec3} from "./web-gl/Vec3.ts";
 import {Vec3VariableSpecification} from "./web-gl/Vec3VariableSpecification.ts";
 import type {Triangle} from "./web-gl/Triangle.ts";
-import {ProgramWrapperCreator} from "./web-gl/ProgramWrapperCreator.ts";
+import {ProgramWrapperCreator} from "./web-gl/WithoutContextProgramWrapperCreator.ts";
 export const grassProgramWrapperCreator = new ProgramWrapperCreator(
 	{
 		projection: new Mat4VariableSpecification((scene: Scene) => scene.camera.projection),
