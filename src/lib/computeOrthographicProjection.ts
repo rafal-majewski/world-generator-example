@@ -12,15 +12,15 @@ const farClippingPlane = 100;
 export function computeOrthographicProjection(
 	position: XyzCoordinates,
 	fieldOfView: Dimensions,
-	orientation: Orientation,
+	orientationRadians: Orientation,
 ): Mat4 {
 	const fieldOfViewMatrix = computeOrthographicFieldOfViewMatrix(fieldOfView);
 	const clippingMatrix = computeOrthographicClippingMatrix(farClippingPlane);
 	const translationMatrix = computeNegativeTranslationMatrix(position);
 	const horizontalOrientationMatrix = computeHorizontalOrientationMatrix(
-		orientation.horizontalRadians,
+		orientationRadians.horizontal,
 	);
-	const verticalOrientationMatrix = computeVerticalOrientationMatrix(orientation.verticalRadians);
+	const verticalOrientationMatrix = computeVerticalOrientationMatrix(orientationRadians.vertical);
 	const combinedMatrix = multiplyManyMatrices4(
 		translationMatrix,
 		horizontalOrientationMatrix,

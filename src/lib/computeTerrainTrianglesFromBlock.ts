@@ -1,11 +1,10 @@
 import type {Block} from "./Block.ts";
-import type {TerrainVertex} from "./TerrainVertex.ts";
-import type {Triangle} from "./web-gl/Triangle.ts";
-function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainVertex>[] {
+import type {TerrainTriangle} from "./TerrainTriangle.ts";
+function computeNearTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const trianglesPositionZ = block.position.z - 0.5;
-	const leftTriangle: Triangle<TerrainVertex> = [
+	const leftTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y - 0.5,
@@ -18,7 +17,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -31,7 +30,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y + 0.5,
@@ -44,9 +43,9 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 	];
-	const rightTriangle: Triangle<TerrainVertex> = [
+	const rightTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y - 0.5,
@@ -59,7 +58,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -72,7 +71,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y + 0.5,
@@ -85,9 +84,9 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 	];
-	const bottomTriangle: Triangle<TerrainVertex> = [
+	const bottomTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y - 0.5,
@@ -100,7 +99,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -113,7 +112,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y - 0.5,
@@ -126,9 +125,9 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 	];
-	const topTriangle: Triangle<TerrainVertex> = [
+	const topTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y + 0.5,
@@ -141,7 +140,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -154,7 +153,7 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y + 0.5,
@@ -169,11 +168,11 @@ function computeNearTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 	];
 	return [leftTriangle, rightTriangle, bottomTriangle, topTriangle];
 }
-function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVertex>[] {
+function computeFarTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const trianglesPositionZ = block.position.z + 0.5;
-	const leftTriangle: Triangle<TerrainVertex> = [
+	const leftTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y - 0.5,
@@ -186,7 +185,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -199,7 +198,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y + 0.5,
@@ -212,9 +211,9 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 	];
-	const rightTriangle: Triangle<TerrainVertex> = [
+	const rightTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y - 0.5,
@@ -227,7 +226,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -240,7 +239,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y + 0.5,
@@ -253,9 +252,9 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 	];
-	const bottomTriangle: Triangle<TerrainVertex> = [
+	const bottomTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y - 0.5,
@@ -268,7 +267,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -281,7 +280,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y - 0.5,
@@ -294,9 +293,9 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 	];
-	const topTriangle: Triangle<TerrainVertex> = [
+	const topTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: block.position.y + 0.5,
@@ -309,7 +308,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: block.position.y,
@@ -322,7 +321,7 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: block.position.y + 0.5,
@@ -337,11 +336,11 @@ function computeFarTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 	];
 	return [leftTriangle, rightTriangle, bottomTriangle, topTriangle];
 }
-function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVertex>[] {
+function computeTopTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const trianglesPositionY = block.position.y + 0.5;
-	const leftTriangle: Triangle<TerrainVertex> = [
+	const leftTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -354,7 +353,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -367,7 +366,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -380,9 +379,9 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 	];
-	const rightTriangle: Triangle<TerrainVertex> = [
+	const rightTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -395,7 +394,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -408,7 +407,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -421,9 +420,9 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 	];
-	const nearTriangle: Triangle<TerrainVertex> = [
+	const nearTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -436,7 +435,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -449,7 +448,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -462,9 +461,9 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 	];
-	const farTriangle: Triangle<TerrainVertex> = [
+	const farTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -477,7 +476,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -490,7 +489,7 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -505,11 +504,11 @@ function computeTopTrianglesFromBlock(block: Block): readonly Triangle<TerrainVe
 	];
 	return [leftTriangle, rightTriangle, nearTriangle, farTriangle];
 }
-function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<TerrainVertex>[] {
+function computeBottomTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const trianglesPositionY = block.position.y - 0.5;
-	const leftTriangle: Triangle<TerrainVertex> = [
+	const leftTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -522,7 +521,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -535,7 +534,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -548,9 +547,9 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 	];
-	const rightTriangle: Triangle<TerrainVertex> = [
+	const rightTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -563,7 +562,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -576,7 +575,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -589,9 +588,9 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 	];
-	const nearTriangle: Triangle<TerrainVertex> = [
+	const nearTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -604,7 +603,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -617,7 +616,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -630,9 +629,9 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 	];
-	const farTriangle: Triangle<TerrainVertex> = [
+	const farTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x - 0.5,
 				y: trianglesPositionY,
@@ -645,7 +644,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x,
 				y: trianglesPositionY,
@@ -658,7 +657,7 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: block.position.x + 0.5,
 				y: trianglesPositionY,
@@ -673,11 +672,11 @@ function computeBottomTrianglesFromBlock(block: Block): readonly Triangle<Terrai
 	];
 	return [leftTriangle, rightTriangle, nearTriangle, farTriangle];
 }
-function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainVertex>[] {
+function computeLeftTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const trianglesPositionX = block.position.x - 0.5;
-	const bottomTriangle: Triangle<TerrainVertex> = [
+	const bottomTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -690,7 +689,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -703,7 +702,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -716,9 +715,9 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 	];
-	const topTriangle: Triangle<TerrainVertex> = [
+	const topTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -731,7 +730,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -744,7 +743,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -757,9 +756,9 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 	];
-	const nearTriangle: Triangle<TerrainVertex> = [
+	const nearTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -772,7 +771,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -785,7 +784,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -798,9 +797,9 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 	];
-	const farTriangle: Triangle<TerrainVertex> = [
+	const farTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -813,7 +812,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -826,7 +825,7 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -841,11 +840,11 @@ function computeLeftTrianglesFromBlock(block: Block): readonly Triangle<TerrainV
 	];
 	return [bottomTriangle, topTriangle, nearTriangle, farTriangle];
 }
-function computeRightTrianglesFromBlock(block: Block): readonly Triangle<TerrainVertex>[] {
+function computeRightTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const trianglesPositionX = block.position.x + 0.5;
-	const bottomTriangle: Triangle<TerrainVertex> = [
+	const bottomTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -858,7 +857,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -871,7 +870,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -884,9 +883,9 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 	];
-	const topTriangle: Triangle<TerrainVertex> = [
+	const topTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -899,7 +898,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -912,7 +911,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -925,9 +924,9 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 	];
-	const nearTriangle: Triangle<TerrainVertex> = [
+	const nearTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -940,7 +939,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -953,7 +952,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -966,9 +965,9 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 	];
-	const farTriangle: Triangle<TerrainVertex> = [
+	const farTriangle: TerrainTriangle = [
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y - 0.5,
@@ -981,7 +980,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y,
@@ -994,7 +993,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 			},
 		},
 		{
-			material: block.material,
+			color: block.color,
 			position: {
 				x: trianglesPositionX,
 				y: block.position.y + 0.5,
@@ -1009,7 +1008,7 @@ function computeRightTrianglesFromBlock(block: Block): readonly Triangle<Terrain
 	];
 	return [bottomTriangle, topTriangle, nearTriangle, farTriangle];
 }
-export function computeTerrainTriangles(block: Block): readonly Triangle<TerrainVertex>[] {
+export function computeTerrainTrianglesFromBlock(block: Block): readonly TerrainTriangle[] {
 	const leftTriangles = computeLeftTrianglesFromBlock(block);
 	const rightTriangles = computeRightTrianglesFromBlock(block);
 	const bottomTriangles = computeBottomTrianglesFromBlock(block);
