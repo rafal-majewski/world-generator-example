@@ -1,36 +1,25 @@
 import type {Scene} from "./Scene.ts";
 import type {TerrainTriangle} from "./TerrainTriangle.ts";
 import type {TerrainVertex} from "./TerrainVertex.ts";
+import {LiteralFloatValue} from "./web-gl/LiteralFloatValue.ts";
+import {Mat4TimesVec4ResultingInVec4Value} from "./web-gl/Mat4TimesVec4ResultingInVec4Value.ts";
 import {Mat4VariableSpecification} from "./web-gl/Mat4VariableSpecification.ts";
-// import type {Vec3} from "./web-gl/Vec3.ts";
+import {ProgramWrapperCreatorBuilder} from "./web-gl/ProgramWrapperCreatorBuilder.ts";
+import {Vec3AndFloatConstructingVec4Value} from "./web-gl/Vec3AndFloatConstructingVec4Value.ts";
 import {Vec3VariableSpecification} from "./web-gl/Vec3VariableSpecification.ts";
-import {WithoutContextProgramWrapperCreator} from "./web-gl/WithoutContextProgramWrapperCreator.ts";
-export const terrainProgramWrapperCreator = new WithoutContextProgramWrapperCreator(
-	{
+export const terrainProgramWrapperCreator = new ProgramWrapperCreatorBuilder<Scene, TerrainVertex>()
+	.specifyUniforms({
 		projection: new Mat4VariableSpecification((scene: Scene) => scene.camera.projection),
-		// sunDirection: new Vec3VariableSpecification((scene: Scene) => {
-		// 	const angleRadians = scene.sun.angleRadians;
-		// 	const sunDirection: Vec3 = [0, -Math.sin(angleRadians), -Math.cos(angleRadians)];
-		// 	return sunDirection;
-		// }),
-		// sunColor: new Vec3VariableSpecification((scene: Scene) => [
-		// 	scene.sun.color.red,
-		// 	scene.sun.color.green,
-		// 	scene.sun.color.blue,
-		// ]),
-	},
-	{
+	})
+	.specifyTrianglesSelector(
+		(scene: Scene): readonly TerrainTriangle[] => scene.mainWorldChunk.triangles,
+	)
+	.specifyAttributes({
 		position: new Vec3VariableSpecification((vertex: TerrainVertex) => [
 			vertex.position.x,
 			vertex.position.y,
 			vertex.position.z,
 		]),
-		// sandiness: new FloatVariableSpecification((vertex: TerrainVertex) =>
-		// 	vertex.material === "sand" ? 1 : 0,
-		// ),
-		// dirtiness: new FloatVariableSpecification((vertex: TerrainVertex) =>
-		// 	vertex.material === "dirt" ? 1 : 0,
-		// ),
 		color: new Vec3VariableSpecification((vertex: TerrainVertex) => [
 			vertex.color.red,
 			vertex.color.green,
@@ -41,33 +30,40 @@ export const terrainProgramWrapperCreator = new WithoutContextProgramWrapperCrea
 			vertex.normal.y,
 			vertex.normal.z,
 		]),
-	},
-	{
+	})
+	.declareVaryings({
 		color: "vec3",
 		normal: "vec3",
 		position: "vec3",
-	},
-	"",
-	({uniforms, ins, outs}) => `
-gl_Position = ${uniforms.projection} * vec4(${ins.position}, 1.0);
-${outs.color} = ${ins.color};
-${outs.normal} = ${ins.normal};
-${outs.position} = ${ins.position};
-`,
-	"highp",
-	{
+	})
+	.specifyVertexShader((builder) =>
+		builder.setPrecision("high").specifyMain((builder) =>
+			builder.finalize(({variables}) => ({
+				gl_Position: new Mat4TimesVec4ResultingInVec4Value(
+					variables.uniforms.projection,
+					new Vec3AndFloatConstructingVec4Value(variables.ins.position, new LiteralFloatValue(1.0)),
+				),
+				outs: {
+					color: variables.ins.color,
+					normal: variables.ins.normal,
+					position: variables.ins.position,
+				},
+			})),
+		),
+	)
+	.declareOutputs({
 		color: "vec4",
-	},
-	`
-`,
-	({ins, outs}) =>
-		`
-${outs.color} = vec4(${ins.color}, 1.0);
-`,
-	"highp",
-	// (scene: Scene): readonly Triangle[] => {
-	// 	const triangles = scene.blocks.flatMap(computeTrianglesFromBlock);
-	// 	return triangles;
-	// },
-	(scene: Scene): readonly TerrainTriangle[] => scene.mainWorldChunk.triangles,
-);
+	})
+	.specifyFragmentShader((builder) =>
+		builder.setPrecision("high").specifyMain((mainBuilder) =>
+			mainBuilder.finalize(({variables}) => ({
+				outs: {
+					color: new Vec3AndFloatConstructingVec4Value(
+						variables.ins.color,
+						new LiteralFloatValue(1.0),
+					),
+				},
+			})),
+		),
+	)
+	.build();

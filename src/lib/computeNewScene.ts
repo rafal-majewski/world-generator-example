@@ -1,5 +1,4 @@
 import type {KeyboardState} from "./KeyboardState.ts";
-import {MainWorldChunk} from "./MainWorldChunk.ts";
 import type {Orientation} from "./Orientation.ts";
 import {PerspectiveCamera} from "./PerspectiveCamera.ts";
 import type {Scene} from "./Scene.ts";

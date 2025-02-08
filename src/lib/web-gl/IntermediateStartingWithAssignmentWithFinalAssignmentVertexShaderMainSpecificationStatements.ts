@@ -1,0 +1,22 @@
+import {IntermediateStartingWithAssignmentWithFinalAssignmentsVertexShaderMainSpecificationStatements} from "./IntermediateStartingWithAssignmentWithFinalAssignmentsVertexShaderMainSpecificationStatements.ts";
+import {IntermediateStartingWithAssignmentWithFinalIfVertexShaderMainSpecificationStatements} from "./IntermediateStartingWithAssignmentWithFinalIfVertexShaderMainSpecificationStatements.ts";
+import type {WithFinalAssignmentVertexShaderMainSpecificationStatements} from "./WithFinalAssignmentVertexShaderMainSpecificationStatements.ts";
+export class IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderMainSpecificationStatements
+	implements WithFinalAssignmentVertexShaderMainSpecificationStatements
+{
+	public pushAssignment(): IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderMainSpecificationStatements {
+		const newStatements =
+			new IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderMainSpecificationStatements();
+		return newStatements;
+	}
+	public pushIf(): IntermediateStartingWithAssignmentWithFinalIfVertexShaderMainSpecificationStatements {
+		const newStatements =
+			new IntermediateStartingWithAssignmentWithFinalIfVertexShaderMainSpecificationStatements();
+		return newStatements;
+	}
+	public pushAssignments(): IntermediateStartingWithAssignmentWithFinalAssignmentsVertexShaderMainSpecificationStatements {
+		const newStatements =
+			new IntermediateStartingWithAssignmentWithFinalAssignmentsVertexShaderMainSpecificationStatements();
+		return newStatements;
+	}
+}

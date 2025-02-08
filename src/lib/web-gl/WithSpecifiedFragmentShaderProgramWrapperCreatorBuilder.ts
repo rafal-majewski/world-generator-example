@@ -3,17 +3,15 @@ import type {TrianglesSelector} from "./TrianglesSelector.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
 import type {VariablesSpecifications} from "./VariablesSpecifications.ts";
 import type {VertexShaderSpecification} from "./VertexShaderSpecification.ts";
-import type {WithoutContextDrawableCreator} from "./WithoutContextDrawableCreator.ts";
-import {WithoutContextProgramWrapper} from "./WithoutContextProgramWrapper.ts";
-export class WithoutContextProgramWrapperCreator<
+import {WithoutContextProgramWrapperCreator} from "./WithoutContextProgramWrapperCreator.ts";
+export class WithSpecifiedFragmentShaderProgramWrapperCreatorBuilder<
 	Scene,
 	Vertex,
 	UniformsSpecifications extends VariablesSpecifications<Scene>,
 	AttributesSpecifications extends VariablesSpecifications<Vertex>,
 	VaryingsDeclarations extends VariablesDeclarations,
 	OutputsDeclarations extends VariablesDeclarations,
-> implements WithoutContextDrawableCreator<Scene>
-{
+> {
 	private readonly uniformsSpecifications: UniformsSpecifications;
 	private readonly trianglesSelector: TrianglesSelector<Scene, Vertex>;
 	private readonly attributesSpecifications: AttributesSpecifications;
@@ -32,15 +30,21 @@ export class WithoutContextProgramWrapperCreator<
 		this.vertexShaderSpecification = vertexShaderSpecification;
 		this.fragmentShaderSpecification = fragmentShaderSpecification;
 	}
-	public create(gl: WebGL2RenderingContext): WithoutContextProgramWrapper<Scene, Vertex> {
-		const programWrapper = WithoutContextProgramWrapper.create(
-			gl,
+	public build(): WithoutContextProgramWrapperCreator<
+		Scene,
+		Vertex,
+		UniformsSpecifications,
+		AttributesSpecifications,
+		VaryingsDeclarations,
+		OutputsDeclarations
+	> {
+		const creator = new WithoutContextProgramWrapperCreator(
 			this.uniformsSpecifications,
 			this.trianglesSelector,
 			this.attributesSpecifications,
 			this.vertexShaderSpecification,
 			this.fragmentShaderSpecification,
 		);
-		return programWrapper;
+		return creator;
 	}
 }

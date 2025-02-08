@@ -1,11 +1,11 @@
 export function mapObjectValueWise<Key extends string | number, Value, NewValue>(
 	object_: Readonly<Record<Key, Value>>,
-	mapper: (value: Value) => NewValue,
+	mapper: (value: Value, key: Key) => NewValue,
 ): Readonly<Record<Key, NewValue>> {
 	const objectEntries = Object.entries(object_) as unknown as readonly (readonly [Key, Value])[];
 	const mappedObjectEntries: readonly (readonly [Key, NewValue])[] = objectEntries.map(
 		([key, value]) => {
-			const mappedValue = mapper(value);
+			const mappedValue = mapper(value, key);
 			return [key, mappedValue] as const;
 		},
 	);

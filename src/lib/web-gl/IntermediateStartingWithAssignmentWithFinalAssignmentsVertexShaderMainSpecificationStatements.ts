@@ -1,0 +1,6 @@
+import type {WithFinalAssignmentsVertexShaderMainSpecificationStatements} from "./WithFinalAssignmentsVertexShaderMainSpecificationStatements.ts";
+export class IntermediateStartingWithAssignmentWithFinalAssignmentsVertexShaderMainSpecificationStatements
+	implements WithFinalAssignmentsVertexShaderMainSpecificationStatements
+{
+	public stringify(indentationLevel: number): string {}
+}

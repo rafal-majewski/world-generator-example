@@ -1,0 +1,3 @@
+import type {FinalizedVertexShaderMainSpecificationStatements} from "./FinalizedVertexShaderMainSpecificationStatements.ts";
+export interface WithFinalAssignmentsVertexShaderMainSpecificationStatements
+	extends FinalizedVertexShaderMainSpecificationStatements {}

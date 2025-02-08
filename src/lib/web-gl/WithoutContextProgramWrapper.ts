@@ -1,8 +1,4 @@
-import type {VariableName} from "./VariableName.ts";
 import type {VariableSize} from "./VariableSize.ts";
-import type {VariableSpecification} from "./VariableSpecification.ts";
-import {ProgramConfiguration} from "./ProgramConfiguration.ts";
-import type {ProgramWrapperConfiguration} from "./ProgramWrapperConfiguration.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
 import {createProgram} from "./createProgram.ts";
 import {mapObjectValueWise} from "./mapObjectValueWise.ts";
@@ -10,50 +6,35 @@ import type {Serializer} from "./Serializer.ts";
 import {UniformVariableSetter} from "./UniformVariableSetter.ts";
 import {computeBufferData} from "./computeBufferData.ts";
 import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
+import type {FragmentShaderSpecification} from "./FragmentShaderSpecification.ts";
+import type {VariablesSpecifications} from "./VariablesSpecifications.ts";
+import type {VertexShaderSpecification} from "./VertexShaderSpecification.ts";
+import {createShader} from "./createShader.ts";
 export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutContextDrawable<Scene> {
 	public static create<
 		Scene,
 		Vertex,
-		UniformVariableName extends VariableName,
-		AttributeVariableName extends VariableName,
-		VaryingVariableName extends VariableName,
-		OutputVariableName extends VariableName,
+		UniformsSpecifications extends VariablesSpecifications<Scene>,
+		AttributesSpecifications extends VariablesSpecifications<Vertex>,
 	>(
 		gl: WebGL2RenderingContext,
-		configuration: ProgramWrapperConfiguration<
-			Scene,
-			Vertex,
-			UniformVariableName,
-			AttributeVariableName,
-			VaryingVariableName,
-			OutputVariableName
-		>,
+		uniformsSpecifications: UniformsSpecifications,
+		trianglesSelector: TrianglesSelector<Scene, Vertex>,
+		attributesSpecifications: AttributesSpecifications,
+		vertexShaderSpecification: VertexShaderSpecification,
+		fragmentShaderSpecification: FragmentShaderSpecification,
 	) {
 		const buffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-		const uniformVariableNameToVariableType = mapObjectValueWise(
-			configuration.uniformVariableNameToVariableSpecification,
-			({type}) => type,
-		);
-		const attributeVariableNameToVariableType = mapObjectValueWise(
-			configuration.attributeVariableNameToVariableSpecification,
-			({type}) => type,
-		);
-		const programConfiguration = new ProgramConfiguration(
-			uniformVariableNameToVariableType,
-			attributeVariableNameToVariableType,
-			configuration.varyingVariableNameToVariableType,
-			configuration.vertexShaderGlobalSourceCode,
-			configuration.vertexShaderMainContentCreator,
-			configuration.vertexShaderPrecision,
-			configuration.outputVariableNameToVariableType,
-			configuration.fragmentShaderGlobalSourceCode,
-			configuration.fragmentShaderMainContentCreator,
-			configuration.fragmentShaderPrecision,
-		);
-		const program = createProgram(programConfiguration, gl);
+		const vertexShaderSourceCode = vertexShaderSpecification.stringify();
+		console.log(vertexShaderSourceCode);
+		const fragmentShaderSourceCode = fragmentShaderSpecification.stringify();
+		console.log(fragmentShaderSourceCode);
+		const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
+		const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
+		const program = createProgram(gl, vertexShader, fragmentShader);
 		const attributeVariableNameToVariableSize = mapObjectValueWise(
-			configuration.attributeVariableNameToVariableSpecification,
+			attributesSpecifications,
 			({size}) => size,
 		);
 		const vao = gl.createVertexArray();
@@ -65,7 +46,7 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 		let offsetBytes = 0;
 		const attributeVariableNameToVariableSizeEntries = Object.entries(
 			attributeVariableNameToVariableSize,
-		) as unknown as readonly (readonly [AttributeVariableName, VariableSize])[];
+		);
 		gl.bindVertexArray(vao);
 		for (const [name, size] of attributeVariableNameToVariableSizeEntries) {
 			const location = gl.getAttribLocation(program, `a_${name}`);
@@ -73,9 +54,8 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 			gl.vertexAttribPointer(location, size, gl.FLOAT, false, strideBytes, offsetBytes);
 			offsetBytes += size * Float32Array.BYTES_PER_ELEMENT;
 		}
-		const uniformVariableNameToVariableSpecificationEntries = Object.entries(
-			configuration.uniformVariableNameToVariableSpecification,
-		) as unknown as readonly (readonly [UniformVariableName, VariableSpecification<Scene>])[];
+		const uniformVariableNameToVariableSpecificationEntries =
+			Object.entries(uniformsSpecifications);
 		const uniformVariableSetters = uniformVariableNameToVariableSpecificationEntries.map(
 			([name, specification]) => {
 				const location = gl.getUniformLocation(program, `u_${name}`) as WebGLUniformLocation;
@@ -84,14 +64,14 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 			},
 		);
 		const vertexSerializers = Object.values(
-			configuration.attributeVariableNameToVariableSpecification,
+			attributesSpecifications,
 		) as readonly Serializer<Vertex>[];
 		const programWrapper = new WithoutContextProgramWrapper(
 			vao,
 			buffer,
 			program,
 			uniformVariableSetters,
-			configuration.trianglesSelector,
+			trianglesSelector,
 			vertexSerializers,
 		);
 		// gl.bindVertexArray(null);

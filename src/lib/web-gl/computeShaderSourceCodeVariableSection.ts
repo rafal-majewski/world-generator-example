@@ -2,7 +2,7 @@ import {createShaderSourceCodeVariableSectionLines} from "./createShaderSourceCo
 import type {VariableName} from "./VariableName.ts";
 import type {VariableRole} from "./VariableRole.ts";
 import type {VariableType} from "./VariableType.ts";
-export function createShaderSourceCodeVariableSection(
+export function computeShaderSourceCodeVariableSection(
 	variableRole: VariableRole,
 	variableNameToVariableType: Readonly<Record<VariableName, VariableType>>,
 ): string {
