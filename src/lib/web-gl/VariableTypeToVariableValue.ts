@@ -1,3 +1,4 @@
+import type {BoolValue} from "./BoolValue.ts";
 import type {FloatValue} from "./FloatValue.ts";
 import type {Mat2Value} from "./Mat2Value.ts";
 import type {Mat3Value} from "./Mat3Value.ts";
@@ -13,4 +14,5 @@ export type VariableTypeToVariableValue = Readonly<{
 	mat2: Mat2Value;
 	mat3: Mat3Value;
 	mat4: Mat4Value;
+	bool: BoolValue;
 }>;

@@ -1,7 +1,7 @@
-import type {Vec2Value} from "./Vec2Value.ts";
+import type {BoolValue} from "./BoolValue.ts";
 import type {VariableIdentifier} from "./VariableIdentifier.ts";
-export class VariableVec2Value implements Vec2Value {
-	public readonly type = "vec2";
+export class VariableBoolValue implements BoolValue {
+	public readonly type = "bool";
 	private readonly identifier: VariableIdentifier;
 	public constructor(identifier: VariableIdentifier) {
 		this.identifier = identifier;

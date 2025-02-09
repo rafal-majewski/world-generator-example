@@ -1,25 +1,21 @@
 import type {BoolValue} from "./BoolValue.ts";
-import type {FinalElseVertexShaderMainSpecificationStatements} from "./FinalElseShaderMainSpecificationStatements.ts";
-import type {FinalizedVertexShaderMainSpecificationStatements} from "./FinalizedVertexShaderMainSpecificationStatements.ts";
-import {IntermediateStartingWithIfWithFinalElseVertexShaderMainSpecificationStatements} from "./IntermediateStartingWithIfWithFinalElseVertexShaderMainSpecificationStatements.ts";
+import type {FinalThenVertexShaderMainSpecificationStatements} from "./FinalThenVertexShaderMainSpecificationStatements.ts";
+import {IntermediateStartingWithIfWithFinalThenVertexShaderMainSpecificationStatements} from "./IntermediateStartingWithIfWithFinalThenVertexShaderMainSpecificationStatements.ts";
 import type {WithFinalIfVertexShaderMainSpecificationStatements} from "./WithFinalIfVertexShaderMainSpecificationStatements.ts";
 export class FinalIfVertexShaderMainSpecificationStatements
 	implements WithFinalIfVertexShaderMainSpecificationStatements
 {
 	private readonly condition: BoolValue;
-	private readonly body: FinalizedVertexShaderMainSpecificationStatements;
-	public constructor(condition: BoolValue, body: FinalizedVertexShaderMainSpecificationStatements) {
+	public constructor(condition: BoolValue) {
 		this.condition = condition;
-		this.body = body;
 	}
-	public pushElse(
-		else_: FinalElseVertexShaderMainSpecificationStatements,
-	): IntermediateStartingWithIfWithFinalElseVertexShaderMainSpecificationStatements {
+	public pushThen(
+		then: FinalThenVertexShaderMainSpecificationStatements,
+	): IntermediateStartingWithIfWithFinalThenVertexShaderMainSpecificationStatements {
 		const newStatements =
-			new IntermediateStartingWithIfWithFinalElseVertexShaderMainSpecificationStatements(
+			new IntermediateStartingWithIfWithFinalThenVertexShaderMainSpecificationStatements(
 				this.condition,
-				this.body,
-				else_,
+				then,
 			);
 		return newStatements;
 	}

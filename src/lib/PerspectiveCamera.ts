@@ -3,7 +3,8 @@ import type {PerspectiveFieldOfView} from "./PerspectiveFieldOfView.ts";
 import type {Orientation} from "./Orientation.ts";
 import type {Mat4} from "./web-gl/Mat4.ts";
 import type {XyzCoordinates} from "./XyzCoordinates.ts";
-export class PerspectiveCamera {
+import type {Camera} from "./Camera.ts";
+export class PerspectiveCamera implements Camera {
 	public readonly position: XyzCoordinates;
 	public readonly orientationRadians: Orientation;
 	public readonly fieldOfViewRadians: PerspectiveFieldOfView;

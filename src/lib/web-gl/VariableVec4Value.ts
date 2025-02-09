@@ -1,9 +1,12 @@
 import type {Vec4Value} from "./Vec4Value.ts";
 import type {VariableIdentifier} from "./VariableIdentifier.ts";
-import {VariableValue} from "./VariableValue.ts";
-export class VariableVec4Value<IdentifierToUse extends VariableIdentifier>
-	extends VariableValue<IdentifierToUse>
-	implements Vec4Value
-{
+export class VariableVec4Value implements Vec4Value {
 	public readonly type = "vec4";
+	private readonly identifier: VariableIdentifier;
+	public constructor(identifier: VariableIdentifier) {
+		this.identifier = identifier;
+	}
+	public stringify(): VariableIdentifier {
+		return this.identifier;
+	}
 }

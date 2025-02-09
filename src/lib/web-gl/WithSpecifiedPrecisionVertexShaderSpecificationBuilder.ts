@@ -39,7 +39,7 @@ export class WithSpecifiedPrecisionVertexShaderSpecificationBuilder<
 			Readonly<{}>,
 			Readonly<{}>
 		>(this.uniformsDeclarations, this.attributesDeclarations, {}, {});
-		const mainSpecification = creator(builder);
+		const mainSpecification = creator(builder).build();
 		const shaderSpecification = new VertexShaderSpecification(
 			this.precision,
 			this.uniformsDeclarations,

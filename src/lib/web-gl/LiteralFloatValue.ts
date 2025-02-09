@@ -1,8 +1,8 @@
-import {FloatValue} from "./FloatValue.ts";
-export class LiteralFloatValue extends FloatValue {
+import type {FloatValue} from "./FloatValue.ts";
+export class LiteralFloatValue implements FloatValue {
+	public readonly type = "float";
 	private readonly value: number;
 	public constructor(value: number) {
-		super();
 		this.value = value;
 	}
 	public stringify(): string {

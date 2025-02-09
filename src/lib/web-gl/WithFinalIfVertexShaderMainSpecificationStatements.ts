@@ -1,7 +1,7 @@
-import type {FinalElseVertexShaderMainSpecificationStatements} from "./FinalElseShaderMainSpecificationStatements.ts";
-import type {WithFinalElseVertexShaderMainSpecificationStatements} from "./WithFinalElseVertexShaderMainSpecificationStatements.ts";
+import type {FinalThenVertexShaderMainSpecificationStatements} from "./FinalThenVertexShaderMainSpecificationStatements.ts";
+import type {WithFinalThenVertexShaderMainSpecificationStatements} from "./WithFinalThenVertexShaderMainSpecificationStatements.ts";
 export interface WithFinalIfVertexShaderMainSpecificationStatements {
-	pushElse(
-		else_: FinalElseVertexShaderMainSpecificationStatements,
-	): WithFinalElseVertexShaderMainSpecificationStatements;
+	pushThen(
+		then: FinalThenVertexShaderMainSpecificationStatements,
+	): WithFinalThenVertexShaderMainSpecificationStatements;
 }

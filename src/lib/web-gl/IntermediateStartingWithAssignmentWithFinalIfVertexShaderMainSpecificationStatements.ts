@@ -1,5 +1,5 @@
-import type {FinalIfVertexShaderMainSpecificationStatements} from "./FinalIfVertexShaderMainSpecificationStatements.ts";
-import {IntermediateStartingWithAssignmentWithFinalElseVertexShaderMainSpecificationStatements} from "./IntermediateStartingWithAssignmentWithFinalElseVertexShaderMainSpecificationStatements.ts";
+import type {FinalThenVertexShaderMainSpecificationStatements} from "./FinalThenVertexShaderMainSpecificationStatements.ts";
+import {IntermediateStartingWithAssignmentWithFinalThenVertexShaderMainSpecificationStatements} from "./IntermediateStartingWithAssignmentWithFinalThenVertexShaderMainSpecificationStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {WithFinalIfVertexShaderMainSpecificationStatements} from "./WithFinalIfVertexShaderMainSpecificationStatements.ts";
@@ -8,19 +8,26 @@ export class IntermediateStartingWithAssignmentWithFinalIfVertexShaderMainSpecif
 {
 	private readonly name: VariableName;
 	private readonly value: Value;
-	private readonly if_: FinalIfVertexShaderMainSpecificationStatements;
+	private readonly restStatements: WithFinalIfVertexShaderMainSpecificationStatements;
 	public constructor(
 		name: VariableName,
 		value: Value,
-		if_: FinalIfVertexShaderMainSpecificationStatements,
+		restStatements: WithFinalIfVertexShaderMainSpecificationStatements,
 	) {
 		this.name = name;
 		this.value = value;
-		this.if_ = if_;
+		this.restStatements = restStatements;
 	}
-	public pushElse(): IntermediateStartingWithAssignmentWithFinalElseVertexShaderMainSpecificationStatements {
+	public pushThen(
+		then: FinalThenVertexShaderMainSpecificationStatements,
+	): IntermediateStartingWithAssignmentWithFinalThenVertexShaderMainSpecificationStatements {
+		const newRestStatements = this.restStatements.pushThen(then);
 		const newStatements =
-			new IntermediateStartingWithAssignmentWithFinalElseVertexShaderMainSpecificationStatements();
+			new IntermediateStartingWithAssignmentWithFinalThenVertexShaderMainSpecificationStatements(
+				this.name,
+				this.value,
+				newRestStatements,
+			);
 		return newStatements;
 	}
 }

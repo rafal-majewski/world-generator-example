@@ -24,7 +24,7 @@ export function generateScene(generatorConfiguration: GeneratorConfiguration): S
 	const terrainHeightNoiseGenerator = CustomNoiseGenerator.create(
 		generatorConfiguration.terrain.layerConfigurations,
 	);
-	const mainWorldChunk = MainWorldChunk.create(8, cameraPosition, 5, terrainHeightNoiseGenerator);
+	const mainWorldChunk = MainWorldChunk.create(11, cameraPosition, 1, terrainHeightNoiseGenerator);
 	return {
 		camera,
 		mainWorldChunk,

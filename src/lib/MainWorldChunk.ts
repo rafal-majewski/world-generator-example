@@ -79,7 +79,6 @@ export class MainWorldChunk {
 			triangles,
 			gridChunkSizeInOneDimension,
 			gridChunkCountInOneDimension,
-			terrainHeightNoiseGenerator,
 		);
 		return chunk;
 	}
@@ -88,17 +87,11 @@ export class MainWorldChunk {
 		triangles: readonly TerrainTriangle[],
 		gridChunkSizeInOneDimension: number,
 		gridChunkCountInOneDimension: number,
-		terrainHeightNoiseGenerator: NoiseGenerator,
 	) {
 		this.triangles = triangles;
 		this.gridChunkSizeInOneDimension = gridChunkSizeInOneDimension;
 		this.gridChunkCountInOneDimension = gridChunkCountInOneDimension;
-		this.terrainHeightNoiseGenerator = terrainHeightNoiseGenerator;
 	}
 	public readonly gridChunkCountInOneDimension: number;
 	public readonly gridChunkSizeInOneDimension: number;
-	public readonly terrainHeightNoiseGenerator: NoiseGenerator;
-	public update(viewerPosition: XyzCoordinates): MainWorldChunk {
-		return this;
-	}
 }

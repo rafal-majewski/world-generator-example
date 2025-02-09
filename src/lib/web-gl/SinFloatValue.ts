@@ -1,8 +1,8 @@
-import {FloatValue} from "./FloatValue.ts";
-export class SinFloatValue extends FloatValue {
+import type {FloatValue} from "./FloatValue.ts";
+export class SinFloatValue implements FloatValue {
+	public readonly type = "float";
 	private readonly angleRadians: FloatValue;
 	public constructor(angleRadians: FloatValue) {
-		super();
 		this.angleRadians = angleRadians;
 	}
 	public stringify() {

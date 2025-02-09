@@ -1,2 +1,4 @@
-import type {KeyState} from "./KeyState.ts";
-export type KeyboardState = ReadonlyMap<string, KeyState>;
+import type {KeyCodesState} from "./KeyCodesState.ts";
+export type KeyboardState = Readonly<{
+	keyCodesStates: KeyCodesState;
+}>;

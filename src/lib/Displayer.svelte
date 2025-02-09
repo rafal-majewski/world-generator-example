@@ -1,63 +1,95 @@
 <script lang="ts">
 	import {applyGeneratorConfigurationToScene} from "./applyGeneratorConfigurationToScene.ts";
-	import {computeNewScene} from "./computeNewScene.ts";
+	import {ComposedNewSceneComputer} from "./ComposedNewSceneComputer.ts";
 	import type {Dimensions} from "./Dimensions.ts";
 	import {generateScene} from "./generateScene.ts";
 	import type {GeneratorConfiguration} from "./GeneratorConfiguration.ts";
-	import type {KeyboardState} from "./KeyboardState.ts";
+	import type {Interactions} from "./Interactions.ts";
+	import type {KeyCodesState} from "./KeyCodesState.ts";
 	import {mainWebGlWrapperCreator} from "./mainWebGlWrapperCreator.ts";
 	import type {Scene} from "./Scene.ts";
 	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
-	import type {XyCoordinates} from "./XyCoordinates.ts";
+	import {UpdatingCameraNewSceneComputer} from "./UpdatingCameraNewSceneComputer.ts";
 	const {
 		generatorConfiguration,
 	}: Readonly<{
 		generatorConfiguration: GeneratorConfiguration;
 	}> = $props();
 	let mainCanvas: HTMLCanvasElement;
-	let keyboardState: KeyboardState = new Map();
-	type MouseState = Readonly<{
-		positionDelta: XyCoordinates | null;
-		isDown: boolean;
-	}>;
-	let mouseState: MouseState = {
-		positionDelta: null,
-		isDown: false,
+	let interactions: Interactions = {
+		keyboardState: {
+			keyCodesStates: new Map(),
+		},
+		mouseState: {
+			movementDeltaPixelCount: {
+				x: 0,
+				y: 0,
+			},
+			leftButtonState: "up",
+		},
 	};
+
 	function handleKeyDown(event: KeyboardEvent): void {
-		keyboardState = new Map([...keyboardState.entries(), [event.code, "down"]]);
+		const newKeyCodesStates: KeyCodesState = new Map([
+			...interactions.keyboardState.keyCodesStates.entries(),
+			[event.code, "down"],
+		]);
+		interactions = {
+			...interactions,
+			keyboardState: {
+				keyCodesStates: newKeyCodesStates,
+			},
+		};
 	}
 	function handleKeyUp(event: KeyboardEvent): void {
-		keyboardState = new Map([...keyboardState.entries(), [event.code, "up"]]);
+		const newKeyCodesStates: KeyCodesState = new Map([
+			...interactions.keyboardState.keyCodesStates.entries(),
+			[event.code, "up"],
+		]);
+		interactions = {
+			...interactions,
+			keyboardState: {
+				keyCodesStates: newKeyCodesStates,
+			},
+		};
 	}
 	function handleMouseDown(): void {
-		mouseState = {
-			...mouseState,
-			isDown: true,
+		interactions = {
+			...interactions,
+			mouseState: {
+				...interactions.mouseState,
+				leftButtonState: "down",
+			},
 		};
 	}
 	function handleMouseUp(): void {
-		mouseState = {
-			...mouseState,
-			isDown: false,
+		interactions = {
+			...interactions,
+			mouseState: {
+				...interactions.mouseState,
+				leftButtonState: "up",
+			},
 		};
 	}
 	function handleMouseMove(event: MouseEvent): void {
-		if (mouseState.isDown) {
-			mouseState = {
-				...mouseState,
-				positionDelta: {
+		interactions = {
+			...interactions,
+			mouseState: {
+				...interactions.mouseState,
+				movementDeltaPixelCount: {
 					x: event.movementX,
 					y: event.movementY,
 				},
-			};
-		}
+			},
+		};
 	}
 	// let sunCanvas: HTMLCanvasElement;
 	let scene: Scene = generateScene(generatorConfiguration);
 	$effect(() => {
 		scene = applyGeneratorConfigurationToScene(scene, generatorConfiguration);
 	});
+	const updatingCameraNewSceneComputer = new UpdatingCameraNewSceneComputer();
+	const composedNewSceneComputer = new ComposedNewSceneComputer([updatingCameraNewSceneComputer]);
 	$effect(function handleMount() {
 		const mainGl = mainCanvas.getContext("webgl2");
 		// const sunGl = sunCanvas.getContext("webgl2");
@@ -130,12 +162,18 @@
 			// 	// ),
 			// 	// sun: new Sun(computeSunAngleRadians(new Date()), scene.sun.color),
 			// };
-			scene = computeNewScene(scene, keyboardState, mouseState.positionDelta);
-			mouseState = {
-				...mouseState,
-				positionDelta: null,
-			};
+			scene = composedNewSceneComputer.compute(scene, interactions);
 			mainWebGlWrapper.draw(scene);
+			interactions = {
+				...interactions,
+				mouseState: {
+					...interactions.mouseState,
+					movementDeltaPixelCount: {
+						x: 0,
+						y: 0,
+					},
+				},
+			};
 			// sunWebGlWrapper.draw(scene);
 			requestAnimationFrame(animate);
 		});

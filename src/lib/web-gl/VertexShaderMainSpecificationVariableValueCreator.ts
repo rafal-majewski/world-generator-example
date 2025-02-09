@@ -7,6 +7,7 @@ export type VertexShaderMainSpecificationVariableValueCreator<
 	AttributesDeclarations extends VariablesDeclarations,
 	CustomFunctions extends Functions,
 	LocalsDeclarations extends VariablesDeclarations,
+	ValueToUse extends Value,
 > = (
 	identifiers: VertexShaderMainSpecificationFinalAssignmentsCreatorIdentifiersParameter<
 		UniformsDeclarations,
@@ -14,4 +15,4 @@ export type VertexShaderMainSpecificationVariableValueCreator<
 		CustomFunctions,
 		LocalsDeclarations
 	>,
-) => Value;
+) => ValueToUse;

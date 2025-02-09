@@ -1,9 +1,12 @@
 import type {FloatValue} from "./FloatValue.ts";
 import type {VariableIdentifier} from "./VariableIdentifier.ts";
-import {VariableValue} from "./VariableValue.ts";
-export class VariableFloatValue<IdentifierToUse extends VariableIdentifier>
-	extends VariableValue<IdentifierToUse>
-	implements FloatValue
-{
+export class VariableFloatValue implements FloatValue {
 	public readonly type = "float";
+	private readonly identifier: VariableIdentifier;
+	public constructor(identifier: VariableIdentifier) {
+		this.identifier = identifier;
+	}
+	public stringify(): VariableIdentifier {
+		return this.identifier;
+	}
 }

@@ -1,3 +1,4 @@
+import {VariableBoolValue} from "./VariableBoolValue.ts";
 import {VariableFloatValue} from "./VariableFloatValue.ts";
 import {VariableMat2Value} from "./VariableMat2Value.ts";
 import {VariableMat3Value} from "./VariableMat3Value.ts";

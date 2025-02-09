@@ -1,10 +1,10 @@
-import {Mat4Value} from "./Mat4Value.ts";
-import {Vec4Value} from "./Vec4Value.ts";
-export class Mat4TimesVec4ResultingInVec4Value extends Vec4Value {
+import type {Mat4Value} from "./Mat4Value.ts";
+import type {Vec4Value} from "./Vec4Value.ts";
+export class Mat4TimesVec4ResultingInVec4Value implements Vec4Value {
+	public readonly type = "vec4";
 	private readonly leftOperand: Mat4Value;
 	private readonly rightOperand: Vec4Value;
 	public constructor(leftOperand: Mat4Value, rightOperand: Vec4Value) {
-		super();
 		this.leftOperand = leftOperand;
 		this.rightOperand = rightOperand;
 	}

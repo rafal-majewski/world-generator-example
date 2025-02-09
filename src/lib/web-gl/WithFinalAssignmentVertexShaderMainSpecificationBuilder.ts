@@ -1,16 +1,19 @@
+import type {BoolValue} from "./BoolValue.ts";
 import {builtInFunctions} from "./builtInFunctions.ts";
 import {FinalAssignmentsVertexShaderMainSpecificationStatements} from "./FinalAssignmentsVertexShaderMainSpecificationStatements.ts";
 import {FinalAssignmentVertexShaderMainSpecificationStatements} from "./FinalAssignmentVertexShaderMainSpecificationStatements.ts";
+import {FinalIfVertexShaderMainSpecificationStatements} from "./FinalIfVertexShaderMainSpecificationStatements.ts";
 import type {Functions} from "./Functions.ts";
+import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
-import type {VariableType} from "./VariableType.ts";
 import {variableTypeToVariableValueConstructor} from "./variableTypeToVariableValueConstructor.ts";
-import {VertexShaderMainSpecification} from "./VertexShaderMainSpecification.ts";
 import type {VertexShaderMainSpecificationFinalAssignmentsCreator} from "./VertexShaderMainSpecificationFinalAssignmentsCreator.ts";
 import type {VertexShaderMainSpecificationVariableValueCreator} from "./VertexShaderMainSpecificationVariableValueCreator.ts";
+import {WithFinalAssignmentsVertexShaderMainSpecificationBuilder} from "./WithFinalAssignmentsVertexShaderMainSpecificationBuilder.ts";
 import type {WithFinalAssignmentVertexShaderMainSpecificationStatements} from "./WithFinalAssignmentVertexShaderMainSpecificationStatements.ts";
-export class WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder<
+import {WithFinalIfVertexShaderMainSpecificationBuilder} from "./WithFinalIfVertexShaderMainSpecificationBuilder.ts";
+export class WithFinalAssignmentVertexShaderMainSpecificationBuilder<
 	UniformsDeclarations extends VariablesDeclarations,
 	AttributesDeclarations extends VariablesDeclarations,
 	VaryingsDeclarations extends VariablesDeclarations,
@@ -30,7 +33,7 @@ export class WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder<
 			CustomFunctions,
 			LocalsDeclarations
 		>,
-	): VertexShaderMainSpecification {
+	): WithFinalAssignmentsVertexShaderMainSpecificationBuilder {
 		const assignments = creator({
 			functions: {
 				custom: this.customFunctions,
@@ -73,8 +76,8 @@ export class WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder<
 			assignments,
 		);
 		const newStatements = this.statements.pushAssignments(finalStatements);
-		const specification = new VertexShaderMainSpecification(newStatements);
-		return specification;
+		const newBuilder = new WithFinalAssignmentsVertexShaderMainSpecificationBuilder(newStatements);
+		return newBuilder;
 	}
 	public constructor(
 		uniformsDeclarations: UniformsDeclarations,
@@ -89,23 +92,21 @@ export class WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder<
 		this.localsDeclarations = localsDeclarations;
 		this.statements = statements;
 	}
-	public defineLocalVariable<
-		VariableNameToUse extends VariableName,
-		VariableTypeToUse extends VariableType,
-	>(
+	public defineLocalVariable<VariableNameToUse extends VariableName, ValueToUse extends Value>(
 		name: VariableNameToUse,
 		valueCreator: VertexShaderMainSpecificationVariableValueCreator<
 			UniformsDeclarations,
 			AttributesDeclarations,
 			CustomFunctions,
-			LocalsDeclarations
+			LocalsDeclarations,
+			ValueToUse
 		>,
-	): WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder<
+	): WithFinalAssignmentVertexShaderMainSpecificationBuilder<
 		UniformsDeclarations,
 		AttributesDeclarations,
 		VaryingsDeclarations,
 		CustomFunctions,
-		LocalsDeclarations & Readonly<Record<VariableNameToUse, VariableTypeToUse>>
+		LocalsDeclarations & Readonly<Record<VariableNameToUse, ValueToUse["type"]>>
 	> {
 		const assignmentValue = valueCreator({
 			functions: {
@@ -152,15 +153,21 @@ export class WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder<
 		const newLocalsDeclarations = {
 			...this.localsDeclarations,
 			[name]: assignmentValue.type,
-		} as LocalsDeclarations & Readonly<Record<VariableNameToUse, VariableTypeToUse>>;
+		} as LocalsDeclarations & Readonly<Record<VariableNameToUse, ValueToUse>>;
 		const newStatements = this.statements.pushAssignment(assignment);
-		const newBuilder = new WithFinalAssignmentStatementVertexShaderMainSpecificationBuilder(
+		const newBuilder = new WithFinalAssignmentVertexShaderMainSpecificationBuilder(
 			this.uniformsDeclarations,
 			this.attributesDeclarations,
 			this.customFunctions,
 			newLocalsDeclarations,
 			newStatements,
 		);
+		return newBuilder;
+	}
+	public if_(condition: BoolValue): WithFinalIfVertexShaderMainSpecificationBuilder {
+		const if_ = new FinalIfVertexShaderMainSpecificationStatements(condition);
+		const newStatements = this.statements.pushIf(if_);
+		const newBuilder = new WithFinalIfVertexShaderMainSpecificationBuilder(newStatements);
 		return newBuilder;
 	}
 }

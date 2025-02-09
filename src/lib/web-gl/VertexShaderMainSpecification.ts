@@ -1,8 +1,7 @@
-import type {VertexShaderMainSpecificationStatements} from "./VertexShaderMainSpecificationStatements.ts";
-
+import type {WithFinalAssignmentsVertexShaderMainSpecificationStatements} from "./WithFinalAssignmentsVertexShaderMainSpecificationStatements.ts";
 export class VertexShaderMainSpecification {
-	private readonly statements: VertexShaderMainSpecificationStatements;
-	public constructor(statements: VertexShaderMainSpecificationStatements) {
+	private readonly statements: WithFinalAssignmentsVertexShaderMainSpecificationStatements;
+	public constructor(statements: WithFinalAssignmentsVertexShaderMainSpecificationStatements) {
 		this.statements = statements;
 	}
 	public stringify(): string {
