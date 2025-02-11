@@ -37,7 +37,7 @@ export class FinalAssignmentFragmentShaderSourceCodeMainStatements
 			);
 		return newStatements;
 	}
-	public pushAssignments(
+	public pushFinalAssignments(
 		assignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements {
 		const newStatements =

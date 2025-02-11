@@ -10,7 +10,7 @@ export interface WithFinalAssignmentFragmentShaderSourceCodeMainStatements {
 	pushAssignment(
 		assignment: FinalAssignmentFragmentShaderSourceCodeMainStatements,
 	): WithFinalAssignmentFragmentShaderSourceCodeMainStatements;
-	pushAssignments(
+	pushFinalAssignments(
 		assignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
 	): WithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements;
 }

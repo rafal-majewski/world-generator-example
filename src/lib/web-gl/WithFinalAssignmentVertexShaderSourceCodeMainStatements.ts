@@ -10,7 +10,7 @@ export interface WithFinalAssignmentVertexShaderSourceCodeMainStatements {
 	pushAssignment(
 		assignment: FinalAssignmentVertexShaderSourceCodeMainStatements,
 	): WithFinalAssignmentVertexShaderSourceCodeMainStatements;
-	pushAssignments(
+	pushFinalAssignments(
 		assignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
 	): WithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements;
 }

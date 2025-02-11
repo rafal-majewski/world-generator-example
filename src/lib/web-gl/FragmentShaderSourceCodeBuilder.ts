@@ -11,20 +11,17 @@ export class FragmentShaderSourceCodeBuilder<
 	): WithSetPrecisionFragmentShaderSourceCodeBuilder<
 		UniformVariablesDeclarationsToUse,
 		VaryingVariablesDeclarationsToUse,
-		OutputVariablesDeclarationsToUse,
-		Readonly<{}>
+		OutputVariablesDeclarationsToUse
 	> {
 		const newSourceCodeBuilder = new WithSetPrecisionFragmentShaderSourceCodeBuilder<
 			UniformVariablesDeclarationsToUse,
 			VaryingVariablesDeclarationsToUse,
-			OutputVariablesDeclarationsToUse,
-			Readonly<{}>
+			OutputVariablesDeclarationsToUse
 		>(
 			this.uniformVariablesDeclarations,
 			this.outputVariablesDeclarations,
 			this.varyingVariablesDeclarations,
 			precision,
-			{},
 		);
 		return newSourceCodeBuilder;
 	}

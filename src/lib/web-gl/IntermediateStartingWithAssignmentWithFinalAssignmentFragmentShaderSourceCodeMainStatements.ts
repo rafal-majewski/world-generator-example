@@ -45,10 +45,10 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentFragmentShader
 			);
 		return newStatements;
 	}
-	public pushAssignments(
+	public pushFinalAssignments(
 		assignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements {
-		const newRestStatements = this.restStatements.pushAssignments(assignments);
+		const newRestStatements = this.restStatements.pushFinalAssignments(assignments);
 		const newStatements =
 			new IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements(
 				this.name,

@@ -1,13 +1,13 @@
 import type {FinalElseFragmentShaderSourceCodeMainStatements} from "./FinalElseFragmentShaderSourceCodeMainStatements.ts";
-import type {FinalizedCustomFunctionStatements} from "./FinalizedCustomFunctionStatements.ts";
+import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalElseFragmentShaderSourceCodeMainStatements} from "./WithFinalElseFragmentShaderSourceCodeMainStatements.ts";
 export class IntermediateStartingWithThenWithFinalElseFragmentShaderSourceCodeMainStatements
 	implements WithFinalElseFragmentShaderSourceCodeMainStatements
 {
-	private readonly body: FinalizedCustomFunctionStatements;
+	private readonly body: FinalizedFragmentShaderSourceCodeMainStatements;
 	private readonly restStatements: FinalElseFragmentShaderSourceCodeMainStatements;
 	public constructor(
-		body: FinalizedCustomFunctionStatements,
+		body: FinalizedFragmentShaderSourceCodeMainStatements,
 		restStatements: FinalElseFragmentShaderSourceCodeMainStatements,
 	) {
 		this.body = body;

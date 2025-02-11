@@ -40,50 +40,64 @@ export const terrainProgramWrapperBuilder = new ProgramWrapperBuilder<Scene, Ter
 		sourceCodeBuilder
 			.setPrecision("high")
 			// .defineFunction((builder) => builder.setType((types) => (types.float)).setName("square").setParameters((builder) => builder.addParameter((types) => (types.float), "x")).setBody((builder) => builder.return_(({variables, operators}) => operators.multiply(variables.x, variables.x)))
-			.setMain((mainSourceCodeBuilder) =>
-				mainSourceCodeBuilder
-					// .defineVariable("float", "test", ({literals}) => literals.float(1.0))
-					// .if_(({variables, operators}) => operators.greaterThan(variables.test, variables.test))
-					// .then_((successSourceCodeBuilder) =>
-					// 	successSourceCodeBuilder.finalize(({variables, functions, literals}) => ({
-					// 		gl_Position: new functions.mat4TimesVec4(
-					// 			variables.uniforms.projection,
-					// 			new functions.vec4FromVec3AndFloat(variables.ins.position, literals.float(1.0)),
-					// 		),
-					// 		outs: {
-					// 			color: variables.ins.color,
-					// 			normal: variables.ins.normal,
-					// 			position: variables.ins.position,
-					// 		},
-					// 	})),
-					// )
-					// .else_((failureSourceCodeBuilder) =>
-					// 	failureSourceCodeBuilder.finalize(({variables, functions, literals}) => ({
-					// 		gl_Position: new functions.mat4TimesVec4(
-					// 			variables.uniforms.projection,
-					// 			new functions.vec4FromVec3AndFloat(variables.ins.position, literals.float(1.0)),
-					// 		),
-					// 		outs: {
-					// 			color: variables.ins.color,
-					// 			normal: variables.ins.normal,
-					// 			position: variables.ins.position,
-					// 		},
-					// 	})),
-					// ),
-					.finalize(({variables, operators, functionCalls, literals}) => ({
-						gl_Position: new operators.mat4TimesVec4(
-							variables.uniforms.projection,
-							new functionCalls.builtIn.vec4FromVec3AndFloat(
-								variables.ins.position,
-								new literals.float(1.0),
+			.setMain(
+				(statementsBuilder) =>
+					statementsBuilder
+						.defineVariable("test", ({literals}) => new literals.float(1.0))
+						.if_(
+							({variables, operators}) =>
+								new operators.greaterThan(variables.locals.test, variables.locals.test),
+						)
+						.then_((successSourceCodeBuilder) =>
+							successSourceCodeBuilder.finalize(
+								({variables, operators, functionCalls, literals}) => ({
+									gl_Position: new operators.mat4TimesVec4(
+										variables.uniforms.projection,
+										new functionCalls.builtIn.vec4FromVec3AndFloat(
+											variables.ins.position,
+											new literals.float(1.0),
+										),
+									),
+									outs: {
+										color: variables.ins.color,
+										normal: variables.ins.normal,
+										position: variables.ins.position,
+									},
+								}),
+							),
+						)
+						.else_((failureSourceCodeBuilder) =>
+							failureSourceCodeBuilder.finalize(
+								({variables, operators, functionCalls, literals}) => ({
+									gl_Position: new operators.mat4TimesVec4(
+										variables.uniforms.projection,
+										new functionCalls.builtIn.vec4FromVec3AndFloat(
+											variables.ins.position,
+											new literals.float(1.0),
+										),
+									),
+									outs: {
+										color: variables.ins.color,
+										normal: variables.ins.normal,
+										position: variables.ins.position,
+									},
+								}),
 							),
 						),
-						outs: {
-							color: variables.ins.color,
-							normal: variables.ins.normal,
-							position: variables.ins.position,
-						},
-					})),
+				// .finalize(({variables, operators, functionCalls, literals}) => ({
+				// 	gl_Position: new operators.mat4TimesVec4(
+				// 		variables.uniforms.projection,
+				// 		new functionCalls.builtIn.vec4FromVec3AndFloat(
+				// 			variables.ins.position,
+				// 			new literals.float(1.0),
+				// 		),
+				// 	),
+				// 	outs: {
+				// 		color: variables.ins.color,
+				// 		normal: variables.ins.normal,
+				// 		position: variables.ins.position,
+				// 	},
+				// })),
 			),
 	)
 	.declareOutputs({

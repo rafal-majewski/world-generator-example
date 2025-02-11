@@ -45,10 +45,10 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderSo
 			);
 		return newStatements;
 	}
-	public pushAssignments(
+	public pushFinalAssignments(
 		assignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements {
-		const newRestStatements = this.restStatements.pushAssignments(assignments);
+		const newRestStatements = this.restStatements.pushFinalAssignments(assignments);
 		const newStatements =
 			new IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements(
 				this.name,

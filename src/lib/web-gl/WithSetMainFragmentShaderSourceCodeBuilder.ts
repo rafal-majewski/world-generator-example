@@ -1,7 +1,7 @@
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
-import type {FragmentShaderSourceCodeMain} from "./FragmentShaderSourceCodeMain.ts";
 import {FragmentShaderSourceCode} from "./FragmentShaderSourceCode.ts";
+import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 export class WithSetMainFragmentShaderSourceCodeBuilder<
 	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
 	VaryingVariablesDeclarationsToUse extends VariablesDeclarations,
@@ -12,26 +12,26 @@ export class WithSetMainFragmentShaderSourceCodeBuilder<
 		varyingVariablesDeclarations: VaryingVariablesDeclarationsToUse,
 		outputVariablesDeclarations: OutputVariablesDeclarationsToUse,
 		precision: ShaderPrecision,
-		main: FragmentShaderSourceCodeMain,
+		body: FinalizedFragmentShaderSourceCodeMainStatements,
 	) {
 		this.uniformVariablesDeclarations = uniformVariablesDeclarations;
 		this.varyingVariablesDeclarations = varyingVariablesDeclarations;
 		this.outputVariablesDeclarations = outputVariablesDeclarations;
 		this.precision = precision;
-		this.main = main;
+		this.body = body;
 	}
 	private readonly uniformVariablesDeclarations: UniformVariablesDeclarationsToUse;
 	private readonly varyingVariablesDeclarations: VaryingVariablesDeclarationsToUse;
 	private readonly outputVariablesDeclarations: OutputVariablesDeclarationsToUse;
 	private readonly precision: ShaderPrecision;
-	private readonly main: FragmentShaderSourceCodeMain;
+	private readonly body: FinalizedFragmentShaderSourceCodeMainStatements;
 	public build(): FragmentShaderSourceCode {
 		const shaderSourceCode = new FragmentShaderSourceCode(
 			this.precision,
 			this.uniformVariablesDeclarations,
 			this.varyingVariablesDeclarations,
 			this.outputVariablesDeclarations,
-			this.main,
+			this.body,
 		);
 		return shaderSourceCode;
 	}

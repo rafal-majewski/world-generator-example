@@ -1,3 +1,3 @@
-import type {FinalizedCustomFunctionStatements} from "./FinalizedCustomFunctionStatements.ts";
+import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 export interface WithFinalElseFragmentShaderSourceCodeMainStatements
-	extends FinalizedCustomFunctionStatements {}
+	extends FinalizedFragmentShaderSourceCodeMainStatements {}

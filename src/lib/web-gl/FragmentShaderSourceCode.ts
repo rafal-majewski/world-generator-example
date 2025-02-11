@@ -1,25 +1,25 @@
 import type {ShaderPrecision} from "./ShaderPrecision.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
-import type {FragmentShaderSourceCodeMain} from "./FragmentShaderSourceCodeMain.ts";
+import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 export class FragmentShaderSourceCode {
 	public constructor(
 		precision: ShaderPrecision,
 		uniformVariablesDeclarations: VariablesDeclarations,
 		varyingVariablesDeclarations: VariablesDeclarations,
 		outputVariablesDeclarations: VariablesDeclarations,
-		main: FragmentShaderSourceCodeMain,
+		body: FinalizedFragmentShaderSourceCodeMainStatements,
 	) {
 		this.precision = precision;
 		this.uniformVariablesDeclarations = uniformVariablesDeclarations;
 		this.varyingVariablesDeclarations = varyingVariablesDeclarations;
 		this.outputVariablesDeclarations = outputVariablesDeclarations;
-		this.main = main;
+		this.body = body;
 	}
 	public readonly precision: ShaderPrecision;
 	private readonly uniformVariablesDeclarations: VariablesDeclarations;
 	private readonly varyingVariablesDeclarations: VariablesDeclarations;
 	private readonly outputVariablesDeclarations: VariablesDeclarations;
-	public readonly main: FragmentShaderSourceCodeMain;
+	public readonly body: FinalizedFragmentShaderSourceCodeMainStatements;
 	public stringify(): string {
 		const versionSection = "#version 300 es";
 		const precisionSection = `precision ${this.precision}p float;`;
@@ -32,7 +32,9 @@ export class FragmentShaderSourceCode {
 		const outputsSection = Object.entries(this.outputVariablesDeclarations)
 			.map(([name, type]) => `out ${type} o_${name};`)
 			.join("\n");
-		const mainSection = this.main.stringify();
+		const mainSection = `void main() {
+${this.body.stringify(1)}
+}`;
 		return `${versionSection}
 ${precisionSection}
 ${uniformsSection}

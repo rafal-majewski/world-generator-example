@@ -37,7 +37,7 @@ export class FinalAssignmentVertexShaderSourceCodeMainStatements
 			);
 		return newStatements;
 	}
-	public pushAssignments(
+	public pushFinalAssignments(
 		assignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements {
 		const newStatements =

@@ -1,4 +1,4 @@
-import type {FinalizedCustomFunctionStatements} from "./FinalizedCustomFunctionStatements.ts";
+import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {WithFinalElseFragmentShaderSourceCodeMainStatements} from "./WithFinalElseFragmentShaderSourceCodeMainStatements.ts";
@@ -7,11 +7,11 @@ export class IntermediateStartingWithAssignmentWithFinalElseFragmentShaderSource
 {
 	private readonly name: VariableName;
 	private readonly value: Value;
-	private readonly restStatements: FinalizedCustomFunctionStatements;
+	private readonly restStatements: FinalizedFragmentShaderSourceCodeMainStatements;
 	public constructor(
 		name: VariableName,
 		value: Value,
-		restStatements: FinalizedCustomFunctionStatements,
+		restStatements: FinalizedFragmentShaderSourceCodeMainStatements,
 	) {
 		this.name = name;
 		this.value = value;
@@ -21,7 +21,7 @@ export class IntermediateStartingWithAssignmentWithFinalElseFragmentShaderSource
 		const indentation: string = "\t".repeat(indentationLevel);
 		const stringifiedValue = this.value.stringify();
 		const stringifiedRestStatements = this.restStatements.stringify(indentationLevel);
-		return `${indentation}l_${this.name} = ${stringifiedValue};
+		return `${indentation}${this.value.type} l_${this.name} = ${stringifiedValue};
 ${stringifiedRestStatements}`;
 	}
 }

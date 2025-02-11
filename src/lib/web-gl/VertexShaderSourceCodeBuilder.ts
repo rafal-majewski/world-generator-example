@@ -11,20 +11,17 @@ export class VertexShaderSourceCodeBuilder<
 	): WithSetPrecisionVertexShaderSourceCodeBuilder<
 		UniformVariablesDeclarationsToUse,
 		AttributeVariablesDeclarationsToUse,
-		VaryingVariablesDeclarationsToUse,
-		Readonly<{}>
+		VaryingVariablesDeclarationsToUse
 	> {
 		const newSourceCodeBuilder = new WithSetPrecisionVertexShaderSourceCodeBuilder<
 			UniformVariablesDeclarationsToUse,
 			AttributeVariablesDeclarationsToUse,
-			VaryingVariablesDeclarationsToUse,
-			Readonly<{}>
+			VaryingVariablesDeclarationsToUse
 		>(
 			this.uniformVariablesDeclarations,
 			this.attributeVariablesDeclarations,
 			this.varyingVariablesDeclarations,
 			precision,
-			{},
 		);
 		return newSourceCodeBuilder;
 	}

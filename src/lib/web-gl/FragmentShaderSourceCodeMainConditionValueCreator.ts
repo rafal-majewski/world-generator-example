@@ -1,15 +1,14 @@
-import type {Value} from "./Value.ts";
+import type {BoolValue} from "./BoolValue.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
 import type {FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter} from "./FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter.ts";
-export type FragmentShaderSourceCodeMainVariableValueCreator<
+export type FragmentShaderSourceCodeMainConditionValueCreator<
 	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
 	VaryingVariablesDeclarationsToUse extends VariablesDeclarations,
 	LocalVariablesDeclarationsToUse extends VariablesDeclarations,
-	ValueToUse extends Value,
 > = (
 	identifiers: FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter<
 		UniformVariablesDeclarationsToUse,
 		VaryingVariablesDeclarationsToUse,
 		LocalVariablesDeclarationsToUse
 	>,
-) => ValueToUse;
+) => BoolValue;

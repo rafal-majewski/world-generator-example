@@ -1,10 +1,9 @@
+import type {BoolValue} from "./BoolValue.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
-import type {VertexShaderSourceCodeMainFinalAssignments} from "./VertexShaderSourceCodeMainFinalAssignments.ts";
 import type {VertexShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter} from "./VertexShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter.ts";
-export type VertexShaderSourceCodeMainFinalAssignmentsCreator<
+export type VertexShaderSourceCodeMainConditionValueCreator<
 	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
 	AttributeVariablesDeclarationsToUse extends VariablesDeclarations,
-	VaryingVariablesDeclarationsToUse extends VariablesDeclarations,
 	LocalVariablesDeclarationsToUse extends VariablesDeclarations,
 > = (
 	identifiers: VertexShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter<
@@ -12,4 +11,4 @@ export type VertexShaderSourceCodeMainFinalAssignmentsCreator<
 		AttributeVariablesDeclarationsToUse,
 		LocalVariablesDeclarationsToUse
 	>,
-) => VertexShaderSourceCodeMainFinalAssignments<VaryingVariablesDeclarationsToUse>;
+) => BoolValue;

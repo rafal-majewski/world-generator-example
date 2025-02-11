@@ -1,4 +1,3 @@
-import type {Functions} from "./Functions.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
 import type {FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterVariables} from "./FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterVariables.ts";
 import type {literals} from "./literals.ts";
@@ -7,10 +6,9 @@ import type {ShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterFunc
 export type FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameter<
 	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
 	VaryingVariablesDeclarationsToUse extends VariablesDeclarations,
-	CustomFunctions extends Functions,
 	LocalVariablesDeclarationsToUse extends VariablesDeclarations,
 > = Readonly<{
-	functionCalls: ShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterFunctionCalls<CustomFunctions>;
+	functionCalls: ShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterFunctionCalls;
 	variables: FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterVariables<
 		UniformVariablesDeclarationsToUse,
 		VaryingVariablesDeclarationsToUse,

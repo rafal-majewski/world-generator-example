@@ -1,19 +1,16 @@
-import type {FinalizedFragmentShaderSourceCodeMainBuilder} from "./FinalizedFragmentShaderSourceCodeMainBuilder.ts";
-import type {Functions} from "./Functions.ts";
+import type {FinalizedFragmentShaderSourceCodeMainStatementsBuilder} from "./FinalizedFragmentShaderSourceCodeMainStatementsBuilder.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
-import type {FragmentShaderSourceCodeMainBuilder} from "./FragmentShaderSourceCodeMainBuilder.ts";
-export type FinalizedFragmentShaderSourceCodeMainBuilderCreator<
+import type {FragmentShaderSourceCodeMainStatementsBuilder} from "./FragmentShaderSourceCodeMainStatementsBuilder.ts";
+export type FinalizedFragmentShaderSourceCodeMainStatementsBuilderCreator<
 	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
 	VaryingVariablesDeclarationsToUse extends VariablesDeclarations,
 	OutputVariablesDeclarationsToUse extends VariablesDeclarations,
-	CustomFunctions extends Functions,
 	LocalVariablesDeclarationsToUse extends VariablesDeclarations,
 > = (
-	builder: FragmentShaderSourceCodeMainBuilder<
+	builder: FragmentShaderSourceCodeMainStatementsBuilder<
 		UniformVariablesDeclarationsToUse,
 		VaryingVariablesDeclarationsToUse,
 		OutputVariablesDeclarationsToUse,
-		CustomFunctions,
 		LocalVariablesDeclarationsToUse
 	>,
-) => FinalizedFragmentShaderSourceCodeMainBuilder;
+) => FinalizedFragmentShaderSourceCodeMainStatementsBuilder;
