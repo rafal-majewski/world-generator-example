@@ -1,6 +1,6 @@
-import type {MainWorldChunk} from "./MainWorldChunk.ts";
+import type {World} from "./World.ts";
 import type {PerspectiveCamera} from "./PerspectiveCamera.ts";
 export type Scene = Readonly<{
-	mainWorldChunk: MainWorldChunk;
+	world: World;
 	camera: PerspectiveCamera;
 }>;

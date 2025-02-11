@@ -1,1 +1,3 @@
-export type ShaderSourceCode = string;
+export interface ShaderSourceCode {
+	stringify(): string;
+}

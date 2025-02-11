@@ -1,0 +1,11 @@
+import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
+import type {ComputeVariablesValuesFromVariablesDeclarations} from "./ComputeVariablesValuesFromVariablesDeclarations.ts";
+export type FragmentShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterVariables<
+	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
+	VaryingVariablesDeclarationsToUse extends VariablesDeclarations,
+	LocalVariablesDeclarationsToUse extends VariablesDeclarations,
+> = Readonly<{
+	uniforms: ComputeVariablesValuesFromVariablesDeclarations<UniformVariablesDeclarationsToUse>;
+	ins: ComputeVariablesValuesFromVariablesDeclarations<VaryingVariablesDeclarationsToUse>;
+	locals: ComputeVariablesValuesFromVariablesDeclarations<LocalVariablesDeclarationsToUse>;
+}>;

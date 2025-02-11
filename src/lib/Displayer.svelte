@@ -6,7 +6,7 @@
 	import type {GeneratorConfiguration} from "./GeneratorConfiguration.ts";
 	import type {Interactions} from "./Interactions.ts";
 	import type {KeyCodesState} from "./KeyCodesState.ts";
-	import {mainWebGlWrapperCreator} from "./mainWebGlWrapperCreator.ts";
+	import {mainWebGlWrapperBuilder} from "./mainWebGlWrapperBuilder.ts";
 	import type {Scene} from "./Scene.ts";
 	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
 	import {UpdatingCameraNewSceneComputer} from "./UpdatingCameraNewSceneComputer.ts";
@@ -96,7 +96,7 @@
 		if (mainGl === null) {
 			throw new Error("Failed to get WebGL2 context.");
 		}
-		const mainWebGlWrapper = mainWebGlWrapperCreator.create(mainGl);
+		const mainWebGlWrapper = mainWebGlWrapperBuilder.build(mainGl);
 		// const sunWebGlWrapper = WebGlWrapper.create(sunGl, [
 		// 	terrainFromSunWebGlProgramWrapperCreator,
 		// ] as const);
@@ -148,7 +148,8 @@
 		// 	}),
 		// };
 		mainWebGlWrapper.draw(scene);
-		// sunWebGlWrapper.draw(scene);
+		// sunWebGlWrapper.draw(scene);console.log(scene);
+		console.log(scene);
 		requestAnimationFrame(function animate() {
 			// scene = {
 			// 	// ...scene,
@@ -163,6 +164,7 @@
 			// 	// sun: new Sun(computeSunAngleRadians(new Date()), scene.sun.color),
 			// };
 			scene = composedNewSceneComputer.compute(scene, interactions);
+
 			mainWebGlWrapper.draw(scene);
 			interactions = {
 				...interactions,

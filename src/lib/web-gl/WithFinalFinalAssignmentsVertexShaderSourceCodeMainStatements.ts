@@ -1,0 +1,3 @@
+import type {FinalizedCustomFunctionStatements} from "./FinalizedCustomFunctionStatements.ts";
+export interface WithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements
+	extends FinalizedCustomFunctionStatements {}

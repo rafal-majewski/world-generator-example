@@ -1,12 +1,14 @@
-import type {VariableSpecification} from "./VariableSpecification.ts";
-export class UniformVariableSetter<Datum> {
+import type {UniformVariableSpecification} from "./UniformVariableSpecification.ts";
+export class UniformVariableSetter<Scene> {
 	private readonly location: WebGLUniformLocation;
-	// TODO: Split into with context and without context
-	private readonly specification: VariableSpecification<Datum>;
-	public set(gl: WebGL2RenderingContext, datum: Datum): undefined {
-		this.specification.setUniform(gl, this.location, datum);
+	private readonly specification: UniformVariableSpecification<Scene>;
+	public set(gl: WebGL2RenderingContext, scene: Scene): undefined {
+		this.specification.setUniform(gl, this.location, scene);
 	}
-	public constructor(specification: VariableSpecification<Datum>, location: WebGLUniformLocation) {
+	public constructor(
+		specification: UniformVariableSpecification<Scene>,
+		location: WebGLUniformLocation,
+	) {
 		this.specification = specification;
 		this.location = location;
 	}

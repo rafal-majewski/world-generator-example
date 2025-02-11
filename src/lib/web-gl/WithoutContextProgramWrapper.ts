@@ -2,39 +2,35 @@ import type {VariableSize} from "./VariableSize.ts";
 import type {TrianglesSelector} from "./TrianglesSelector.ts";
 import {createProgram} from "./createProgram.ts";
 import {mapObjectValueWise} from "./mapObjectValueWise.ts";
-import type {Serializer} from "./Serializer.ts";
 import {UniformVariableSetter} from "./UniformVariableSetter.ts";
-import {computeBufferData} from "./computeBufferData.ts";
 import type {WithoutContextDrawable} from "./WithoutContextDrawable.ts";
-import type {FragmentShaderSpecification} from "./FragmentShaderSpecification.ts";
-import type {VariablesSpecifications} from "./VariablesSpecifications.ts";
-import type {VertexShaderSpecification} from "./VertexShaderSpecification.ts";
+import type {FragmentShaderSourceCode} from "./FragmentShaderSourceCode.ts";
+import type {VertexShaderSourceCode} from "./VertexShaderSourceCode.ts";
 import {createShader} from "./createShader.ts";
+import type {AttributeVariablesSpecifications} from "./AttributeVariablesSpecifications.ts";
+import type {UniformVariablesSpecifications} from "./UniformVariablesSpecifications.ts";
+import {BufferDataComputer} from "./BufferDataComputer.ts";
 export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutContextDrawable<Scene> {
 	public static create<
 		Scene,
 		Vertex,
-		UniformsSpecifications extends VariablesSpecifications<Scene>,
-		AttributesSpecifications extends VariablesSpecifications<Vertex>,
+		UniformVariablesSpecificationsToUse extends UniformVariablesSpecifications<Scene>,
+		AttributeVariablesSpecificationsToUse extends AttributeVariablesSpecifications<Vertex>,
 	>(
 		gl: WebGL2RenderingContext,
-		uniformsSpecifications: UniformsSpecifications,
+		uniformVariablesSpecifications: UniformVariablesSpecificationsToUse,
 		trianglesSelector: TrianglesSelector<Scene, Vertex>,
-		attributesSpecifications: AttributesSpecifications,
-		vertexShaderSpecification: VertexShaderSpecification,
-		fragmentShaderSpecification: FragmentShaderSpecification,
+		attributeVariablesSpecifications: AttributeVariablesSpecificationsToUse,
+		vertexShaderSourceCode: VertexShaderSourceCode,
+		fragmentShaderSourceCode: FragmentShaderSourceCode,
 	) {
 		const buffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-		const vertexShaderSourceCode = vertexShaderSpecification.stringify();
-		console.log(vertexShaderSourceCode);
-		const fragmentShaderSourceCode = fragmentShaderSpecification.stringify();
-		console.log(fragmentShaderSourceCode);
 		const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
 		const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
 		const program = createProgram(gl, vertexShader, fragmentShader);
 		const attributeVariableNameToVariableSize = mapObjectValueWise(
-			attributesSpecifications,
+			attributeVariablesSpecifications,
 			({size}) => size,
 		);
 		const vao = gl.createVertexArray();
@@ -54,8 +50,9 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 			gl.vertexAttribPointer(location, size, gl.FLOAT, false, strideBytes, offsetBytes);
 			offsetBytes += size * Float32Array.BYTES_PER_ELEMENT;
 		}
-		const uniformVariableNameToVariableSpecificationEntries =
-			Object.entries(uniformsSpecifications);
+		const uniformVariableNameToVariableSpecificationEntries = Object.entries(
+			uniformVariablesSpecifications,
+		);
 		const uniformVariableSetters = uniformVariableNameToVariableSpecificationEntries.map(
 			([name, specification]) => {
 				const location = gl.getUniformLocation(program, `u_${name}`) as WebGLUniformLocation;
@@ -63,16 +60,16 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 				return setter;
 			},
 		);
-		const vertexSerializers = Object.values(
-			attributesSpecifications,
-		) as readonly Serializer<Vertex>[];
+		const bufferDataComputer = new BufferDataComputer(
+			Object.values(attributeVariablesSpecifications),
+		);
 		const programWrapper = new WithoutContextProgramWrapper(
 			vao,
 			buffer,
 			program,
 			uniformVariableSetters,
 			trianglesSelector,
-			vertexSerializers,
+			bufferDataComputer,
 		);
 		// gl.bindVertexArray(null);
 		// gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -84,20 +81,20 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 		program: WebGLProgram,
 		uniformVariableSetters: readonly UniformVariableSetter<Scene>[],
 		trianglesSelector: TrianglesSelector<Scene, Vertex>,
-		vertexSerializers: readonly Serializer<Vertex>[],
+		bufferDataComputer: BufferDataComputer<Vertex>,
 	) {
 		this.vao = vao;
 		this.buffer = buffer;
 		this.program = program;
 		this.uniformVariableSetters = uniformVariableSetters;
 		this.trianglesSelector = trianglesSelector;
-		this.vertexSerializers = vertexSerializers;
+		this.bufferDataComputer = bufferDataComputer;
 	}
 	private readonly vao: WebGLVertexArrayObject;
 	private readonly buffer: WebGLBuffer;
 	private readonly program: WebGLProgram;
 	private readonly trianglesSelector: TrianglesSelector<Scene, Vertex>;
-	private readonly vertexSerializers: readonly Serializer<Vertex>[];
+	private readonly bufferDataComputer: BufferDataComputer<Vertex>;
 	private readonly uniformVariableSetters: readonly UniformVariableSetter<Scene>[];
 	public draw(gl: WebGL2RenderingContext, scene: Scene): undefined {
 		gl.useProgram(this.program);
@@ -107,7 +104,7 @@ export class WithoutContextProgramWrapper<Scene, Vertex> implements WithoutConte
 			setter.set(gl, scene);
 		}
 		const triangles = this.trianglesSelector(scene);
-		const bufferData = computeBufferData(triangles, this.vertexSerializers);
+		const bufferData = this.bufferDataComputer.compute(triangles);
 		gl.bufferData(gl.ARRAY_BUFFER, bufferData, gl.STATIC_DRAW);
 		gl.drawArrays(gl.TRIANGLES, 0, triangles.length * 3);
 	}

@@ -1,0 +1,11 @@
+import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
+import type {ComputeVariablesValuesFromVariablesDeclarations} from "./ComputeVariablesValuesFromVariablesDeclarations.ts";
+export type VertexShaderSourceCodeMainFinalAssignmentsCreatorIdentifiersParameterVariables<
+	UniformVariablesDeclarationsToUse extends VariablesDeclarations,
+	AttributeVariablesDeclarationsToUse extends VariablesDeclarations,
+	LocalVariablesDeclarationsToUse extends VariablesDeclarations,
+> = Readonly<{
+	uniforms: ComputeVariablesValuesFromVariablesDeclarations<UniformVariablesDeclarationsToUse>;
+	ins: ComputeVariablesValuesFromVariablesDeclarations<AttributeVariablesDeclarationsToUse>;
+	locals: ComputeVariablesValuesFromVariablesDeclarations<LocalVariablesDeclarationsToUse>;
+}>;

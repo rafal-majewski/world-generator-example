@@ -1,7 +1,7 @@
 import type {FloatValue} from "./FloatValue.ts";
 import type {Vec3Value} from "./Vec3Value.ts";
 import type {Vec4Value} from "./Vec4Value.ts";
-export class Vec3AndFloatConstructingVec4Value implements Vec4Value {
+export class Vec3AndFloatConstructingVec4FunctionCall implements Vec4Value {
 	public readonly type = "vec4";
 	private readonly firstArgument: Vec3Value;
 	private readonly secondArgument: FloatValue;
