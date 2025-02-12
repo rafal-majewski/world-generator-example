@@ -1,4 +1,4 @@
-import type {FinalElseVertexShaderSourceCodeMainStatements} from "./FinalElseVertexShaderSourceCodeMainStatements.ts";
+import type {ElseVertexShaderSourceCodeMainStatements} from "./ElseVertexShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalElseVertexShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalElseVertexShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
@@ -19,7 +19,7 @@ export class IntermediateStartingWithAssignmentWithFinalThenVertexShaderSourceCo
 		this.restStatements = restStatements;
 	}
 	public pushElse(
-		else_: FinalElseVertexShaderSourceCodeMainStatements,
+		else_: ElseVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalElseVertexShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushElse(else_);
 		const newStatements =

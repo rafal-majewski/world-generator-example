@@ -1,16 +1,16 @@
 import type {FinalAssignmentsFragmentShaderSourceCodeMainStatements} from "./FinalAssignmentsFragmentShaderSourceCodeMainStatements.ts";
-import type {FinalAssignmentFragmentShaderSourceCodeMainStatements} from "./FinalAssignmentFragmentShaderSourceCodeMainStatements.ts";
-import type {FinalIfFragmentShaderSourceCodeMainStatements} from "./FinalIfFragmentShaderSourceCodeMainStatements.ts";
+import type {AssignmentFragmentShaderSourceCodeMainStatements} from "./AssignmentFragmentShaderSourceCodeMainStatements.ts";
+import type {IfFragmentShaderSourceCodeMainStatements} from "./IfFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements} from "./WithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalIfFragmentShaderSourceCodeMainStatements} from "./WithFinalIfFragmentShaderSourceCodeMainStatements.ts";
 export interface WithFinalAssignmentFragmentShaderSourceCodeMainStatements {
 	pushIf(
-		if_: FinalIfFragmentShaderSourceCodeMainStatements,
+		if_: IfFragmentShaderSourceCodeMainStatements,
 	): WithFinalIfFragmentShaderSourceCodeMainStatements;
 	pushAssignment(
-		assignment: FinalAssignmentFragmentShaderSourceCodeMainStatements,
+		assignment: AssignmentFragmentShaderSourceCodeMainStatements,
 	): WithFinalAssignmentFragmentShaderSourceCodeMainStatements;
 	pushFinalAssignments(
-		assignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
+		finalAssignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
 	): WithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements;
 }

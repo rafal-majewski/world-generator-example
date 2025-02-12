@@ -1,16 +1,16 @@
 import type {FinalAssignmentsVertexShaderSourceCodeMainStatements} from "./FinalAssignmentsVertexShaderSourceCodeMainStatements.ts";
-import type {FinalAssignmentVertexShaderSourceCodeMainStatements} from "./FinalAssignmentVertexShaderSourceCodeMainStatements.ts";
-import type {FinalIfVertexShaderSourceCodeMainStatements} from "./FinalIfVertexShaderSourceCodeMainStatements.ts";
+import type {AssignmentVertexShaderSourceCodeMainStatements} from "./AssignmentVertexShaderSourceCodeMainStatements.ts";
+import type {IfVertexShaderSourceCodeMainStatements} from "./IfVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements} from "./WithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalIfVertexShaderSourceCodeMainStatements} from "./WithFinalIfVertexShaderSourceCodeMainStatements.ts";
 export interface WithFinalAssignmentVertexShaderSourceCodeMainStatements {
 	pushIf(
-		if_: FinalIfVertexShaderSourceCodeMainStatements,
+		if_: IfVertexShaderSourceCodeMainStatements,
 	): WithFinalIfVertexShaderSourceCodeMainStatements;
 	pushAssignment(
-		assignment: FinalAssignmentVertexShaderSourceCodeMainStatements,
+		assignment: AssignmentVertexShaderSourceCodeMainStatements,
 	): WithFinalAssignmentVertexShaderSourceCodeMainStatements;
 	pushFinalAssignments(
-		assignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
+		finalAssignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
 	): WithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements;
 }

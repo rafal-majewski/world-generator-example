@@ -1,6 +1,6 @@
 import {FinalAssignmentsFragmentShaderSourceCodeMainStatements} from "./FinalAssignmentsFragmentShaderSourceCodeMainStatements.ts";
-import {FinalAssignmentFragmentShaderSourceCodeMainStatements} from "./FinalAssignmentFragmentShaderSourceCodeMainStatements.ts";
-import {FinalIfFragmentShaderSourceCodeMainStatements} from "./FinalIfFragmentShaderSourceCodeMainStatements.ts";
+import {AssignmentFragmentShaderSourceCodeMainStatements} from "./AssignmentFragmentShaderSourceCodeMainStatements.ts";
+import {IfFragmentShaderSourceCodeMainStatements} from "./IfFragmentShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
@@ -11,7 +11,7 @@ import {WithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatementsBuilder} 
 import type {WithFinalAssignmentFragmentShaderSourceCodeMainStatements} from "./WithFinalAssignmentFragmentShaderSourceCodeMainStatements.ts";
 import {WithFinalIfFragmentShaderSourceCodeMainStatementsBuilder} from "./WithFinalIfFragmentShaderSourceCodeMainStatementsBuilder.ts";
 import {literals} from "./literals.ts";
-import {operators} from "./operators.ts";
+
 import {builtInFunctionCalls} from "./builtInFunctionCalls.ts";
 import type {FragmentShaderSourceCodeMainConditionValueCreator} from "./FragmentShaderSourceCodeMainConditionValueCreator.ts";
 export class WithFinalAssignmentFragmentShaderSourceCodeMainStatementsBuilder<
@@ -68,7 +68,7 @@ export class WithFinalAssignmentFragmentShaderSourceCodeMainStatementsBuilder<
 					>;
 				}>,
 			},
-			operators,
+
 			literals,
 		});
 		const finalStatements = new FinalAssignmentsFragmentShaderSourceCodeMainStatements(assignments);
@@ -139,13 +139,10 @@ export class WithFinalAssignmentFragmentShaderSourceCodeMainStatementsBuilder<
 					>;
 				}>,
 			},
-			operators,
+
 			literals,
 		});
-		const assignment = new FinalAssignmentFragmentShaderSourceCodeMainStatements(
-			name,
-			assignmentValue,
-		);
+		const assignment = new AssignmentFragmentShaderSourceCodeMainStatements(name, assignmentValue);
 		const newLocalVariablesDeclarations = {
 			...this.localVariablesDeclarations,
 			[name]: assignmentValue.type,
@@ -207,10 +204,10 @@ export class WithFinalAssignmentFragmentShaderSourceCodeMainStatementsBuilder<
 					>;
 				}>,
 			},
-			operators,
+
 			literals,
 		});
-		const if_ = new FinalIfFragmentShaderSourceCodeMainStatements(conditionValue);
+		const if_ = new IfFragmentShaderSourceCodeMainStatements(conditionValue);
 		const newStatements = this.statements.pushIf(if_);
 		const newBuilder = new WithFinalIfFragmentShaderSourceCodeMainStatementsBuilder(
 			this.uniformVariablesDeclarations,

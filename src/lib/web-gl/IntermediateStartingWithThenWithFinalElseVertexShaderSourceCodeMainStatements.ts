@@ -1,14 +1,14 @@
-import type {FinalElseVertexShaderSourceCodeMainStatements} from "./FinalElseVertexShaderSourceCodeMainStatements.ts";
+import type {ElseVertexShaderSourceCodeMainStatements} from "./ElseVertexShaderSourceCodeMainStatements.ts";
 import type {FinalizedVertexShaderSourceCodeMainStatements} from "./FinalizedVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalElseVertexShaderSourceCodeMainStatements} from "./WithFinalElseVertexShaderSourceCodeMainStatements.ts";
 export class IntermediateStartingWithThenWithFinalElseVertexShaderSourceCodeMainStatements
 	implements WithFinalElseVertexShaderSourceCodeMainStatements
 {
 	private readonly body: FinalizedVertexShaderSourceCodeMainStatements;
-	private readonly restStatements: FinalElseVertexShaderSourceCodeMainStatements;
+	private readonly restStatements: ElseVertexShaderSourceCodeMainStatements;
 	public constructor(
 		body: FinalizedVertexShaderSourceCodeMainStatements,
-		restStatements: FinalElseVertexShaderSourceCodeMainStatements,
+		restStatements: ElseVertexShaderSourceCodeMainStatements,
 	) {
 		this.body = body;
 		this.restStatements = restStatements;

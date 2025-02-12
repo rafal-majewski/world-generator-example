@@ -1,7 +1,7 @@
-import type {FinalThenFragmentShaderSourceCodeMainStatements} from "./FinalThenFragmentShaderSourceCodeMainStatements.ts";
+import type {ThenFragmentShaderSourceCodeMainStatements} from "./ThenFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalThenFragmentShaderSourceCodeMainStatements} from "./WithFinalThenFragmentShaderSourceCodeMainStatements.ts";
 export interface WithFinalIfFragmentShaderSourceCodeMainStatements {
 	pushThen(
-		then: FinalThenFragmentShaderSourceCodeMainStatements,
+		then: ThenFragmentShaderSourceCodeMainStatements,
 	): WithFinalThenFragmentShaderSourceCodeMainStatements;
 }

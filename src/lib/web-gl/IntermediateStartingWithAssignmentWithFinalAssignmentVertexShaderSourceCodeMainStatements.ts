@@ -1,6 +1,6 @@
 import type {FinalAssignmentsVertexShaderSourceCodeMainStatements} from "./FinalAssignmentsVertexShaderSourceCodeMainStatements.ts";
-import type {FinalAssignmentVertexShaderSourceCodeMainStatements} from "./FinalAssignmentVertexShaderSourceCodeMainStatements.ts";
-import type {FinalIfVertexShaderSourceCodeMainStatements} from "./FinalIfVertexShaderSourceCodeMainStatements.ts";
+import type {AssignmentVertexShaderSourceCodeMainStatements} from "./AssignmentVertexShaderSourceCodeMainStatements.ts";
+import type {IfVertexShaderSourceCodeMainStatements} from "./IfVertexShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalIfVertexShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalIfVertexShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
@@ -22,7 +22,7 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderSo
 		this.restStatements = restStatements;
 	}
 	public pushAssignment(
-		assignment: FinalAssignmentVertexShaderSourceCodeMainStatements,
+		assignment: AssignmentVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushAssignment(assignment);
 		const newStatements =
@@ -34,7 +34,7 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderSo
 		return newStatements;
 	}
 	public pushIf(
-		if_: FinalIfVertexShaderSourceCodeMainStatements,
+		if_: IfVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalIfVertexShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushIf(if_);
 		const newStatements =
@@ -46,9 +46,9 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentVertexShaderSo
 		return newStatements;
 	}
 	public pushFinalAssignments(
-		assignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
+		finalAssignments: FinalAssignmentsVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements {
-		const newRestStatements = this.restStatements.pushFinalAssignments(assignments);
+		const newRestStatements = this.restStatements.pushFinalAssignments(finalAssignments);
 		const newStatements =
 			new IntermediateStartingWithAssignmentWithFinalFinalAssignmentsVertexShaderSourceCodeMainStatements(
 				this.name,

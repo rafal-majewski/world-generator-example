@@ -27,11 +27,11 @@ export function generateScene(generatorConfiguration: GeneratorConfiguration): S
 	);
 	const viewer = {
 		position: cameraPosition,
-		chunkCountInOneDimension: 1,
-		minimalDistanceToLowerDetailLevel: 8,
-		distanceToLowerDetailLevelExponent: 3,
+		chunkCountInOneDimension: 3,
+		minimalDistanceToLowerDetailLevel: 5,
+		distanceToLowerDetailLevelExponent: 2,
 	} satisfies WorldViewer;
-	const world = World.create(9, [viewer], terrainHeightNoiseGenerator);
+	const world = World.create(27, [viewer], terrainHeightNoiseGenerator);
 	return {
 		camera,
 		world,

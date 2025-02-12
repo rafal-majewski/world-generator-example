@@ -1,6 +1,6 @@
 import type {FinalAssignmentsFragmentShaderSourceCodeMainStatements} from "./FinalAssignmentsFragmentShaderSourceCodeMainStatements.ts";
-import type {FinalAssignmentFragmentShaderSourceCodeMainStatements} from "./FinalAssignmentFragmentShaderSourceCodeMainStatements.ts";
-import type {FinalIfFragmentShaderSourceCodeMainStatements} from "./FinalIfFragmentShaderSourceCodeMainStatements.ts";
+import type {AssignmentFragmentShaderSourceCodeMainStatements} from "./AssignmentFragmentShaderSourceCodeMainStatements.ts";
+import type {IfFragmentShaderSourceCodeMainStatements} from "./IfFragmentShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalIfFragmentShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalIfFragmentShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
@@ -22,7 +22,7 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentFragmentShader
 		this.restStatements = restStatements;
 	}
 	public pushAssignment(
-		assignment: FinalAssignmentFragmentShaderSourceCodeMainStatements,
+		assignment: AssignmentFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalAssignmentFragmentShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushAssignment(assignment);
 		const newStatements =
@@ -34,7 +34,7 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentFragmentShader
 		return newStatements;
 	}
 	public pushIf(
-		if_: FinalIfFragmentShaderSourceCodeMainStatements,
+		if_: IfFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalIfFragmentShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushIf(if_);
 		const newStatements =
@@ -46,9 +46,9 @@ export class IntermediateStartingWithAssignmentWithFinalAssignmentFragmentShader
 		return newStatements;
 	}
 	public pushFinalAssignments(
-		assignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
+		finalAssignments: FinalAssignmentsFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements {
-		const newRestStatements = this.restStatements.pushFinalAssignments(assignments);
+		const newRestStatements = this.restStatements.pushFinalAssignments(finalAssignments);
 		const newStatements =
 			new IntermediateStartingWithAssignmentWithFinalFinalAssignmentsFragmentShaderSourceCodeMainStatements(
 				this.name,

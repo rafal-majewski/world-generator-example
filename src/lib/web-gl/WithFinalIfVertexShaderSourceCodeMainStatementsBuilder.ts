@@ -1,5 +1,5 @@
 import type {FinalizedVertexShaderSourceCodeMainStatementsBuilderCreator} from "./FinalizedVertexShaderSourceCodeMainStatementsBuilderCreator.ts";
-import {FinalThenVertexShaderSourceCodeMainStatements} from "./FinalThenVertexShaderSourceCodeMainStatements.ts";
+import {ThenVertexShaderSourceCodeMainStatements} from "./ThenVertexShaderSourceCodeMainStatements.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
 import {VertexShaderSourceCodeMainStatementsBuilder} from "./VertexShaderSourceCodeMainStatementsBuilder.ts";
 import type {WithFinalIfVertexShaderSourceCodeMainStatements} from "./WithFinalIfVertexShaderSourceCodeMainStatements.ts";
@@ -49,7 +49,7 @@ export class WithFinalIfVertexShaderSourceCodeMainStatementsBuilder<
 			this.localVariablesDeclarations,
 		);
 		const body = bodyBuilderCreator(builder).build();
-		const then_ = new FinalThenVertexShaderSourceCodeMainStatements(body);
+		const then_ = new ThenVertexShaderSourceCodeMainStatements(body);
 		const newStatements = this.statements.pushThen(then_);
 		const newBuilder = new WithFinalThenVertexShaderSourceCodeMainStatementsBuilder<
 			UniformVariablesDeclarationsToUse,

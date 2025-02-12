@@ -1,7 +1,7 @@
-import type {FinalThenVertexShaderSourceCodeMainStatements} from "./FinalThenVertexShaderSourceCodeMainStatements.ts";
+import type {ThenVertexShaderSourceCodeMainStatements} from "./ThenVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalThenVertexShaderSourceCodeMainStatements} from "./WithFinalThenVertexShaderSourceCodeMainStatements.ts";
 export interface WithFinalIfVertexShaderSourceCodeMainStatements {
 	pushThen(
-		then: FinalThenVertexShaderSourceCodeMainStatements,
+		then: ThenVertexShaderSourceCodeMainStatements,
 	): WithFinalThenVertexShaderSourceCodeMainStatements;
 }

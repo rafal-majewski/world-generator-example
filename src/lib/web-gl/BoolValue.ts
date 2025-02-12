@@ -1,2 +1,5 @@
 import type {Value} from "./Value.ts";
-export interface BoolValue extends Value {}
+export abstract class BoolValue implements Value {
+	public readonly type = "bool";
+	public abstract stringify(): string;
+}

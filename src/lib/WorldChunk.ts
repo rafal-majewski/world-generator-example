@@ -31,12 +31,18 @@ export class WorldChunk {
 		sizeInOneDimension: number,
 		terrainGenerator: NoiseGenerator,
 	): WorldChunk {
-		const terrainHeight = terrainGenerator.compute({
-			x: position.x,
-			y: position.z,
-		});
+		const terrainHeight =
+			terrainGenerator.compute({
+				x: position.x,
+				y: position.z,
+			}) * 10;
 		const terrainColor =
-			position.y <= Math.max(0, terrainHeight) ? computeTerrainColor(terrainHeight) : null;
+			position.y + sizeInOneDimension / 2 <= Math.max(0, terrainHeight)
+				? computeTerrainColor(terrainHeight, {
+						x: position.x,
+						y: position.z,
+					})
+				: null;
 		const chunk = new WorldChunk(
 			position,
 			sizeInOneDimension,

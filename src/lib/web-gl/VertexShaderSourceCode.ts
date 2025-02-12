@@ -21,7 +21,7 @@ export class VertexShaderSourceCode implements ShaderSourceCode {
 	private readonly attributeVariablesDeclarations: VariablesDeclarations;
 	private readonly varyingVariablesDeclarations: VariablesDeclarations;
 	public readonly body: FinalizedVertexShaderSourceCodeMainStatements;
-	public stringify(): string {
+	public override stringify(): string {
 		const versionSection = "#version 300 es";
 		const precisionSection = `precision ${this.precision}p float;`;
 		const uniformsSection = Object.entries(this.uniformVariablesDeclarations)

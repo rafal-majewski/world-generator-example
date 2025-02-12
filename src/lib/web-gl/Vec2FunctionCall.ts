@@ -1,10 +1,10 @@
 import type {FloatValue} from "./FloatValue.ts";
-import type {Vec2Value} from "./Vec2Value.ts";
-export class Vec2FunctionCall implements Vec2Value {
-	public readonly type = "vec2";
+import {Vec2Value} from "./Vec2Value.ts";
+export class Vec2FunctionCall extends Vec2Value {
 	private readonly firstArgument: FloatValue;
 	private readonly secondArgument: FloatValue;
 	public constructor(firstArgument: FloatValue, secondArgument: FloatValue) {
+		super();
 		this.firstArgument = firstArgument;
 		this.secondArgument = secondArgument;
 	}

@@ -1,2 +1,5 @@
 import type {Value} from "./Value.ts";
-export interface Vec4Value extends Value {}
+export abstract class Vec4Value implements Value {
+	public readonly type = "vec4";
+	public abstract stringify(): string;
+}

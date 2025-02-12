@@ -1,8 +1,8 @@
 import type {BoolValue} from "./BoolValue.ts";
-import type {FinalThenVertexShaderSourceCodeMainStatements} from "./FinalThenVertexShaderSourceCodeMainStatements.ts";
+import type {ThenVertexShaderSourceCodeMainStatements} from "./ThenVertexShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithIfWithFinalThenVertexShaderSourceCodeMainStatements} from "./IntermediateStartingWithIfWithFinalThenVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalIfVertexShaderSourceCodeMainStatements} from "./WithFinalIfVertexShaderSourceCodeMainStatements.ts";
-export class FinalIfVertexShaderSourceCodeMainStatements
+export class IfVertexShaderSourceCodeMainStatements
 	implements WithFinalIfVertexShaderSourceCodeMainStatements
 {
 	private readonly condition: BoolValue;
@@ -10,7 +10,7 @@ export class FinalIfVertexShaderSourceCodeMainStatements
 		this.condition = condition;
 	}
 	public pushThen(
-		then: FinalThenVertexShaderSourceCodeMainStatements,
+		then: ThenVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithIfWithFinalThenVertexShaderSourceCodeMainStatements {
 		const newStatements =
 			new IntermediateStartingWithIfWithFinalThenVertexShaderSourceCodeMainStatements(

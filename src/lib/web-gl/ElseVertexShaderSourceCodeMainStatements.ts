@@ -1,6 +1,6 @@
 import type {FinalizedVertexShaderSourceCodeMainStatements} from "./FinalizedVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalElseVertexShaderSourceCodeMainStatements} from "./WithFinalElseVertexShaderSourceCodeMainStatements.ts";
-export class FinalElseVertexShaderSourceCodeMainStatements
+export class ElseVertexShaderSourceCodeMainStatements
 	implements WithFinalElseVertexShaderSourceCodeMainStatements
 {
 	private readonly body: FinalizedVertexShaderSourceCodeMainStatements;

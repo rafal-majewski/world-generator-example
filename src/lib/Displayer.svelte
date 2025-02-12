@@ -10,6 +10,7 @@
 	import type {Scene} from "./Scene.ts";
 	import {startListeningForHtmlElementResizes} from "./startListeningForHtmlElementResizes.ts";
 	import {UpdatingCameraNewSceneComputer} from "./UpdatingCameraNewSceneComputer.ts";
+	import {UpdatingWorldNewSceneComputer} from "./UpdatingWorldNewSceneComputer.ts";
 	const {
 		generatorConfiguration,
 	}: Readonly<{
@@ -89,7 +90,11 @@
 		scene = applyGeneratorConfigurationToScene(scene, generatorConfiguration);
 	});
 	const updatingCameraNewSceneComputer = new UpdatingCameraNewSceneComputer();
-	const composedNewSceneComputer = new ComposedNewSceneComputer([updatingCameraNewSceneComputer]);
+	const updatingWorldNewSceneComputer = new UpdatingWorldNewSceneComputer();
+	const composedNewSceneComputer = new ComposedNewSceneComputer([
+		updatingCameraNewSceneComputer,
+		updatingWorldNewSceneComputer,
+	]);
 	$effect(function handleMount() {
 		const mainGl = mainCanvas.getContext("webgl2");
 		// const sunGl = sunCanvas.getContext("webgl2");

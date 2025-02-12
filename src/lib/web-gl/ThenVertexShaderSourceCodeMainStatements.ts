@@ -1,8 +1,8 @@
-import type {FinalElseVertexShaderSourceCodeMainStatements} from "./FinalElseVertexShaderSourceCodeMainStatements.ts";
+import type {ElseVertexShaderSourceCodeMainStatements} from "./ElseVertexShaderSourceCodeMainStatements.ts";
 import type {FinalizedVertexShaderSourceCodeMainStatements} from "./FinalizedVertexShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithThenWithFinalElseVertexShaderSourceCodeMainStatements} from "./IntermediateStartingWithThenWithFinalElseVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalThenVertexShaderSourceCodeMainStatements} from "./WithFinalThenVertexShaderSourceCodeMainStatements.ts";
-export class FinalThenVertexShaderSourceCodeMainStatements
+export class ThenVertexShaderSourceCodeMainStatements
 	implements WithFinalThenVertexShaderSourceCodeMainStatements
 {
 	private readonly body: FinalizedVertexShaderSourceCodeMainStatements;
@@ -10,7 +10,7 @@ export class FinalThenVertexShaderSourceCodeMainStatements
 		this.body = body;
 	}
 	public pushElse(
-		else_: FinalElseVertexShaderSourceCodeMainStatements,
+		else_: ElseVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithThenWithFinalElseVertexShaderSourceCodeMainStatements {
 		const newStatements =
 			new IntermediateStartingWithThenWithFinalElseVertexShaderSourceCodeMainStatements(

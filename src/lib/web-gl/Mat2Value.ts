@@ -1,2 +1,5 @@
 import type {Value} from "./Value.ts";
-export interface Mat2Value extends Value {}
+export abstract class Mat2Value implements Value {
+	public readonly type = "mat2";
+	public abstract stringify(): string;
+}

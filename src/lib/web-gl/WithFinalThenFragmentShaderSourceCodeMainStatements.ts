@@ -1,7 +1,7 @@
-import type {FinalElseFragmentShaderSourceCodeMainStatements} from "./FinalElseFragmentShaderSourceCodeMainStatements.ts";
+import type {ElseFragmentShaderSourceCodeMainStatements} from "./ElseFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalElseFragmentShaderSourceCodeMainStatements} from "./WithFinalElseFragmentShaderSourceCodeMainStatements.ts";
 export interface WithFinalThenFragmentShaderSourceCodeMainStatements {
 	pushElse(
-		else_: FinalElseFragmentShaderSourceCodeMainStatements,
+		else_: ElseFragmentShaderSourceCodeMainStatements,
 	): WithFinalElseFragmentShaderSourceCodeMainStatements;
 }

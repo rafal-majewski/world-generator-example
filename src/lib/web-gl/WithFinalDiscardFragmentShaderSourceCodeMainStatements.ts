@@ -1,0 +1,3 @@
+import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
+export interface WithFinalDiscardFragmentShaderSourceCodeMainStatements
+	extends FinalizedFragmentShaderSourceCodeMainStatements {}

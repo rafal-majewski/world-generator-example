@@ -1,7 +1,7 @@
 import {builtInFunctionCalls} from "./builtInFunctionCalls.ts";
 import {FinalAssignmentsVertexShaderSourceCodeMainStatements} from "./FinalAssignmentsVertexShaderSourceCodeMainStatements.ts";
-import {FinalAssignmentVertexShaderSourceCodeMainStatements} from "./FinalAssignmentVertexShaderSourceCodeMainStatements.ts";
-import {FinalIfVertexShaderSourceCodeMainStatements} from "./FinalIfVertexShaderSourceCodeMainStatements.ts";
+import {AssignmentVertexShaderSourceCodeMainStatements} from "./AssignmentVertexShaderSourceCodeMainStatements.ts";
+import {IfVertexShaderSourceCodeMainStatements} from "./IfVertexShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
@@ -11,7 +11,7 @@ import {WithFinalFinalAssignmentsVertexShaderSourceCodeMainStatementsBuilder} fr
 import type {WithFinalAssignmentVertexShaderSourceCodeMainStatements} from "./WithFinalAssignmentVertexShaderSourceCodeMainStatements.ts";
 import {WithFinalIfVertexShaderSourceCodeMainStatementsBuilder} from "./WithFinalIfVertexShaderSourceCodeMainStatementsBuilder.ts";
 import {literals} from "./literals.ts";
-import {operators} from "./operators.ts";
+
 import {variableTypeToVariableValue} from "./variableTypeToVariableValue.ts";
 import type {VertexShaderSourceCodeMainConditionValueCreator} from "./VertexShaderSourceCodeMainConditionValueCreator.ts";
 export class WithFinalAssignmentVertexShaderSourceCodeMainStatementsBuilder<
@@ -68,7 +68,7 @@ export class WithFinalAssignmentVertexShaderSourceCodeMainStatementsBuilder<
 					>;
 				}>,
 			},
-			operators,
+
 			literals,
 		});
 		const finalStatements = new FinalAssignmentsVertexShaderSourceCodeMainStatements(assignments);
@@ -139,13 +139,10 @@ export class WithFinalAssignmentVertexShaderSourceCodeMainStatementsBuilder<
 					>;
 				}>,
 			},
-			operators,
+
 			literals,
 		});
-		const assignment = new FinalAssignmentVertexShaderSourceCodeMainStatements(
-			name,
-			assignmentValue,
-		);
+		const assignment = new AssignmentVertexShaderSourceCodeMainStatements(name, assignmentValue);
 		const newLocalVariablesDeclarations = {
 			...this.localVariablesDeclarations,
 			[name]: assignmentValue.type,
@@ -207,10 +204,10 @@ export class WithFinalAssignmentVertexShaderSourceCodeMainStatementsBuilder<
 					>;
 				}>,
 			},
-			operators,
+
 			literals,
 		});
-		const if_ = new FinalIfVertexShaderSourceCodeMainStatements(conditionValue);
+		const if_ = new IfVertexShaderSourceCodeMainStatements(conditionValue);
 		const newStatements = this.statements.pushIf(if_);
 		const newBuilder = new WithFinalIfVertexShaderSourceCodeMainStatementsBuilder<
 			UniformVariablesDeclarationsToUse,

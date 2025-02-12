@@ -1,7 +1,7 @@
-import type {FinalElseVertexShaderSourceCodeMainStatements} from "./FinalElseVertexShaderSourceCodeMainStatements.ts";
+import type {ElseVertexShaderSourceCodeMainStatements} from "./ElseVertexShaderSourceCodeMainStatements.ts";
 import type {WithFinalElseVertexShaderSourceCodeMainStatements} from "./WithFinalElseVertexShaderSourceCodeMainStatements.ts";
 export interface WithFinalThenVertexShaderSourceCodeMainStatements {
 	pushElse(
-		else_: FinalElseVertexShaderSourceCodeMainStatements,
+		else_: ElseVertexShaderSourceCodeMainStatements,
 	): WithFinalElseVertexShaderSourceCodeMainStatements;
 }

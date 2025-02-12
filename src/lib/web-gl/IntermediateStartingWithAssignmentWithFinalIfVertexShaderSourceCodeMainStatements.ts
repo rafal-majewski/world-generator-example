@@ -1,4 +1,4 @@
-import type {FinalThenVertexShaderSourceCodeMainStatements} from "./FinalThenVertexShaderSourceCodeMainStatements.ts";
+import type {ThenVertexShaderSourceCodeMainStatements} from "./ThenVertexShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalThenVertexShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalThenVertexShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
@@ -19,7 +19,7 @@ export class IntermediateStartingWithAssignmentWithFinalIfVertexShaderSourceCode
 		this.restStatements = restStatements;
 	}
 	public pushThen(
-		then: FinalThenVertexShaderSourceCodeMainStatements,
+		then: ThenVertexShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalThenVertexShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushThen(then);
 		const newStatements =

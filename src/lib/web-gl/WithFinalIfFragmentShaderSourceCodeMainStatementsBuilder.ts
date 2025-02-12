@@ -1,5 +1,5 @@
 import type {FinalizedFragmentShaderSourceCodeMainStatementsBuilderCreator} from "./FinalizedFragmentShaderSourceCodeMainStatementsBuilderCreator.ts";
-import {FinalThenFragmentShaderSourceCodeMainStatements} from "./FinalThenFragmentShaderSourceCodeMainStatements.ts";
+import {ThenFragmentShaderSourceCodeMainStatements} from "./ThenFragmentShaderSourceCodeMainStatements.ts";
 import {FragmentShaderSourceCodeMainStatementsBuilder} from "./FragmentShaderSourceCodeMainStatementsBuilder.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
 import type {WithFinalIfFragmentShaderSourceCodeMainStatements} from "./WithFinalIfFragmentShaderSourceCodeMainStatements.ts";
@@ -49,7 +49,7 @@ export class WithFinalIfFragmentShaderSourceCodeMainStatementsBuilder<
 			this.localVariablesDeclarations,
 		);
 		const body = bodyBuilderCreator(builder).build();
-		const then_ = new FinalThenFragmentShaderSourceCodeMainStatements(body);
+		const then_ = new ThenFragmentShaderSourceCodeMainStatements(body);
 		const newStatements = this.statements.pushThen(then_);
 		const newBuilder = new WithFinalThenFragmentShaderSourceCodeMainStatementsBuilder(
 			this.uniformVariablesDeclarations,

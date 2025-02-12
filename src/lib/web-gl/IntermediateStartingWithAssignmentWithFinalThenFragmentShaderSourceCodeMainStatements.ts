@@ -1,4 +1,4 @@
-import type {FinalElseFragmentShaderSourceCodeMainStatements} from "./FinalElseFragmentShaderSourceCodeMainStatements.ts";
+import type {ElseFragmentShaderSourceCodeMainStatements} from "./ElseFragmentShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalElseFragmentShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalElseFragmentShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
@@ -19,7 +19,7 @@ export class IntermediateStartingWithAssignmentWithFinalThenFragmentShaderSource
 		this.restStatements = restStatements;
 	}
 	public pushElse(
-		else_: FinalElseFragmentShaderSourceCodeMainStatements,
+		else_: ElseFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalElseFragmentShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushElse(else_);
 		const newStatements =

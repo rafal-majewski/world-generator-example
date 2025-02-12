@@ -83,21 +83,24 @@ export class World {
 				}
 			}
 		}
-		const world = new World(chunkSizeInOneDimension, chunks, viewers);
+		const world = new World(chunkSizeInOneDimension, chunks, viewers, terrainHeightNoiseGenerator);
 		return world;
 	}
 	private constructor(
 		chunkSizeInOneDimension: number,
 		chunks: ReadonlyMap<number, ReadonlyMap<number, ReadonlyMap<number, WorldChunk>>>,
 		viewers: readonly WorldViewer[],
+		terrainHeightNoiseGenerator: NoiseGenerator,
 	) {
 		this.chunkSizeInOneDimension = chunkSizeInOneDimension;
 		this.chunks = chunks;
 		this.viewers = viewers;
+		this.terrainHeightNoiseGenerator = terrainHeightNoiseGenerator;
 	}
 	public readonly chunkSizeInOneDimension: number;
 	public readonly chunks: ReadonlyMap<number, ReadonlyMap<number, ReadonlyMap<number, WorldChunk>>>;
 	public readonly viewers: readonly WorldViewer[];
+	public readonly terrainHeightNoiseGenerator: NoiseGenerator;
 	// public readonly gridChunkCountInOneDimension: number;
 	// public readonly gridChunkSizeInOneDimension: number;
 	// public readonly subChunkGrid: ReadonlyMap<

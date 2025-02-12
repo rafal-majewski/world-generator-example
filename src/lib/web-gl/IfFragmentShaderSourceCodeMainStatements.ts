@@ -1,8 +1,8 @@
 import type {BoolValue} from "./BoolValue.ts";
-import type {FinalThenFragmentShaderSourceCodeMainStatements} from "./FinalThenFragmentShaderSourceCodeMainStatements.ts";
+import type {ThenFragmentShaderSourceCodeMainStatements} from "./ThenFragmentShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithIfWithFinalThenFragmentShaderSourceCodeMainStatements} from "./IntermediateStartingWithIfWithFinalThenFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalIfFragmentShaderSourceCodeMainStatements} from "./WithFinalIfFragmentShaderSourceCodeMainStatements.ts";
-export class FinalIfFragmentShaderSourceCodeMainStatements
+export class IfFragmentShaderSourceCodeMainStatements
 	implements WithFinalIfFragmentShaderSourceCodeMainStatements
 {
 	private readonly condition: BoolValue;
@@ -10,7 +10,7 @@ export class FinalIfFragmentShaderSourceCodeMainStatements
 		this.condition = condition;
 	}
 	public pushThen(
-		then: FinalThenFragmentShaderSourceCodeMainStatements,
+		then: ThenFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithIfWithFinalThenFragmentShaderSourceCodeMainStatements {
 		const newStatements =
 			new IntermediateStartingWithIfWithFinalThenFragmentShaderSourceCodeMainStatements(

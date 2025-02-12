@@ -1,8 +1,8 @@
-import type {FinalElseFragmentShaderSourceCodeMainStatements} from "./FinalElseFragmentShaderSourceCodeMainStatements.ts";
+import type {ElseFragmentShaderSourceCodeMainStatements} from "./ElseFragmentShaderSourceCodeMainStatements.ts";
 import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithThenWithFinalElseFragmentShaderSourceCodeMainStatements} from "./IntermediateStartingWithThenWithFinalElseFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalThenFragmentShaderSourceCodeMainStatements} from "./WithFinalThenFragmentShaderSourceCodeMainStatements.ts";
-export class FinalThenFragmentShaderSourceCodeMainStatements
+export class ThenFragmentShaderSourceCodeMainStatements
 	implements WithFinalThenFragmentShaderSourceCodeMainStatements
 {
 	private readonly body: FinalizedFragmentShaderSourceCodeMainStatements;
@@ -10,7 +10,7 @@ export class FinalThenFragmentShaderSourceCodeMainStatements
 		this.body = body;
 	}
 	public pushElse(
-		else_: FinalElseFragmentShaderSourceCodeMainStatements,
+		else_: ElseFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithThenWithFinalElseFragmentShaderSourceCodeMainStatements {
 		const newStatements =
 			new IntermediateStartingWithThenWithFinalElseFragmentShaderSourceCodeMainStatements(

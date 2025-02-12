@@ -1,12 +1,12 @@
-import type {Mat4Value} from "./Mat4Value.ts";
+import {Mat4Value} from "./Mat4Value.ts";
 import type {VariableIdentifier} from "./VariableIdentifier.ts";
-export class VariableMat4Value implements Mat4Value {
-	public readonly type = "mat4";
+export class VariableMat4Value extends Mat4Value {
 	private readonly identifier: VariableIdentifier;
 	public constructor(identifier: VariableIdentifier) {
+		super();
 		this.identifier = identifier;
 	}
-	public stringify(): VariableIdentifier {
+	public override stringify(): VariableIdentifier {
 		return this.identifier;
 	}
 }

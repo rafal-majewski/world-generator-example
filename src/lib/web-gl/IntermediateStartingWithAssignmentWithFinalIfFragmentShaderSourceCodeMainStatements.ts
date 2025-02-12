@@ -1,4 +1,4 @@
-import type {FinalThenFragmentShaderSourceCodeMainStatements} from "./FinalThenFragmentShaderSourceCodeMainStatements.ts";
+import type {ThenFragmentShaderSourceCodeMainStatements} from "./ThenFragmentShaderSourceCodeMainStatements.ts";
 import {IntermediateStartingWithAssignmentWithFinalThenFragmentShaderSourceCodeMainStatements} from "./IntermediateStartingWithAssignmentWithFinalThenFragmentShaderSourceCodeMainStatements.ts";
 import type {Value} from "./Value.ts";
 import type {VariableName} from "./VariableName.ts";
@@ -19,7 +19,7 @@ export class IntermediateStartingWithAssignmentWithFinalIfFragmentShaderSourceCo
 		this.restStatements = restStatements;
 	}
 	public pushThen(
-		then: FinalThenFragmentShaderSourceCodeMainStatements,
+		then: ThenFragmentShaderSourceCodeMainStatements,
 	): IntermediateStartingWithAssignmentWithFinalThenFragmentShaderSourceCodeMainStatements {
 		const newRestStatements = this.restStatements.pushThen(then);
 		const newStatements =

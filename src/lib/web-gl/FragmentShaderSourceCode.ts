@@ -20,7 +20,7 @@ export class FragmentShaderSourceCode {
 	private readonly varyingVariablesDeclarations: VariablesDeclarations;
 	private readonly outputVariablesDeclarations: VariablesDeclarations;
 	public readonly body: FinalizedFragmentShaderSourceCodeMainStatements;
-	public stringify(): string {
+	public override stringify(): string {
 		const versionSection = "#version 300 es";
 		const precisionSection = `precision ${this.precision}p float;`;
 		const uniformsSection = Object.entries(this.uniformVariablesDeclarations)

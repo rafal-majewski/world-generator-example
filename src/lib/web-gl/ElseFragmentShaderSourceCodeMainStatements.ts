@@ -1,6 +1,6 @@
 import type {FinalizedFragmentShaderSourceCodeMainStatements} from "./FinalizedFragmentShaderSourceCodeMainStatements.ts";
 import type {WithFinalElseFragmentShaderSourceCodeMainStatements} from "./WithFinalElseFragmentShaderSourceCodeMainStatements.ts";
-export class FinalElseFragmentShaderSourceCodeMainStatements
+export class ElseFragmentShaderSourceCodeMainStatements
 	implements WithFinalElseFragmentShaderSourceCodeMainStatements
 {
 	private readonly body: FinalizedFragmentShaderSourceCodeMainStatements;

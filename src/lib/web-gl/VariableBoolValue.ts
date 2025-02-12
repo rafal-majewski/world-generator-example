@@ -1,12 +1,12 @@
-import type {BoolValue} from "./BoolValue.ts";
+import {BoolValue} from "./BoolValue.ts";
 import type {VariableIdentifier} from "./VariableIdentifier.ts";
-export class VariableBoolValue implements BoolValue {
-	public readonly type = "bool";
+export class VariableBoolValue extends BoolValue {
 	private readonly identifier: VariableIdentifier;
 	public constructor(identifier: VariableIdentifier) {
+		super();
 		this.identifier = identifier;
 	}
-	public stringify(): VariableIdentifier {
+	public override stringify(): VariableIdentifier {
 		return this.identifier;
 	}
 }

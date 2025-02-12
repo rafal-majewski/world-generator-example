@@ -1,4 +1,4 @@
-import {FinalElseVertexShaderSourceCodeMainStatements} from "./FinalElseVertexShaderSourceCodeMainStatements.ts";
+import {ElseVertexShaderSourceCodeMainStatements} from "./ElseVertexShaderSourceCodeMainStatements.ts";
 import type {FinalizedVertexShaderSourceCodeMainStatementsBuilderCreator} from "./FinalizedVertexShaderSourceCodeMainStatementsBuilderCreator.ts";
 import type {VariablesDeclarations} from "./VariablesDeclarations.ts";
 import {VertexShaderSourceCodeMainStatementsBuilder} from "./VertexShaderSourceCodeMainStatementsBuilder.ts";
@@ -44,7 +44,7 @@ export class WithFinalThenVertexShaderSourceCodeMainStatementsBuilder<
 			this.localVariablesDeclarations,
 		);
 		const body = bodyBuilderCreator(builder).build();
-		const else_ = new FinalElseVertexShaderSourceCodeMainStatements(body);
+		const else_ = new ElseVertexShaderSourceCodeMainStatements(body);
 		const newStatements = this.statements.pushElse(else_);
 		const newBuilder = new WithFinalElseVertexShaderSourceCodeMainStatementsBuilder(newStatements);
 		return newBuilder;
